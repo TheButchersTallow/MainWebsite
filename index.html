@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Butcher's Tallow | Premium Grass-Fed Tallow Products</title>
+    <meta name="description" content="High-quality grass-fed beef tallow for cooking and skincare. Ethically sourced and traditionally rendered.">
+    <meta name="keywords" content="beef tallow, grass-fed tallow, cooking tallow, tallow balm, skincare, traditional cooking, butcher, animal fat">
+    <meta name="author" content="The Butcher's Tallow LLC">
+    <meta name="theme-color" content="#3b2814">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="The Butcher's Tallow - Premium Grass-Fed Tallow Products">
+    <meta property="og:description" content="High-quality grass-fed beef tallow for cooking and skincare. Ethically sourced and traditionally rendered.">
+    <meta property="og:image" content="/og-image.jpg">
+    <meta property="og:type" content="website">
+    
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Shopify Integration Scripts -->
+    <script src="https://sdks.shopifycdn.com/js-buy-sdk/v2/latest/index.umd.min.js"></script>
+    <script src="https://cdn.shopify.com/shopifycloud/shop-js/v1.0/client.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-top">
+                <div class="header-promo">
+                    <div class="promo-item">
+                        <i class="fas fa-leaf"></i>
+                        <span><strong>ALL-NATURAL & HANDMADE</strong><br>Crafted with care and shipped nationwide.</span>
+                    </div>
+                    <div class="promo-item">
+                        <i class="fas fa-shipping-fast"></i>
+                        <span><strong>FREE SHIPPING ON ALL ORDERS</strong><br>Orders ship within 1-2 business days.</span>
+                    </div>
+                    <div class="promo-item">
+                        <i class="fas fa-star"></i>
+                        <span><strong>PREMIUM QUALITY</strong><br>100% grass-fed, traditionally rendered tallow.</span>
+                    </div>
+                </div>
+            </div>
+            
+            <nav class="navbar">
+                <div class="nav-brand">
+                    <a href="/" class="logo">The Butcher's Tallow</a>
+                </div>
+                
+                <div class="nav-menu" id="nav-menu">
+                    <ul class="nav-list">
+                        <li class="nav-item">
+                            <a href="#products" class="nav-link">Shop All</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a href="#tallow-balm" class="nav-link">Tallow Balm <i class="fas fa-chevron-down"></i></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#unscented">Unscented</a></li>
+                                <li><a href="#vanilla-cinnamon">Vanilla Cinnamon</a></li>
+                                <li><a href="#peppermint">Peppermint</a></li>
+                                <li><a href="#orange-lemon">Orange Lemon</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a href="#cooking-tallow" class="nav-link">Cooking Tallow <i class="fas fa-chevron-down"></i></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#dry-rendered">Dry Rendered</a></li>
+                                <li><a href="#wet-rendered">Wet Rendered</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#about" class="nav-link">About Us</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#contact" class="nav-link">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="nav-actions">
+                    <button class="cart-btn" id="cart-btn">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count" id="cart-count">0</span>
+                    </button>
+                    <button class="mobile-menu-btn" id="mobile-menu-btn">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Rediscovering<br><span class="highlight">Traditional Tallow</span></h1>
+                <p class="hero-subtitle">Premium grass-fed tallow products for cooking and skincare. Clean, effective, and rooted in nature's best.</p>
+                <div class="hero-buttons">
+                    <a href="#products" class="btn btn-primary">Shop Our Products</a>
+                    <a href="#about" class="btn btn-secondary">Our Story</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Best Sellers Section -->
+    <section class="best-sellers" id="products">
+        <div class="container">
+            <div class="section-header">
+                <h2>Best Sellers</h2>
+                <p>Discover our premium tallow products - crafted with traditional methods and modern care.</p>
+            </div>
+            
+            <div class="products-grid">
+                <div class="product-card" data-product-id="tallow-lip-balm" data-shopify-product="true">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=400&fit=crop" alt="Tallow Lip Balm">
+                        <div class="product-badge">Best Seller</div>
+                    </div>
+                    <div class="product-info">
+                        <h3>Tallow Lip Balm</h3>
+                        <p class="product-description">Handmade lip balm with just four ingredients: tallow, beeswax, jojoba oil, and essential oils.</p>
+                        
+                        <!-- Shopify-compatible variant selector -->
+                        <div class="product-variants">
+                            <label for="lip-balm-flavor">Flavor:</label>
+                            <select id="lip-balm-flavor" class="variant-selector" data-product="tallow-lip-balm">
+                                <option value="vanilla-cinnamon" data-variant-id="vanilla-cinnamon">Vanilla Cinnamon</option>
+                                <option value="peppermint" data-variant-id="peppermint">Peppermint</option>
+                                <option value="orange-lemon" data-variant-id="orange-lemon">Orange Lemon</option>
+                                <option value="unscented" data-variant-id="unscented">Unscented</option>
+                            </select>
+                        </div>
+                        
+                        <div class="product-price" data-price="6.00">$6.00</div>
+                        <button class="btn btn-primary shopify-add-to-cart" 
+                                data-product-id="tallow-lip-balm" 
+                                data-variant-id="vanilla-cinnamon"
+                                data-price="6.00"
+                                data-title="Tallow Lip Balm">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="product-card" data-product-id="pure-beef-tallow" data-shopify-product="true">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=400&fit=crop" alt="Pure Beef Tallow">
+                        <div class="product-badge">Premium</div>
+                    </div>
+                    <div class="product-info">
+                        <h3>Pure Beef Tallow</h3>
+                        <p class="product-description">Slow-rendered grass-fed beef tallow. Perfect for cooking with high smoke point or skincare.</p>
+                        
+                        <!-- Shopify-compatible variant selector -->
+                        <div class="product-variants">
+                            <label for="tallow-type">Type:</label>
+                            <select id="tallow-type" class="variant-selector" data-product="pure-beef-tallow">
+                                <option value="dry-rendered" data-variant-id="dry-rendered">Dry Rendered (Cooking)</option>
+                                <option value="wet-rendered" data-variant-id="wet-rendered">Wet Rendered (Skincare)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="product-price" data-price="20.00">$20.00</div>
+                        <button class="btn btn-primary shopify-add-to-cart" 
+                                data-product-id="pure-beef-tallow" 
+                                data-variant-id="dry-rendered"
+                                data-price="20.00"
+                                data-title="Pure Beef Tallow">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-hand-holding-heart"></i>
+                    </div>
+                    <h3>HANDMADE</h3>
+                    <p>Every product is carefully crafted by hand using traditional methods passed down through generations.</p>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <h3>100% NATURAL</h3>
+                    <p>Pure ingredients only. No preservatives, fillers, artificial fragrances, or harmful chemicals.</p>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-seedling"></i>
+                    </div>
+                    <h3>GRASS-FED & GRASS-FINISHED</h3>
+                    <p>Our tallow comes from grass-fed cattle, ensuring the highest quality and nutritional benefits.</p>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>TRADITIONALLY RENDERED</h3>
+                    <p>Slow-rendered using time-tested methods to preserve nutrients and create superior quality.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>Our Story</h2>
+                    <p>At The Butcher's Tallow, we believe in the power of pure, natural ingredients to nourish both body and skin. Our journey began with a life-changing decision: adopting the carnivore diet.</p>
+                    
+                    <p>After shedding significant weight and transforming my overall health, I gained a new perspective on what wellness truly means. This led me to scrutinize every ingredient in my life—from the food I ate to the skincare products I used.</p>
+                    
+                    <p>I was shocked by the chemicals and fillers in most skincare, so I set out to create something better. Using slow-rendered beef tallow sourced straight from our trusted butcher's shop, I crafted our first product: a deeply hydrating lip balm made with just four ingredients—tallow, beeswax, jojoba oil, and essential oils.</p>
+                    
+                    <p>The response was incredible, and we also offer pure, slow-rendered beef tallow for those who value its nourishing benefits. There are 2 types of rendered beef tallow: first being dry-rendered, perfect for cooking with a slight beefy aroma, and wet-rendered (used in the lip balm and any skincare products), adding salt and water to ensure no burning, removing all beefy residue for a clean finish.</p>
+                    
+                    <p>Our mission is simple: provide clean, effective skincare rooted in nature's best. We're proud of our small but mighty lineup, and we're excited to grow with plans for tallow-based lotions and sunscreens in the future.</p>
+                    
+                    <p><strong>At The Butcher's Tallow, we're not just a brand—we're a commitment to health, transparency, and the power of real ingredients.</strong></p>
+                </div>
+                <div class="about-image">
+                    <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&h=400&fit=crop" alt="Traditional tallow rendering process">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Details Section -->
+    <section class="product-details">
+        <div class="container">
+            <div class="product-details-grid">
+                <div class="product-detail-card">
+                    <div class="detail-image">
+                        <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=500&h=400&fit=crop" alt="Tallow Lip Balm">
+                    </div>
+                    <div class="detail-content">
+                        <h3>Tallow Lip Balm Collection</h3>
+                        <p>Our signature lip balm is made with just four simple ingredients: grass-fed tallow, beeswax, jojoba oil, and essential oils. Available in four delicious flavors or unscented for sensitive skin.</p>
+                        <ul class="ingredient-list">
+                            <li>Grass-fed beef tallow</li>
+                            <li>Pure beeswax</li>
+                            <li>Organic jojoba oil</li>
+                            <li>Essential oils (optional)</li>
+                        </ul>
+                        <div class="price">$6.00</div>
+                        <button class="btn btn-primary">Shop Lip Balm</button>
+                    </div>
+                </div>
+                
+                <div class="product-detail-card">
+                    <div class="detail-image">
+                        <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=500&h=400&fit=crop" alt="Pure Beef Tallow">
+                    </div>
+                    <div class="detail-content">
+                        <h3>Pure Beef Tallow</h3>
+                        <p>Slow-rendered grass-fed beef tallow perfect for both cooking and skincare. Choose between dry-rendered for cooking or wet-rendered for skincare applications.</p>
+                        <ul class="ingredient-list">
+                            <li>100% grass-fed beef fat</li>
+                            <li>Traditionally rendered</li>
+                            <li>No additives or preservatives</li>
+                            <li>High smoke point for cooking</li>
+                        </ul>
+                        <div class="price">$20.00</div>
+                        <button class="btn btn-primary">Shop Tallow</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="contact-content">
+                <h2>Get In Touch</h2>
+                <p>Have questions about our products or need help with your order? We'd love to hear from you!</p>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>info@butcherstallow.com</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <span>(555) 123-4567</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Nationwide Shipping</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>The Butcher's Tallow</h3>
+                    <p>Premium grass-fed tallow products for cooking and skincare. Clean, effective, and rooted in nature's best.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Shop</h4>
+                    <ul>
+                        <li><a href="#products">All Products</a></li>
+                        <li><a href="#tallow-balm">Tallow Balm</a></li>
+                        <li><a href="#cooking-tallow">Cooking Tallow</a></li>
+                        <li><a href="#about">About Us</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#contact">Contact Us</a></li>
+                        <li><a href="#shipping">Shipping Info</a></li>
+                        <li><a href="#returns">Returns</a></li>
+                        <li><a href="#faq">FAQ</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 The Butcher's Tallow. All rights reserved.</p>
+                <div class="payment-methods">
+                    <i class="fab fa-cc-visa"></i>
+                    <i class="fab fa-cc-mastercard"></i>
+                    <i class="fab fa-cc-amex"></i>
+                    <i class="fab fa-paypal"></i>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cart Modal -->
+    <div class="cart-modal" id="cart-modal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h3>Shopping Cart</h3>
+                <button class="close-cart" id="close-cart">&times;</button>
+            </div>
+            <div class="cart-items" id="cart-items">
+                <!-- Cart items will be populated here -->
+            </div>
+            <div class="cart-footer">
+                <div class="cart-total">
+                    <strong>Total: $<span id="cart-total">0.00</span></strong>
+                </div>
+                <button class="btn btn-primary shopify-checkout-btn" id="shopify-checkout">
+                    Checkout with Shopify
+                </button>
+                <button class="btn btn-secondary" id="continue-shopping">
+                    Continue Shopping
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shopify Product Data (Hidden) -->
+    <script type="application/json" id="shopify-products-data">
+    {
+        "products": [
+            {
+                "id": "tallow-lip-balm",
+                "title": "Tallow Lip Balm",
+                "description": "Handmade lip balm with just four ingredients: tallow, beeswax, jojoba oil, and essential oils.",
+                "price": 6.00,
+                "image": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=400&fit=crop",
+                "variants": [
+                    {
+                        "id": "vanilla-cinnamon",
+                        "title": "Vanilla Cinnamon",
+                        "price": 6.00,
+                        "sku": "TLB-VC-001"
+                    },
+                    {
+                        "id": "peppermint",
+                        "title": "Peppermint",
+                        "price": 6.00,
+                        "sku": "TLB-PP-001"
+                    },
+                    {
+                        "id": "orange-lemon",
+                        "title": "Orange Lemon",
+                        "price": 6.00,
+                        "sku": "TLB-OL-001"
+                    },
+                    {
+                        "id": "unscented",
+                        "title": "Unscented",
+                        "price": 6.00,
+                        "sku": "TLB-UN-001"
+                    }
+                ],
+                "tags": ["lip-balm", "tallow", "natural", "handmade"],
+                "vendor": "The Butcher's Tallow",
+                "product_type": "Skincare"
+            },
+            {
+                "id": "pure-beef-tallow",
+                "title": "Pure Beef Tallow",
+                "description": "Slow-rendered grass-fed beef tallow. Perfect for cooking with high smoke point or skincare.",
+                "price": 20.00,
+                "image": "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=400&fit=crop",
+                "variants": [
+                    {
+                        "id": "dry-rendered",
+                        "title": "Dry Rendered (Cooking)",
+                        "price": 20.00,
+                        "sku": "PBT-DR-001"
+                    },
+                    {
+                        "id": "wet-rendered",
+                        "title": "Wet Rendered (Skincare)",
+                        "price": 20.00,
+                        "sku": "PBT-WR-001"
+                    }
+                ],
+                "tags": ["tallow", "cooking", "skincare", "grass-fed"],
+                "vendor": "The Butcher's Tallow",
+                "product_type": "Food & Skincare"
+            }
+        ]
+    }
+    </script>
+
+    <script src="shopify-config.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
