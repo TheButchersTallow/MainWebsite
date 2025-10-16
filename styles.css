@@ -135,11 +135,30 @@ p {
 }
 
 .logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    gap: 12px;
+}
+
+.logo-img {
+    height: 150px;
+    width: auto;
+    max-width: 600px;
+    object-fit: contain;
+}
+
+.logo-text {
     font-family: 'Playfair Display', serif;
     font-size: 1.8rem;
     font-weight: 700;
     color: #3b2814;
-    text-decoration: none;
+    display: none; /* Hide text when logo image is available */
+}
+
+/* Show text as fallback if image fails to load */
+.logo:not(:has(.logo-img)) .logo-text {
+    display: block;
 }
 
 .nav-list {
@@ -749,6 +768,11 @@ section {
         justify-content: center;
     }
     
+    .logo-img {
+        height: 120px;
+        max-width: 450px;
+    }
+    
     .nav-menu {
         position: fixed;
         top: 0;
@@ -822,6 +846,11 @@ section {
 }
 
 @media (max-width: 480px) {
+    .logo-img {
+        height: 105px;
+        max-width: 360px;
+    }
+    
     .hero-title {
         font-size: 2rem;
     }
