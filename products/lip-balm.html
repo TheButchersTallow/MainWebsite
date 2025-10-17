@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tallow Lip Balm - The Butcher's Tallow</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@300;400;600;700&family=Source+Sans+Pro:wght@300;400;500;600;700&family=Crimson+Text:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-top">
+            <div class="container">
+                <div class="promo-banner">
+                    <div class="promo-item">
+                        <i class="fas fa-leaf"></i>
+                        <span><strong>ALL-NATURAL & HANDMADE</strong><br>Crafted with care in Texas, USA and shipped to the United States.</span>
+                    </div>
+                    <div class="promo-item">
+                        <i class="fas fa-shipping-fast"></i>
+                        <span><strong>FAST SHIPPING</strong><br>Orders ship within 1-2 business days.</span>
+                    </div>
+                    <div class="promo-item">
+                        <i class="fas fa-award"></i>
+                        <span><strong>PREMIUM QUALITY</strong><br>Grass-fed & traditionally rendered.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="container">
+            <nav class="navbar">
+                <a href="../index.html" class="logo">
+                    <img src="../assets/The Butchers Tallow Logo.png" alt="The Butcher's Tallow" class="logo-img">
+                    <span class="logo-text">The Butcher's Tallow</span>
+                </a>
+                
+                <div class="nav-menu" id="nav-menu">
+                    <ul class="nav-list">
+                        <li class="nav-item">
+                            <a href="../index.html" class="nav-link">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="../index.html#products" class="nav-link">Shop All</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a href="#tallow-balm" class="nav-link">Tallow Balm <i class="fas fa-chevron-down"></i></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="lip-balm.html">Lip Balm</a></li>
+                                <li><a href="whipped-balm.html">Whipped Balm</a></li>
+                                <li><a href="beard-balm.html">Beard Balm</a></li>
+                                <li><a href="leather-conditioner.html">Leather Conditioner</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a href="#all-purpose-tallow" class="nav-link">All Purpose Tallow <i class="fas fa-chevron-down"></i></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="all-purpose-tallow.html">All Purpose Tallow</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a href="../index.html#about" class="nav-link">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="../index.html#contact" class="nav-link">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="nav-toggle" id="nav-toggle">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Product Hero Section -->
+    <section class="product-hero">
+        <div class="container">
+            <div class="product-hero-content">
+                <div class="product-images">
+                    <div class="main-image">
+                        <img src="../assets/lip balm 4 pack.jpg" alt="Tallow Lip Balm 4-Pack" id="main-product-image">
+                    </div>
+                </div>
+                
+                <div class="product-info">
+                    <h1>Tallow Lip Balm</h1>
+                    <div class="product-rating">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <span class="rating-text">Premium Quality</span>
+                    </div>
+                    
+                    <div class="product-price">
+                        <span class="current-price" id="product-price">$8.00</span>
+                    </div>
+                    
+                    <p class="product-description">
+                        Nourishing lip balm made with grass-fed tallow and natural ingredients. Provides long-lasting moisture and protection for your lips in a convenient 4-pack.
+                    </p>
+                    
+                    <div class="product-options">
+                        <div class="scent-selector">
+                            <label for="scent-select">Scent:</label>
+                            <select id="scent-select" class="variant-selector">
+                                <option value="citrus" data-price="8.00">Citrus</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="product-actions">
+                        <div class="quantity-selector">
+                            <label for="quantity">Quantity:</label>
+                            <div class="quantity-controls">
+                                <button type="button" class="quantity-btn" id="quantity-minus">-</button>
+                                <input type="number" id="quantity" value="1" min="1" max="10">
+                                <button type="button" class="quantity-btn" id="quantity-plus">+</button>
+                            </div>
+                        </div>
+                        
+                        <button class="btn btn-primary add-to-cart-btn" id="add-to-cart">
+                            <i class="fas fa-shopping-cart"></i>
+                            Add to Cart
+                        </button>
+                    </div>
+                    
+                    <div class="product-features">
+                        <div class="feature">
+                            <i class="fas fa-leaf"></i>
+                            <span>100% Grass-Fed</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Traditionally Rendered</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-flag-usa"></i>
+                            <span>Made in Texas, USA</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Details Section -->
+    <section class="product-details">
+        <div class="container">
+            <div class="details-tabs">
+                <button class="tab-btn active" data-tab="description">Description</button>
+                <button class="tab-btn" data-tab="ingredients">Ingredients</button>
+                <button class="tab-btn" data-tab="usage">Usage</button>
+                <button class="tab-btn" data-tab="reviews">Reviews</button>
+            </div>
+            
+            <div class="tab-content">
+                <div class="tab-panel active" id="description">
+                    <h3>About This Product</h3>
+                    <p>Our Tallow Lip Balm is crafted with the finest grass-fed tallow and natural ingredients. This nourishing formula provides long-lasting moisture and protection for your lips, keeping them soft and healthy all day long.</p>
+                    
+                    <h4>Why Choose Our Lip Balm?</h4>
+                    <ul>
+                        <li>Made with grass-fed tallow for superior moisturizing</li>
+                        <li>Natural citrus scent for a refreshing feel</li>
+                        <li>Convenient 4-pack for sharing or keeping extras</li>
+                        <li>No harsh chemicals or artificial ingredients</li>
+                        <li>Long-lasting formula that stays put</li>
+                    </ul>
+                </div>
+                
+                <div class="tab-panel" id="ingredients">
+                    <h3>Ingredients</h3>
+                    <p><strong>100% Grass-Fed Beef Tallow</strong></p>
+                    <p><strong>Natural Citrus Essential Oil</strong></p>
+                    <p>Our lip balm contains only the finest natural ingredients. The grass-fed tallow provides deep moisturization while the citrus essential oil adds a refreshing scent and additional skin benefits.</p>
+                </div>
+                
+                <div class="tab-panel" id="usage">
+                    <h3>How to Use</h3>
+                    <ul>
+                        <li>Apply liberally to lips as needed throughout the day</li>
+                        <li>Use before going outdoors in cold or windy weather</li>
+                        <li>Apply before bedtime for overnight moisture</li>
+                        <li>Perfect for dry, chapped, or cracked lips</li>
+                        <li>Safe for daily use</li>
+                    </ul>
+                </div>
+                
+                <div class="tab-panel" id="reviews">
+                    <h3>Customer Reviews</h3>
+                    <div class="reviews-summary">
+                        <div class="rating-overview">
+                            <span class="rating-number">5.0</span>
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <span class="review-count">Based on customer feedback</span>
+                        </div>
+                    </div>
+                    
+                    <div class="review-item">
+                        <div class="review-header">
+                            <span class="reviewer-name">Jennifer L.</span>
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                        <p class="review-text">"Best lip balm I've ever used! The citrus scent is perfect and it keeps my lips moisturized all day. Love that it's natural and made with tallow."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Related Products -->
+    <section class="related-products">
+        <div class="container">
+            <h2>You Might Also Like</h2>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="../assets/3 sizes of tallow.jpg" alt="100% All Purpose Suet Beef Tallow - 3 Sizes">
+                    </div>
+                    <div class="product-info">
+                        <h3>100% All Purpose Suet Beef Tallow</h3>
+                        <div class="product-price">Starting at $10.00</div>
+                        <a href="all-purpose-tallow.html" class="btn btn-secondary">View Product</a>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="../assets/3 kinds of whipped tallow balm.jpg" alt="Whipped Tallow Balm - 3 Scents">
+                    </div>
+                    <div class="product-info">
+                        <h3>Whipped Tallow Balm</h3>
+                        <div class="product-price">Starting at $25.00</div>
+                        <a href="whipped-balm.html" class="btn btn-secondary">View Product</a>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="../assets/tallow beard balm front.jpg" alt="Tallow Beard Balm">
+                    </div>
+                    <div class="product-info">
+                        <h3>Tallow Beard Balm</h3>
+                        <div class="product-price">$15.00</div>
+                        <a href="beard-balm.html" class="btn btn-secondary">View Product</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>The Butcher's Tallow</h3>
+                    <p>Premium grass-fed tallow products for cooking and skincare. Clean, effective, and rooted in nature's best.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Shop</h4>
+                    <ul>
+                        <li><a href="../index.html#products">All Products</a></li>
+                        <li><a href="lip-balm.html">Lip Balm</a></li>
+                        <li><a href="whipped-balm.html">Whipped Balm</a></li>
+                        <li><a href="beard-balm.html">Beard Balm</a></li>
+                        <li><a href="leather-conditioner.html">Leather Conditioner</a></li>
+                        <li><a href="all-purpose-tallow.html">All Purpose Tallow</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="../index.html#contact">Contact Us</a></li>
+                        <li><a href="#shipping">Shipping Info</a></li>
+                        <li><a href="#returns">Returns</a></li>
+                        <li><a href="#faq">FAQ</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/TheButchersTallow/" class="social-link" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook"></i></a>
+                        <a href="https://www.instagram.com/thebutcherstallow/" class="social-link" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 The Butcher's Tallow. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Product page functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const quantityInput = document.getElementById('quantity');
+            const quantityMinus = document.getElementById('quantity-minus');
+            const quantityPlus = document.getElementById('quantity-plus');
+            const addToCartBtn = document.getElementById('add-to-cart');
+            
+            // Quantity controls
+            quantityMinus.addEventListener('click', function() {
+                const currentValue = parseInt(quantityInput.value);
+                if (currentValue > 1) {
+                    quantityInput.value = currentValue - 1;
+                }
+            });
+            
+            quantityPlus.addEventListener('click', function() {
+                const currentValue = parseInt(quantityInput.value);
+                if (currentValue < 10) {
+                    quantityInput.value = currentValue + 1;
+                }
+            });
+            
+            // Add to cart functionality
+            addToCartBtn.addEventListener('click', function() {
+                const quantity = quantityInput.value;
+                const price = 8.00;
+                
+                // Here you would integrate with your cart system
+                alert(`Added ${quantity} x Tallow Lip Balm to cart! Total: $${(price * parseInt(quantity)).toFixed(2)}`);
+            });
+            
+            // Tab functionality
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabPanels = document.querySelectorAll('.tab-panel');
+            
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const targetTab = this.getAttribute('data-tab');
+                    
+                    // Remove active class from all tabs and panels
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    tabPanels.forEach(p => p.classList.remove('active'));
+                    
+                    // Add active class to clicked tab and corresponding panel
+                    this.classList.add('active');
+                    document.getElementById(targetTab).classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
