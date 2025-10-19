@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Butcher's Tallow | Premium Grass-Fed Tallow Products</title>
-    <meta name="description" content="High-quality grass-fed beef tallow for cooking and skincare. Ethically sourced and traditionally rendered.">
-    <meta name="keywords" content="beef tallow, grass-fed tallow, cooking tallow, tallow balm, skincare, traditional cooking, butcher, animal fat">
+    <title>Shop All Products | The Butcher's Tallow</title>
+    <meta name="description" content="Browse all our premium tallow products - lip balms, whipped balms, beard balms, leather conditioners, and pure tallow. Handmade in Texas, USA.">
+    <meta name="keywords" content="tallow products, lip balm, whipped balm, beard balm, leather conditioner, pure tallow, grass-fed, handmade, texas">
     <meta name="author" content="The Butcher's Tallow LLC">
     <meta name="theme-color" content="#3b2814">
     
     <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="The Butcher's Tallow - Premium Grass-Fed Tallow Products">
-    <meta property="og:description" content="High-quality grass-fed beef tallow for cooking and skincare. Ethically sourced and traditionally rendered.">
+    <meta property="og:title" content="Shop All Products - The Butcher's Tallow">
+    <meta property="og:description" content="Browse all our premium tallow products - lip balms, whipped balms, beard balms, leather conditioners, and pure tallow. Handmade in Texas, USA.">
     <meta property="og:image" content="/og-image.jpg">
     <meta property="og:type" content="website">
     
@@ -47,7 +47,7 @@
             
             <nav class="navbar">
                 <div class="nav-brand">
-                    <a href="/" class="logo">
+                    <a href="index.html" class="logo">
                         <img src="assets/The Butchers Tallow Logo.png" alt="The Butcher's Tallow" class="logo-img">
                         <span class="logo-text">The Butcher's Tallow</span>
                     </a>
@@ -59,28 +59,28 @@
                             <a href="index.html" class="nav-link">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a href="shop-all.html" class="nav-link">Shop All</a>
+                            <a href="shop-all.html" class="nav-link active">Shop All</a>
                         </li>
-                <li class="nav-item dropdown">
-                    <a href="#tallow-balm" class="nav-link">Tallow Balm <i class="fas fa-chevron-down"></i></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="products/lip-balm.html">Lip Balm</a></li>
-                        <li><a href="products/whipped-balm.html">Whipped Balm</a></li>
-                        <li><a href="products/beard-balm.html">Beard Balm</a></li>
-                        <li><a href="products/leather-conditioner.html">Leather Conditioner</a></li>
-                    </ul>
-                </li>
                         <li class="nav-item dropdown">
-                            <a href="products/all-purpose-tallow.html" class="nav-link">All Purpose Tallow <i class="fas fa-chevron-down"></i></a>
+                            <a href="#tallow-balm" class="nav-link">Tallow Balm <i class="fas fa-chevron-down"></i></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="products/lip-balm.html">Lip Balm</a></li>
+                                <li><a href="products/whipped-balm.html">Whipped Balm</a></li>
+                                <li><a href="products/beard-balm.html">Beard Balm</a></li>
+                                <li><a href="products/leather-conditioner.html">Leather Conditioner</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a href="#all-purpose-tallow" class="nav-link">All Purpose Tallow <i class="fas fa-chevron-down"></i></a>
                             <ul class="dropdown-menu">
                                 <li><a href="products/all-purpose-tallow.html">View All Sizes</a></li>
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a href="#about" class="nav-link">About Us</a>
+                            <a href="index.html#about" class="nav-link">About Us</a>
                         </li>
                         <li class="nav-item">
-                            <a href="#contact" class="nav-link">Contact</a>
+                            <a href="index.html#contact" class="nav-link">Contact</a>
                         </li>
                     </ul>
                 </div>
@@ -100,29 +100,19 @@
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section class="hero">
+    <!-- Page Header -->
+    <section class="page-header">
         <div class="container">
-            <div class="hero-content">
-                <h1 class="hero-title">Rediscovering<br><span class="highlight">Traditional Tallow</span></h1>
-                <p class="hero-subtitle">Premium grass-fed tallow products for cooking and skincare. Clean, effective, and rooted in nature's best.</p>
-                <div class="hero-buttons">
-                    <a href="shop-all.html" class="btn btn-primary">Shop Our Products</a>
-                    <a href="#about" class="btn btn-secondary">Our Story</a>
-                </div>
-            </div>
+            <h1>Shop All Products</h1>
+            <p>Discover our complete collection of premium tallow products. Handmade with care in Texas, USA.</p>
         </div>
     </section>
 
-    <!-- Best Sellers Section -->
-    <section class="best-sellers" id="products">
+    <!-- All Products Section -->
+    <section class="all-products" id="products">
         <div class="container">
-            <div class="section-header">
-                <h2>Best Sellers</h2>
-                <p>Discover our premium tallow products - crafted with traditional methods and modern care.</p>
-            </div>
-            
             <div class="products-grid">
+                <!-- Tallow Lip Balm -->
                 <div class="product-card" data-product-id="tallow-lip-balm" data-shopify-product="true">
                     <div class="product-image">
                         <a href="products/lip-balm.html">
@@ -134,7 +124,6 @@
                         <h3><a href="products/lip-balm.html">Tallow Lip Balm</a></h3>
                         <p class="product-description">Handmade single lip balm with just four ingredients: 100% grass fed & finished suet beef tallow, organic jojoba oil, beeswax, and essential oil blend.</p>
                         
-                        <!-- Shopify-compatible variant selector -->
                         <div class="product-variants">
                             <label for="lip-balm-flavor">Flavor:</label>
                             <select id="lip-balm-flavor" class="variant-selector" data-product="tallow-lip-balm">
@@ -158,7 +147,8 @@
                         </div>
                     </div>
                 </div>
-                
+
+                <!-- Pure Beef Tallow -->
                 <div class="product-card" data-product-id="pure-beef-tallow" data-shopify-product="true">
                     <div class="product-image">
                         <a href="products/all-purpose-tallow.html">
@@ -170,10 +160,9 @@
                         <h3><a href="products/all-purpose-tallow.html">100% All Purpose Suet Beef Tallow</a></h3>
                         <p class="product-description">Slow-rendered grass-fed beef tallow. Perfect for all-purpose use with high smoke point or skincare.</p>
                         
-                        <!-- Shopify-compatible variant selector -->
                         <div class="product-variants">
-                            <label for="tallow-size">Size:</label>
-                            <select id="tallow-size" class="variant-selector" data-product="pure-beef-tallow">
+                            <label for="shop-tallow-size">Size:</label>
+                            <select id="shop-tallow-size" class="variant-selector" data-product="pure-beef-tallow">
                                 <option value="small" data-variant-id="small" data-price="10.00">Small Glass Jar - $10.00</option>
                                 <option value="medium" data-variant-id="medium" data-price="15.00">Medium Glass Jar - $15.00</option>
                                 <option value="large" data-variant-id="large" data-price="25.00">Large Glass Jar - $25.00</option>
@@ -193,7 +182,8 @@
                         </div>
                     </div>
                 </div>
-                
+
+                <!-- Whipped Tallow Balm -->
                 <div class="product-card" data-product-id="whipped-tallow-balm" data-shopify-product="true">
                     <div class="product-image">
                         <a href="products/whipped-balm.html">
@@ -205,16 +195,15 @@
                         <h3><a href="products/whipped-balm.html">Whipped Tallow Balm</a></h3>
                         <p class="product-description">Light, fluffy whipped tallow balm perfect for all-over body moisturizing. Rich in nutrients and deeply hydrating.</p>
                         
-                        <!-- Shopify-compatible variant selectors -->
                         <div class="product-variants">
-                            <label for="whipped-balm-size">Size:</label>
-                            <select id="whipped-balm-size" class="variant-selector" data-product="whipped-tallow-balm">
+                            <label for="shop-whipped-balm-size">Size:</label>
+                            <select id="shop-whipped-balm-size" class="variant-selector" data-product="whipped-tallow-balm">
                                 <option value="1.25oz" data-variant-id="1.25oz" data-price="25.00">1.25 oz Glass Jar - $25.00</option>
                                 <option value="2.5oz" data-variant-id="2.5oz" data-price="35.00">2.5 oz Glass Jar - $35.00</option>
                             </select>
                             
-                            <label for="whipped-balm-scent">Scent:</label>
-                            <select id="whipped-balm-scent" class="variant-selector" data-product="whipped-tallow-balm">
+                            <label for="shop-whipped-balm-scent">Scent:</label>
+                            <select id="shop-whipped-balm-scent" class="variant-selector" data-product="whipped-tallow-balm">
                                 <option value="unscented" data-variant-id="unscented">Unscented</option>
                                 <option value="citrus" data-variant-id="citrus">Citrus</option>
                                 <option value="frankincense-lavender" data-variant-id="frankincense-lavender">Frankincense and Lavender</option>
@@ -234,7 +223,8 @@
                         </div>
                     </div>
                 </div>
-                
+
+                <!-- Beard Balm -->
                 <div class="product-card" data-product-id="beard-balm" data-shopify-product="true">
                     <div class="product-image">
                         <a href="products/beard-balm.html">
@@ -259,7 +249,8 @@
                         </div>
                     </div>
                 </div>
-                
+
+                <!-- Leather Conditioner -->
                 <div class="product-card" data-product-id="leather-conditioner" data-shopify-product="true">
                     <div class="product-image">
                         <a href="products/leather-conditioner.html">
@@ -312,7 +303,7 @@
                     <div class="feature-icon">
                         <i class="fas fa-seedling"></i>
                     </div>
-                    <h3>GRASS-FED & FINISHED</h3>
+                    <h3>GRASS-FED & GRASS-FINISHED</h3>
                     <p>Our tallow comes from grass-fed cattle, ensuring the highest quality and nutritional benefits.</p>
                 </div>
                 
@@ -330,64 +321,6 @@
                     </div>
                     <h3>MADE IN TEXAS, USA</h3>
                     <p>Proudly crafted in the heart of Texas using locally sourced ingredients and traditional methods.</p>
-                </div>
-                
-                <div class="feature-item">
-                    <div class="feature-icon">
-                        <i class="fas fa-heart"></i>
-                    </div>
-                    <h3>LOCAL SOURCED</h3>
-                    <p>Supporting local Texas farmers and suppliers for the freshest, highest quality ingredients.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section class="about" id="about">
-        <div class="container">
-            <div class="about-content">
-                <div class="about-text">
-                    <h2>Our Story</h2>
-                    <p>At The Butcher's Tallow, we believe in the power of pure, natural ingredients to nourish both body and skin. Our journey began with a life-changing decision: adopting the carnivore diet.</p>
-                    
-                    <p>After shedding significant weight and transforming my overall health, I gained a new perspective on what wellness truly means. This led me to scrutinize every ingredient in my life—from the food I ate to the skincare products I used.</p>
-                    
-                    <p>I was shocked by the chemicals and fillers in most skincare, so I set out to create something better. Using slow-rendered beef tallow sourced straight from our trusted butcher's shop here in Texas, I crafted our first product: a deeply hydrating lip balm made with just four ingredients—tallow, beeswax, jojoba oil, and essential oils.</p>
-                    
-                    <p>The response was incredible, and we also offer pure, slow-rendered beef tallow for those who value its nourishing benefits. Our tallow is available in three convenient glass jar sizes - small, medium, and large - perfect for all-purpose use with a slight beefy aroma. Each jar is carefully packaged to maintain freshness and quality.</p>
-                    
-                    <p>Our mission is simple: provide clean, effective skincare rooted in nature's best. We're proud of our small but mighty lineup, and we're excited to grow with plans for tallow-based lotions and sunscreens in the future.</p>
-                    
-                    <p><strong>At The Butcher's Tallow, we're not just a brand—we're a commitment to health, transparency, and the power of real ingredients.</strong></p>
-                </div>
-                <div class="about-image">
-                    <img src="assets/the butchers tallow farmers market picture.jpg" alt="The Butcher's Tallow at Farmers Market">
-                </div>
-            </div>
-        </div>
-    </section>
-
-
-    <!-- Contact Section -->
-    <section class="contact" id="contact">
-        <div class="container">
-            <div class="contact-content">
-                <h2>Get In Touch</h2>
-                <p>Have questions about our products or need help with your order? We'd love to hear from you!</p>
-                <div class="contact-info">
-                    <div class="contact-item">
-                        <i class="fas fa-envelope"></i>
-                        <span>info@butcherstallow.com</span>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fas fa-phone"></i>
-                        <span>(903) 501-4300</span>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <span>United States Shipping</span>
-                    </div>
                 </div>
             </div>
         </div>
@@ -411,14 +344,13 @@
                         <li><a href="products/beard-balm.html">Beard Balm</a></li>
                         <li><a href="products/leather-conditioner.html">Leather Conditioner</a></li>
                         <li><a href="products/all-purpose-tallow.html">All Purpose Tallow</a></li>
-                        <li><a href="#about">About Us</a></li>
                     </ul>
                 </div>
                 
                 <div class="footer-section">
                     <h4>Support</h4>
                     <ul>
-                        <li><a href="#contact">Contact Us</a></li>
+                        <li><a href="index.html#contact">Contact Us</a></li>
                         <li><a href="#shipping">Shipping Info</a></li>
                         <li><a href="#returns">Returns</a></li>
                         <li><a href="#faq">FAQ</a></li>
@@ -602,7 +534,7 @@
                         "sku": "BB-001"
                     }
                 ],
-                "tags": ["beard-balm", "grooming", "men", "styling", "natural", "grass-fed", "texas-made"],
+                "tags": ["beard-balm", "text-align", "men", "styling", "natural", "grass-fed", "texas-made"],
                 "vendor": "The Butcher's Tallow",
                 "product_type": "Grooming"
             },
@@ -632,3 +564,4 @@
     <script src="script.js"></script>
 </body>
 </html>
+
