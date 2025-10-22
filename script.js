@@ -627,16 +627,23 @@ function setupMobileDropdowns() {
     const dropdownChildLinks = document.querySelectorAll('.dropdown-menu a');
     dropdownChildLinks.forEach(link => {
         link.addEventListener('click', function(e) {
-            // Allow navigation, just close the menu
-            closeMobileMenu();
+            // Don't prevent default - allow navigation
+            // Close menu after a tiny delay to ensure navigation starts
+            setTimeout(() => {
+                closeMobileMenu();
+            }, 100);
+        });
     });
-});
     
     // Handle regular nav links (non-dropdown, close menu)
     const regularNavLinks = document.querySelectorAll('.nav-menu > .nav-list > .nav-item:not(.dropdown) > .nav-link');
     regularNavLinks.forEach(link => {
         link.addEventListener('click', function(e) {
-            closeMobileMenu();
+            // Don't prevent default - allow navigation
+            // Close menu after a tiny delay to ensure navigation starts
+            setTimeout(() => {
+                closeMobileMenu();
+            }, 100);
         });
     });
 }

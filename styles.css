@@ -330,7 +330,7 @@ p {
     border: none;
     cursor: pointer;
     padding: 5px;
-    z-index: 1003;
+    z-index: 1004;
     position: relative;
 }
 
@@ -1841,10 +1841,11 @@ section {
         justify-content: flex-start;
         padding-top: 80px;
         transition: right 0.3s ease;
-        z-index: 1002;
+        z-index: 1003;
         box-shadow: -2px 0 20px rgba(0, 0, 0, 0.1);
         border-radius: 20px 0 0 20px;
         overflow-y: auto;
+        pointer-events: auto;
     }
     
     .nav-menu.active {
@@ -1857,16 +1858,18 @@ section {
         left: 0;
         width: 100%;
         height: 100vh;
-        background-color: rgba(0, 0, 0, 0.3);
+        background-color: rgba(0, 0, 0, 0.15);
         opacity: 0;
         visibility: hidden;
         transition: opacity 0.3s ease, visibility 0.3s ease;
         z-index: 1001;
+        pointer-events: none;
     }
     
     .mobile-menu-overlay.active {
         opacity: 1;
         visibility: visible;
+        pointer-events: auto;
     }
     
     .nav-list {
@@ -1917,7 +1920,6 @@ section {
         left: 0;
         top: 0;
         display: none;
-        z-index: 1010;
     }
     
     .dropdown.active .dropdown-menu {
@@ -1937,7 +1939,6 @@ section {
         font-size: 1rem;
         color: #555;
         position: relative;
-        z-index: 1011;
     }
     
     .dropdown-menu a:hover {
