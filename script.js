@@ -597,45 +597,56 @@ if (mobileMenuOverlay) {
 
 // Mobile Dropdown Toggle
 function setupMobileDropdowns() {
-    const dropdowns = document.querySelectorAll('.nav-menu .dropdown');
+    // Handle dropdown parent links (toggle dropdown)
+    const dropdownParents = document.querySelectorAll('.nav-menu .dropdown > .nav-link');
     
-    dropdowns.forEach(dropdown => {
-        const dropdownLink = dropdown.querySelector('.nav-link');
-        
-        if (dropdownLink) {
-            // Clone the link to remove all existing event listeners
-            const newDropdownLink = dropdownLink.cloneNode(true);
-            dropdownLink.parentNode.replaceChild(newDropdownLink, dropdownLink);
-            
-            newDropdownLink.addEventListener('click', function(e) {
-                // Only toggle on mobile (when mobile menu is visible)
-                if (window.innerWidth <= 768) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    
-                    // Close other dropdowns
-                    dropdowns.forEach(otherDropdown => {
-                        if (otherDropdown !== dropdown) {
-                            otherDropdown.classList.remove('active');
-                        }
-                    });
-                    
-                    // Toggle current dropdown
-                    dropdown.classList.toggle('active');
+    dropdownParents.forEach(parentLink => {
+        parentLink.addEventListener('click', function(e) {
+            // Only toggle on mobile
+            if (window.innerWidth <= 768) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const dropdown = this.parentElement;
+                const isActive = dropdown.classList.contains('active');
+                
+                // Close all dropdowns
+                document.querySelectorAll('.nav-menu .dropdown').forEach(d => {
+                    d.classList.remove('active');
+                });
+                
+                // Toggle current dropdown
+                if (!isActive) {
+                    dropdown.classList.add('active');
                 }
-            });
-        }
+            }
+        });
+    });
+    
+    // Handle dropdown child links (navigate and close menu)
+    const dropdownChildLinks = document.querySelectorAll('.dropdown-menu a');
+    dropdownChildLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            // Allow navigation, just close the menu
+            closeMobileMenu();
+    });
+});
+    
+    // Handle regular nav links (non-dropdown, close menu)
+    const regularNavLinks = document.querySelectorAll('.nav-menu > .nav-list > .nav-item:not(.dropdown) > .nav-link');
+    regularNavLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            closeMobileMenu();
+        });
     });
 }
 
-// Initialize mobile dropdowns
-setupMobileDropdowns();
-
-// Close mobile menu when clicking on a dropdown item (not parent)
-const dropdownLinks = document.querySelectorAll('.dropdown-menu a');
-dropdownLinks.forEach(link => {
-    link.addEventListener('click', closeMobileMenu);
-});
+// Initialize mobile dropdowns when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupMobileDropdowns);
+} else {
+    setupMobileDropdowns();
+}
 
 // Cart functionality
 class ShoppingCart {
