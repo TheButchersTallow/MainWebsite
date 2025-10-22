@@ -10,6 +10,8 @@
 
 html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
 
 body {
@@ -22,6 +24,8 @@ body {
     background-attachment: fixed;
     background-size: 400px 400px;
     background-color: #C4A484;
+    margin: 0;
+    padding: 0;
 }
 
 .container {
@@ -130,11 +134,15 @@ p {
     padding: 10px 0;
     border-bottom: 2px solid #654321;
     width: 100vw;
-    margin-left: calc(-50vw + 50%);
-    margin-right: calc(-50vw + 50%);
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
 }
 
-.header-promo {
+.header-promo,
+.promo-banner {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -844,6 +852,408 @@ section {
     color: #ccc;
 }
 
+/* Search Button */
+.search-btn {
+    position: relative;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #F5E6D3;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    padding: 5px 10px;
+}
+
+.search-btn:hover {
+    color: #FFF8DC;
+}
+
+/* Search Modal */
+.search-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.8);
+    display: none;
+    justify-content: center;
+    align-items: flex-start;
+    z-index: 3000;
+    padding-top: 100px;
+}
+
+.search-modal.active {
+    display: flex;
+}
+
+.search-modal-content {
+    background-color: white;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 700px;
+    max-height: 80vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.search-header {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 2px solid #e5e5e5;
+    gap: 15px;
+}
+
+.search-header input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 1.3rem;
+    padding: 10px;
+    color: #2c1810;
+}
+
+.close-search {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    color: #666;
+    padding: 0 10px;
+}
+
+.close-search:hover {
+    color: #2c1810;
+}
+
+.search-results {
+    padding: 20px;
+    overflow-y: auto;
+    max-height: calc(80vh - 100px);
+}
+
+.search-hint {
+    text-align: center;
+    color: #999;
+    padding: 40px 20px;
+    font-size: 1.1rem;
+}
+
+.search-result-item {
+    display: flex;
+    gap: 15px;
+    padding: 15px;
+    border-bottom: 1px solid #e5e5e5;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+    color: inherit;
+}
+
+.search-result-item:hover {
+    background-color: #f8f6f0;
+}
+
+.search-result-image {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.search-result-info {
+    flex: 1;
+}
+
+.search-result-info h4 {
+    margin: 0 0 5px 0;
+    color: #2c1810;
+    font-size: 1.1rem;
+}
+
+.search-result-info p {
+    margin: 0 0 5px 0;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.search-result-price {
+    font-weight: 600;
+    color: #654321;
+}
+
+.no-results {
+    text-align: center;
+    padding: 40px 20px;
+    color: #666;
+}
+
+.no-results i {
+    font-size: 3rem;
+    color: #ddd;
+    margin-bottom: 20px;
+}
+
+/* Review Modal */
+.review-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.7);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 3000;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+.review-modal.active {
+    display: flex;
+}
+
+.review-modal-content {
+    background-color: white;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.review-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 2px solid #e5e5e5;
+}
+
+.review-modal-header h3 {
+    margin: 0;
+    color: #2c1810;
+}
+
+.close-review-modal {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    color: #666;
+}
+
+.close-review-modal:hover {
+    color: #2c1810;
+}
+
+.review-form {
+    padding: 30px;
+}
+
+.review-form .form-group {
+    margin-bottom: 20px;
+}
+
+.review-form label {
+    display: block;
+    font-weight: 600;
+    color: #2c1810;
+    margin-bottom: 8px;
+}
+
+.review-form input[type="text"],
+.review-form input[type="email"],
+.review-form textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #e5e5e5;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: 'Source Sans Pro', sans-serif;
+    transition: border-color 0.3s ease;
+}
+
+.review-form input[type="text"]:focus,
+.review-form input[type="email"]:focus,
+.review-form textarea:focus {
+    outline: none;
+    border-color: #654321;
+}
+
+.review-form textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.star-rating {
+    display: flex;
+    gap: 5px;
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.star-rating i {
+    cursor: pointer;
+    color: #ddd;
+    transition: color 0.2s ease;
+}
+
+.star-rating i:hover,
+.star-rating i.active {
+    color: #ffc107;
+}
+
+.form-note {
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 15px;
+    margin-bottom: 0;
+}
+
+.review-form input[type="checkbox"] {
+    margin-right: 8px;
+}
+
+/* Review Display Section */
+.product-reviews {
+    background-color: rgba(245, 230, 211, 0.3);
+    padding: 40px 0;
+}
+
+.reviews-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.reviews-header h2 {
+    margin: 0;
+    color: #2c1810;
+}
+
+.write-review-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.reviews-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.review-stats {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.review-stats h3 {
+    margin: 0 0 20px 0;
+    color: #2c1810;
+}
+
+.average-rating {
+    font-size: 3rem;
+    font-weight: 700;
+    color: #654321;
+    margin: 10px 0;
+}
+
+.review-count-text {
+    color: #666;
+    font-size: 1rem;
+}
+
+.reviews-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.review-card {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(101, 67, 33, 0.1);
+}
+
+.review-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.reviewer-info h4 {
+    margin: 0 0 5px 0;
+    color: #2c1810;
+    font-size: 1.1rem;
+}
+
+.review-date {
+    color: #999;
+    font-size: 0.9rem;
+}
+
+.verified-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: #e8f5e9;
+    color: #2e7d32;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.review-title {
+    font-weight: 600;
+    color: #2c1810;
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+}
+
+.review-text {
+    color: #555;
+    line-height: 1.7;
+}
+
+.no-reviews {
+    text-align: center;
+    padding: 60px 20px;
+    background: white;
+    border-radius: 12px;
+}
+
+.no-reviews i {
+    font-size: 4rem;
+    color: #ddd;
+    margin-bottom: 20px;
+}
+
+.no-reviews h3 {
+    color: #2c1810;
+    margin-bottom: 10px;
+}
+
+.no-reviews p {
+    color: #666;
+    margin-bottom: 20px;
+}
+
 /* Cart Modal */
 .cart-modal {
     position: fixed;
@@ -1273,34 +1683,104 @@ section {
         padding: 0 15px;
     }
     
-    .header-promo {
-        flex-direction: column;
-        gap: 10px;
-        text-align: center;
+    /* Force header-top to not add extra background on mobile */
+    .header-top {
+        background: #3b2814 !important;
+        padding: 0 !important;
+        border: none !important;
     }
     
-    .promo-item {
-        justify-content: center;
+    /* Scrolling marquee for mobile promo */
+    .header-promo,
+    .promo-banner {
+        overflow: hidden !important;
+        position: relative;
+        background-color: #3b2814 !important;
+        padding: 10px 0 !important;
+        display: flex !important;
+        width: 100% !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
     }
     
-    /* Keep header horizontal on product pages */
+    .header-promo .promo-item,
+    .promo-banner .promo-item {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+        padding: 0 30px !important;
+        white-space: nowrap !important;
+        animation: scroll-marquee 30s linear infinite !important;
+        flex-shrink: 0 !important;
+        flex: none !important;
+    }
+    
+    .header-promo .promo-item i,
+    .promo-banner .promo-item i {
+        font-size: 1rem;
+        flex-shrink: 0;
+    }
+    
+    .header-promo .promo-item span,
+    .promo-banner .promo-item span {
+        font-size: 0.75rem;
+        line-height: 1.3;
+    }
+    
+    .header-promo .promo-item strong,
+    .promo-banner .promo-item strong {
+        display: block;
+        font-size: 0.8rem;
+    }
+    
+    @keyframes scroll-marquee {
+        0% {
+            transform: translateX(0);
+        }
+        100% {
+            transform: translateX(-100%);
+        }
+    }
+    
+    /* Duplicate items for seamless loop */
+    .header-promo .promo-item:nth-child(1),
+    .promo-banner .promo-item:nth-child(1) {
+        animation-delay: 0s;
+    }
+    .header-promo .promo-item:nth-child(2),
+    .promo-banner .promo-item:nth-child(2) {
+        animation-delay: -10s;
+    }
+    .header-promo .promo-item:nth-child(3),
+    .promo-banner .promo-item:nth-child(3) {
+        animation-delay: -20s;
+    }
+    
+    /* Keep header the same on ALL pages including product pages */
     .product-hero .header-promo {
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: space-around;
-        text-align: left;
+        overflow: hidden;
+        position: relative;
+        background-color: #3b2814;
+        padding: 10px 0;
+        display: flex;
+        width: 100%;
+        flex-wrap: nowrap;
     }
     
-    .product-hero .promo-item {
-        flex: 1;
-        min-width: 200px;
-        justify-content: flex-start;
+    .product-hero .header-promo .promo-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 0 30px;
+        white-space: nowrap;
+        animation: scroll-marquee 30s linear infinite;
+        flex-shrink: 0;
     }
     
     .logo-img {
-        height: 160px;
-        max-width: 600px;
-        margin: -25px 0;
+        height: 100px;
+        max-width: 400px;
+        margin: -10px 0;
     }
     
     .navbar {
@@ -1408,32 +1888,34 @@ section {
 
 @media (max-width: 480px) {
     .logo-img {
-        height: 140px;
-        max-width: 480px;
-        margin: -20px 0;
+        height: 80px;
+        max-width: 350px;
+        margin: -5px 0;
     }
     
     .navbar {
         padding: 0;
     }
     
-    /* Keep header horizontal on product pages even on small screens */
+    /* Keep header the same on product pages */
     .product-hero .header-promo {
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: space-around;
-        text-align: left;
+        overflow: hidden;
+        position: relative;
+        background-color: #3b2814;
+        padding: 10px 0;
+        display: flex;
+        width: 100%;
+        flex-wrap: nowrap;
     }
     
-    .product-hero .promo-item {
-        flex: 1;
-        min-width: 150px;
-        justify-content: flex-start;
-        font-size: 0.8rem;
-    }
-    
-    .product-hero .promo-item span {
-        font-size: 0.8rem;
+    .product-hero .header-promo .promo-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 0 30px;
+        white-space: nowrap;
+        animation: scroll-marquee 30s linear infinite;
+        flex-shrink: 0;
     }
     
     .product-info h1 {

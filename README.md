@@ -37,9 +37,10 @@ A modern, responsive website for The Butcher's Tallow business, inspired by the 
    - Made with just 4 ingredients: tallow, beeswax, jojoba oil, and essential oils
    - Shopify-ready with variant selection
 
-2. **Pure Beef Tallow** - $20.00
-   - Available in 2 types: Dry Rendered (for cooking) and Wet Rendered (for skincare)
-   - 100% grass-fed, traditionally rendered
+2. **100% All Purpose Suet Beef Tallow** - Starting at $10.00
+   - Available in 3 glass jar sizes: Small, Medium, Large
+   - Perfect for candle making, skincare DIY, leather care, and household crafts
+   - 100% grass-fed, dry-rendered, traditionally processed
    - Shopify-ready with variant selection
 
 ## Technical Details

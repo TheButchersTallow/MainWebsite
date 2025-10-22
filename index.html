@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Butcher's Tallow | Premium Grass-Fed Tallow Products</title>
-    <meta name="description" content="High-quality grass-fed beef tallow for cooking and skincare. Ethically sourced and traditionally rendered.">
-    <meta name="keywords" content="beef tallow, grass-fed tallow, cooking tallow, tallow balm, skincare, traditional cooking, butcher, animal fat">
+    <meta name="description" content="High-quality grass-fed beef tallow for skincare, candle making, and household crafts. Ethically sourced and traditionally rendered.">
+    <meta name="keywords" content="beef tallow, grass-fed tallow, tallow balm, skincare, candle making, DIY crafts, leather care, natural ingredients, butcher">
     <meta name="author" content="The Butcher's Tallow LLC">
     <meta name="theme-color" content="#3b2814">
     
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="The Butcher's Tallow - Premium Grass-Fed Tallow Products">
-    <meta property="og:description" content="High-quality grass-fed beef tallow for cooking and skincare. Ethically sourced and traditionally rendered.">
+    <meta property="og:description" content="High-quality grass-fed beef tallow for skincare, candle making, and household crafts. Ethically sourced and traditionally rendered.">
     <meta property="og:image" content="/og-image.jpg">
     <meta property="og:type" content="website">
     
@@ -32,7 +32,7 @@
                 <div class="header-promo">
                     <div class="promo-item">
                         <i class="fas fa-leaf"></i>
-                        <span><strong>ALL-NATURAL & HANDMADE</strong><br>Crafted with care in Texas, USA and shipped to the United States.</span>
+                        <span><strong>ALL-NATURAL & HANDMADE</strong><br>Crafted with care in Texas, we ship anywhere in the United States.</span>
                     </div>
                     <div class="promo-item">
                         <i class="fas fa-shipping-fast"></i>
@@ -40,14 +40,14 @@
                     </div>
                     <div class="promo-item">
                         <i class="fas fa-star"></i>
-                        <span><strong>PREMIUM QUALITY</strong><br>100% grass-fed, traditionally rendered tallow.</span>
+                        <span><strong>PREMIUM QUALITY</strong><br>Grass-fed & finished traditionally rendered.</span>
                     </div>
                 </div>
             </div>
             
             <nav class="navbar">
                 <div class="nav-brand">
-                    <a href="/" class="logo">
+                    <a href="index.html" class="logo">
                         <img src="assets/The Butchers Tallow Logo.png" alt="The Butcher's Tallow" class="logo-img">
                         <span class="logo-text">The Butcher's Tallow</span>
                     </a>
@@ -86,6 +86,9 @@
                 </div>
                 
                 <div class="nav-actions">
+                    <button class="search-btn" id="search-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
                     <button class="cart-btn" id="cart-btn">
                         <i class="fas fa-shopping-cart"></i>
                         <span class="cart-count" id="cart-count">0</span>
@@ -100,12 +103,25 @@
         </div>
     </header>
 
+    <!-- Search Modal -->
+    <div class="search-modal" id="search-modal">
+        <div class="search-modal-content">
+            <div class="search-header">
+                <input type="text" id="search-input" placeholder="Search for products..." autocomplete="off">
+                <button class="close-search" id="close-search">&times;</button>
+            </div>
+            <div class="search-results" id="search-results">
+                <p class="search-hint">Start typing to search for products...</p>
+            </div>
+        </div>
+    </div>
+
     <!-- Hero Section -->
     <section class="hero">
         <div class="container">
             <div class="hero-content">
                 <h1 class="hero-title">Rediscovering<br><span class="highlight">Traditional Tallow</span></h1>
-                <p class="hero-subtitle">Premium grass-fed tallow products for cooking and skincare. Clean, effective, and rooted in nature's best.</p>
+                <p class="hero-subtitle">Premium grass-fed tallow products for skincare, candle making, and household crafts. Clean, natural, and rooted in tradition.</p>
                 <div class="hero-buttons">
                     <a href="shop-all.html" class="btn btn-primary">Shop Our Products</a>
                     <a href="#about" class="btn btn-secondary">Our Story</a>
@@ -168,7 +184,7 @@
                     </div>
                     <div class="product-info">
                         <h3><a href="products/all-purpose-tallow.html">100% All Purpose Suet Beef Tallow</a></h3>
-                        <p class="product-description">Slow-rendered grass-fed beef tallow. Perfect for all-purpose use with high smoke point or skincare.</p>
+                        <p class="product-description">Slow-rendered grass-fed beef tallow. Perfect for candle making, skincare DIY projects (wet rendering recommended), wood care, and household crafts.</p>
                         
                         <!-- Shopify-compatible variant selector -->
                         <div class="product-variants">
@@ -351,7 +367,7 @@
                     <h2>Our Story</h2>
                     <p>At The Butcher's Tallow, we believe in the power of pure, natural ingredients to nourish both body and skin. Our journey began with a life-changing decision: adopting the carnivore diet.</p>
                     
-                    <p>After shedding significant weight and transforming my overall health, I gained a new perspective on what wellness truly means. This led me to scrutinize every ingredient in my life—from the food I ate to the skincare products I used.</p>
+                    <p>After shedding significant weight and transforming my overall health, I gained a new perspective on what wellness truly means. This led me to scrutinize every ingredient in the products I used, especially skincare.</p>
                     
                     <p>I was shocked by the chemicals and fillers in most skincare, so I set out to create something better. Using slow-rendered beef tallow sourced straight from our trusted butcher's shop here in Texas, I crafted our first product: a deeply hydrating lip balm made with just four ingredients—tallow, beeswax, jojoba oil, and essential oils.</p>
                     
@@ -399,7 +415,7 @@
             <div class="footer-content">
                 <div class="footer-section">
                     <h3>The Butcher's Tallow</h3>
-                    <p>Premium grass-fed tallow products for cooking and skincare. Clean, effective, and rooted in nature's best.</p>
+                    <p>Premium grass-fed tallow products for skincare, candle making, and household crafts. Clean, natural, and rooted in tradition.</p>
                 </div>
                 
                 <div class="footer-section">
@@ -445,6 +461,62 @@
             </div>
         </div>
     </footer>
+
+    <!-- Review Submission Modal -->
+    <div class="review-modal" id="review-modal">
+        <div class="review-modal-content">
+            <div class="review-modal-header">
+                <h3>Write a Review</h3>
+                <button class="close-review-modal" id="close-review-modal">&times;</button>
+            </div>
+            <form class="review-form" id="review-form">
+                <input type="hidden" id="review-product-id" name="product-id">
+                <input type="hidden" id="review-product-name" name="product-name">
+                
+                <div class="form-group">
+                    <label for="review-name">Your Name *</label>
+                    <input type="text" id="review-name" name="name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="review-email">Email (won't be published) *</label>
+                    <input type="email" id="review-email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Rating *</label>
+                    <div class="star-rating" id="star-rating">
+                        <i class="far fa-star" data-rating="1"></i>
+                        <i class="far fa-star" data-rating="2"></i>
+                        <i class="far fa-star" data-rating="3"></i>
+                        <i class="far fa-star" data-rating="4"></i>
+                        <i class="far fa-star" data-rating="5"></i>
+                    </div>
+                    <input type="hidden" id="review-rating" name="rating" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="review-title">Review Title *</label>
+                    <input type="text" id="review-title" name="title" required placeholder="Sum up your experience">
+                </div>
+                
+                <div class="form-group">
+                    <label for="review-text">Your Review *</label>
+                    <textarea id="review-text" name="review" rows="5" required placeholder="Tell us about your experience with this product"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="review-verified" name="verified">
+                        I am a verified purchaser
+                    </label>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Submit Review</button>
+                <p class="form-note">* Required fields. Reviews are moderated before being published.</p>
+            </form>
+        </div>
+    </div>
 
     <!-- Cart Modal -->
     <div class="cart-modal" id="cart-modal">
@@ -513,7 +585,7 @@
             {
                 "id": "pure-beef-tallow",
                 "title": "100% All Purpose Suet Beef Tallow",
-                "description": "Slow-rendered grass-fed beef tallow. Perfect for all-purpose use with high smoke point or skincare. Available in three glass jar sizes.",
+                "description": "Slow-rendered grass-fed beef tallow. Perfect for candle making, skincare DIY projects (wet rendering recommended), wood care, and household crafts. Available in three glass jar sizes.",
                 "price": 10.00,
                 "image": "assets/3 sizes of tallow.jpg",
                 "variants": [
@@ -538,7 +610,7 @@
                 ],
                 "tags": ["tallow", "all-purpose", "skincare", "grass-fed", "glass-jar"],
                 "vendor": "The Butcher's Tallow",
-                "product_type": "Food & Skincare"
+                "product_type": "Skincare & Crafts"
             },
             {
                 "id": "whipped-tallow-balm",

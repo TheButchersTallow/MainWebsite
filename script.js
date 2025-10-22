@@ -173,14 +173,395 @@ document.addEventListener('DOMContentLoaded', () => {
     shopifyIntegration = new ShopifyIntegration();
 });
 
+// Search Functionality
+class ProductSearch {
+    constructor() {
+        this.searchBtn = document.getElementById('search-btn');
+        this.searchModal = document.getElementById('search-modal');
+        this.searchInput = document.getElementById('search-input');
+        this.searchResults = document.getElementById('search-results');
+        this.closeSearch = document.getElementById('close-search');
+        
+        this.products = this.loadProducts();
+        this.init();
+    }
+    
+    init() {
+        if (!this.searchBtn || !this.searchModal) return;
+        
+        this.searchBtn.addEventListener('click', () => this.openSearch());
+        this.closeSearch.addEventListener('click', () => this.closeSearchModal());
+        
+        // Close on ESC key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && this.searchModal.classList.contains('active')) {
+                this.closeSearchModal();
+            }
+        });
+        
+        // Close on background click
+        this.searchModal.addEventListener('click', (e) => {
+            if (e.target === this.searchModal) {
+                this.closeSearchModal();
+            }
+        });
+        
+        // Search on input
+        this.searchInput.addEventListener('input', (e) => {
+            this.performSearch(e.target.value);
+        });
+    }
+    
+    loadProducts() {
+        const productsData = document.getElementById('shopify-products-data');
+        if (productsData) {
+            const data = JSON.parse(productsData.textContent);
+            return data.products;
+        }
+        return [];
+    }
+    
+    openSearch() {
+        this.searchModal.classList.add('active');
+        this.searchInput.value = '';
+        this.searchInput.focus();
+        this.searchResults.innerHTML = '<p class="search-hint">Start typing to search for products...</p>';
+    }
+    
+    closeSearchModal() {
+        this.searchModal.classList.remove('active');
+        this.searchInput.value = '';
+    }
+    
+    performSearch(query) {
+        if (!query || query.trim().length < 2) {
+            this.searchResults.innerHTML = '<p class="search-hint">Start typing to search for products...</p>';
+            return;
+        }
+        
+        const searchTerm = query.toLowerCase().trim();
+        const results = this.products.filter(product => {
+            return product.title.toLowerCase().includes(searchTerm) ||
+                   product.description.toLowerCase().includes(searchTerm) ||
+                   product.tags.some(tag => tag.toLowerCase().includes(searchTerm));
+        });
+        
+        this.displayResults(results);
+    }
+    
+    displayResults(results) {
+        if (results.length === 0) {
+            this.searchResults.innerHTML = `
+                <div class="no-results">
+                    <i class="fas fa-search"></i>
+                    <h3>No products found</h3>
+                    <p>Try different keywords or browse all products</p>
+                    <a href="shop-all.html" class="btn btn-primary">View All Products</a>
+                </div>
+            `;
+            return;
+        }
+        
+        this.searchResults.innerHTML = results.map(product => {
+            const productUrl = this.getProductUrl(product.id);
+            const price = product.price ? `$${product.price.toFixed(2)}` : 'View product';
+            
+            return `
+                <a href="${productUrl}" class="search-result-item">
+                    <img src="${product.image}" alt="${product.title}" class="search-result-image">
+                    <div class="search-result-info">
+                        <h4>${product.title}</h4>
+                        <p>${product.description.substring(0, 80)}...</p>
+                        <span class="search-result-price">${price}</span>
+                    </div>
+                </a>
+            `;
+        }).join('');
+    }
+    
+    getProductUrl(productId) {
+        const urlMap = {
+            'tallow-lip-balm': 'products/lip-balm.html',
+            'pure-beef-tallow': 'products/all-purpose-tallow.html',
+            'whipped-tallow-balm': 'products/whipped-balm.html',
+            'beard-balm': 'products/beard-balm.html',
+            'leather-conditioner': 'products/leather-conditioner.html'
+        };
+        return urlMap[productId] || 'shop-all.html';
+    }
+}
+
+// Review System
+class ReviewSystem {
+    constructor() {
+        this.reviewModal = document.getElementById('review-modal');
+        this.closeReviewModal = document.getElementById('close-review-modal');
+        this.reviewForm = document.getElementById('review-form');
+        this.starRating = document.getElementById('star-rating');
+        this.ratingInput = document.getElementById('review-rating');
+        this.currentRating = 0;
+        
+        this.reviews = this.loadReviews();
+        this.init();
+    }
+    
+    init() {
+        if (!this.reviewModal) return;
+        
+        // Star rating click handlers
+        if (this.starRating) {
+            const stars = this.starRating.querySelectorAll('i');
+            stars.forEach(star => {
+                star.addEventListener('click', () => {
+                    this.setRating(parseInt(star.getAttribute('data-rating')));
+                });
+                
+                star.addEventListener('mouseenter', () => {
+                    this.highlightStars(parseInt(star.getAttribute('data-rating')));
+                });
+            });
+            
+            this.starRating.addEventListener('mouseleave', () => {
+                this.highlightStars(this.currentRating);
+            });
+        }
+        
+        // Close modal handlers
+        if (this.closeReviewModal) {
+            this.closeReviewModal.addEventListener('click', () => this.closeModal());
+        }
+        
+        this.reviewModal.addEventListener('click', (e) => {
+            if (e.target === this.reviewModal) {
+                this.closeModal();
+            }
+        });
+        
+        // Form submission
+        if (this.reviewForm) {
+            this.reviewForm.addEventListener('submit', (e) => this.submitReview(e));
+        }
+        
+        // Add click handlers to "Write a Review" buttons
+        document.querySelectorAll('.write-review-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const productId = btn.getAttribute('data-product-id') || '';
+                const productName = btn.getAttribute('data-product-name') || '';
+                this.openModal(productId, productName);
+            });
+        });
+    }
+    
+    setRating(rating) {
+        this.currentRating = rating;
+        this.ratingInput.value = rating;
+        this.highlightStars(rating);
+    }
+    
+    highlightStars(rating) {
+        const stars = this.starRating.querySelectorAll('i');
+        stars.forEach((star, index) => {
+            if (index < rating) {
+                star.classList.remove('far');
+                star.classList.add('fas', 'active');
+            } else {
+                star.classList.remove('fas', 'active');
+                star.classList.add('far');
+            }
+        });
+    }
+    
+    openModal(productId = '', productName = '') {
+        this.reviewModal.classList.add('active');
+        document.getElementById('review-product-id').value = productId;
+        document.getElementById('review-product-name').value = productName;
+        this.setRating(0);
+        this.reviewForm.reset();
+    }
+    
+    closeModal() {
+        this.reviewModal.classList.remove('active');
+        this.setRating(0);
+        this.reviewForm.reset();
+    }
+    
+    submitReview(e) {
+        e.preventDefault();
+        
+        if (this.currentRating === 0) {
+            alert('Please select a rating');
+            return;
+        }
+        
+        const formData = new FormData(this.reviewForm);
+        const review = {
+            id: Date.now(),
+            productId: formData.get('product-id'),
+            productName: formData.get('product-name'),
+            name: formData.get('name'),
+            email: formData.get('email'),
+            rating: this.currentRating,
+            title: formData.get('title'),
+            text: formData.get('review'),
+            verified: formData.get('verified') === 'on',
+            date: new Date().toISOString(),
+            approved: false // Reviews need moderation
+        };
+        
+        // Save review to localStorage (temporary - replace with backend later)
+        this.saveReview(review);
+        
+        // Show success message
+        this.showNotification('Thank you! Your review has been submitted and is pending approval.', 'success');
+        
+        this.closeModal();
+    }
+    
+    saveReview(review) {
+        this.reviews.push(review);
+        localStorage.setItem('product_reviews', JSON.stringify(this.reviews));
+    }
+    
+    loadReviews() {
+        const saved = localStorage.getItem('product_reviews');
+        return saved ? JSON.parse(saved) : [];
+    }
+    
+    getReviewsForProduct(productId) {
+        return this.reviews.filter(review => 
+            review.productId === productId && review.approved
+        );
+    }
+    
+    getAverageRating(productId) {
+        const productReviews = this.getReviewsForProduct(productId);
+        if (productReviews.length === 0) return 0;
+        
+        const sum = productReviews.reduce((acc, review) => acc + review.rating, 0);
+        return (sum / productReviews.length).toFixed(1);
+    }
+    
+    displayReviews(productId, containerId) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        
+        const productReviews = this.getReviewsForProduct(productId);
+        const averageRating = this.getAverageRating(productId);
+        
+        if (productReviews.length === 0) {
+            container.innerHTML = `
+                <div class="no-reviews">
+                    <i class="fas fa-comment-slash"></i>
+                    <h3>No reviews yet</h3>
+                    <p>Be the first to share your experience with this product!</p>
+                    <button class="btn btn-primary write-review-btn" data-product-id="${productId}">
+                        <i class="fas fa-pen"></i> Write a Review
+                    </button>
+                </div>
+            `;
+            return;
+        }
+        
+        container.innerHTML = `
+            <div class="review-stats">
+                <h3>Customer Reviews</h3>
+                <div class="average-rating">${averageRating}</div>
+                <div class="stars">
+                    ${this.renderStars(parseFloat(averageRating))}
+                </div>
+                <p class="review-count-text">Based on ${productReviews.length} review${productReviews.length !== 1 ? 's' : ''}</p>
+            </div>
+            <div class="reviews-list">
+                ${productReviews.map(review => this.renderReview(review)).join('')}
+            </div>
+        `;
+    }
+    
+    renderStars(rating) {
+        let stars = '';
+        for (let i = 1; i <= 5; i++) {
+            stars += `<i class="fas fa-star" style="color: ${i <= rating ? '#ffc107' : '#ddd'}"></i>`;
+        }
+        return stars;
+    }
+    
+    renderReview(review) {
+        const date = new Date(review.date).toLocaleDateString('en-US', { 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+        });
+        
+        return `
+            <div class="review-card">
+                <div class="review-card-header">
+                    <div class="reviewer-info">
+                        <h4>${review.name}</h4>
+                        <div class="stars">
+                            ${this.renderStars(review.rating)}
+                        </div>
+                        <span class="review-date">${date}</span>
+                        ${review.verified ? '<span class="verified-badge"><i class="fas fa-check-circle"></i> Verified Purchase</span>' : ''}
+                    </div>
+                </div>
+                <h5 class="review-title">${review.title}</h5>
+                <p class="review-text">${review.text}</p>
+            </div>
+        `;
+    }
+    
+    showNotification(message, type = 'info') {
+        const notification = document.createElement('div');
+        const colors = {
+            success: '#28a745',
+            error: '#dc3545',
+            info: '#17a2b8'
+        };
+        
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: ${colors[type]};
+            color: white;
+            padding: 15px 20px;
+            border-radius: 5px;
+            z-index: 4000;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            max-width: 300px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        `;
+        notification.textContent = message;
+        
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+            notification.style.transform = 'translateX(0)';
+        }, 100);
+        
+        setTimeout(() => {
+            notification.style.transform = 'translateX(100%)';
+            setTimeout(() => {
+                if (document.body.contains(notification)) {
+                    document.body.removeChild(notification);
+                }
+            }, 300);
+        }, 4000);
+    }
+}
+
 // Mobile Menu Toggle
 const mobileMenuBtn = document.getElementById('mobile-menu-btn');
 const navMenu = document.getElementById('nav-menu');
 
-mobileMenuBtn.addEventListener('click', () => {
-    navMenu.classList.toggle('active');
-    mobileMenuBtn.classList.toggle('active');
-});
+if (mobileMenuBtn && navMenu) {
+    mobileMenuBtn.addEventListener('click', () => {
+        navMenu.classList.toggle('active');
+        mobileMenuBtn.classList.toggle('active');
+    });
+}
 
 // Close mobile menu when clicking on a link
 const navLinks = document.querySelectorAll('.nav-link');
@@ -485,10 +866,12 @@ function validateForm(form) {
     return isValid;
 }
 
-// Initialize cart when DOM is loaded
-let cart;
+// Initialize cart, search, and reviews when DOM is loaded
+let cart, productSearch, reviewSystem;
 document.addEventListener('DOMContentLoaded', () => {
     cart = new ShoppingCart();
+    productSearch = new ProductSearch();
+    reviewSystem = new ReviewSystem();
 });
 
 // Add to cart functionality for product cards

@@ -32,15 +32,15 @@
                 <div class="header-promo">
                     <div class="promo-item">
                         <i class="fas fa-leaf"></i>
-                        <span><strong>ALL-NATURAL & HANDMADE</strong><br>Crafted with care in Texas, USA and shipped to the United States.</span>
+                        <span><strong>ALL-NATURAL & HANDMADE</strong><br>Crafted with care in Texas, we ship anywhere in the United States.</span>
                     </div>
                     <div class="promo-item">
                         <i class="fas fa-shipping-fast"></i>
                         <span><strong>FAST SHIPPING</strong><br>Orders ship within 1-2 business days.</span>
                     </div>
                     <div class="promo-item">
-                        <i class="fas fa-star"></i>
-                        <span><strong>PREMIUM QUALITY</strong><br>100% grass-fed, traditionally rendered tallow.</span>
+                        <i class="fas fa-award"></i>
+                        <span><strong>PREMIUM QUALITY</strong><br>Grass-fed & finished traditionally rendered.</span>
                     </div>
                 </div>
             </div>
@@ -86,6 +86,9 @@
                 </div>
                 
                 <div class="nav-actions">
+                    <button class="search-btn" id="search-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
                     <button class="cart-btn" id="cart-btn">
                         <i class="fas fa-shopping-cart"></i>
                         <span class="cart-count" id="cart-count">0</span>
@@ -99,6 +102,75 @@
             </nav>
         </div>
     </header>
+
+    <!-- Search Modal -->
+    <div class="search-modal" id="search-modal">
+        <div class="search-modal-content">
+            <div class="search-header">
+                <input type="text" id="search-input" placeholder="Search for products..." autocomplete="off">
+                <button class="close-search" id="close-search">&times;</button>
+            </div>
+            <div class="search-results" id="search-results">
+                <p class="search-hint">Start typing to search for products...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Review Submission Modal -->
+    <div class="review-modal" id="review-modal">
+        <div class="review-modal-content">
+            <div class="review-modal-header">
+                <h3>Write a Review</h3>
+                <button class="close-review-modal" id="close-review-modal">&times;</button>
+            </div>
+            <form class="review-form" id="review-form">
+                <input type="hidden" id="review-product-id" name="product-id">
+                <input type="hidden" id="review-product-name" name="product-name">
+                
+                <div class="form-group">
+                    <label for="review-name">Your Name *</label>
+                    <input type="text" id="review-name" name="name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="review-email">Email (won't be published) *</label>
+                    <input type="email" id="review-email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Rating *</label>
+                    <div class="star-rating" id="star-rating">
+                        <i class="far fa-star" data-rating="1"></i>
+                        <i class="far fa-star" data-rating="2"></i>
+                        <i class="far fa-star" data-rating="3"></i>
+                        <i class="far fa-star" data-rating="4"></i>
+                        <i class="far fa-star" data-rating="5"></i>
+                    </div>
+                    <input type="hidden" id="review-rating" name="rating" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="review-title">Review Title *</label>
+                    <input type="text" id="review-title" name="title" required placeholder="Sum up your experience">
+                </div>
+                
+                <div class="form-group">
+                    <label for="review-text">Your Review *</label>
+                    <textarea id="review-text" name="review" rows="5" required placeholder="Tell us about your experience with this product"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="review-verified" name="verified">
+                        I am a verified purchaser
+                    </label>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Submit Review</button>
+                <p class="form-note">* Required fields. Reviews are moderated before being published.</p>
+            </form>
+        </div>
+    </div>
 
     <!-- Page Header -->
     <section class="page-header">
@@ -332,7 +404,7 @@
             <div class="footer-content">
                 <div class="footer-section">
                     <h3>The Butcher's Tallow</h3>
-                    <p>Premium grass-fed tallow products for cooking and skincare. Clean, effective, and rooted in nature's best.</p>
+                    <p>Premium grass-fed tallow products for skincare, candle making, and household crafts. Clean, natural, and rooted in tradition.</p>
                 </div>
                 
                 <div class="footer-section">
@@ -470,7 +542,7 @@
                 ],
                 "tags": ["tallow", "all-purpose", "skincare", "grass-fed", "glass-jar"],
                 "vendor": "The Butcher's Tallow",
-                "product_type": "Food & Skincare"
+                "product_type": "Skincare & Crafts"
             },
             {
                 "id": "whipped-tallow-balm",
@@ -562,6 +634,21 @@
 
     <script src="shopify-config.js"></script>
     <script src="script.js"></script>
+    <script>
+        // Initialize search and review functionality after script.js loads
+        document.addEventListener('DOMContentLoaded', () => {
+            // Continue shopping button
+            const continueShoppingBtn = document.getElementById('continue-shopping');
+            if (continueShoppingBtn) {
+                continueShoppingBtn.addEventListener('click', () => {
+                    const cartModal = document.getElementById('cart-modal');
+                    if (cartModal) {
+                        cartModal.classList.remove('active');
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 </html>
 
