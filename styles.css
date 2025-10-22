@@ -361,11 +361,43 @@ p {
 .hero {
     background: 
         linear-gradient(rgba(101, 67, 33, 0.2), rgba(139, 90, 43, 0.2)),
+        repeating-linear-gradient(
+            45deg,
+            transparent,
+            transparent 80px,
+            rgba(139, 90, 43, 0.03) 80px,
+            rgba(139, 90, 43, 0.03) 160px
+        ),
         linear-gradient(135deg, rgba(245, 230, 211, 0.8) 0%, rgba(222, 184, 135, 0.8) 100%);
     padding: 100px 0;
     text-align: center;
     position: relative;
     border-bottom: 3px solid #654321;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(139, 90, 43, 0.08) 0%, transparent 70%);
+    border-radius: 50%;
+    left: -50px;
+    top: -50px;
+    pointer-events: none;
+}
+
+.hero::after {
+    content: '';
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(101, 67, 33, 0.08) 0%, transparent 70%);
+    border-radius: 50%;
+    right: -100px;
+    bottom: -100px;
+    pointer-events: none;
 }
 
 .hero-title {
