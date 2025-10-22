@@ -552,24 +552,89 @@ class ReviewSystem {
     }
 }
 
-// Mobile Menu Toggle
+// Mobile Menu Toggle with Overlay
 const mobileMenuBtn = document.getElementById('mobile-menu-btn');
 const navMenu = document.getElementById('nav-menu');
 
+// Create overlay element
+let mobileMenuOverlay = document.querySelector('.mobile-menu-overlay');
+if (!mobileMenuOverlay) {
+    mobileMenuOverlay = document.createElement('div');
+    mobileMenuOverlay.className = 'mobile-menu-overlay';
+    document.body.appendChild(mobileMenuOverlay);
+}
+
+// Function to close mobile menu
+function closeMobileMenu() {
+    if (navMenu) navMenu.classList.remove('active');
+    if (mobileMenuBtn) mobileMenuBtn.classList.remove('active');
+    if (mobileMenuOverlay) mobileMenuOverlay.classList.remove('active');
+    document.body.style.overflow = ''; // Re-enable scrolling
+}
+
+// Function to open mobile menu
+function openMobileMenu() {
+    if (navMenu) navMenu.classList.add('active');
+    if (mobileMenuBtn) mobileMenuBtn.classList.add('active');
+    if (mobileMenuOverlay) mobileMenuOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden'; // Prevent background scrolling
+}
+
 if (mobileMenuBtn && navMenu) {
-    mobileMenuBtn.addEventListener('click', () => {
-        navMenu.classList.toggle('active');
-        mobileMenuBtn.classList.toggle('active');
+mobileMenuBtn.addEventListener('click', () => {
+        if (navMenu.classList.contains('active')) {
+            closeMobileMenu();
+        } else {
+            openMobileMenu();
+        }
     });
 }
 
-// Close mobile menu when clicking on a link
-const navLinks = document.querySelectorAll('.nav-link');
-navLinks.forEach(link => {
-    link.addEventListener('click', () => {
-        navMenu.classList.remove('active');
-        mobileMenuBtn.classList.remove('active');
+// Close mobile menu when clicking on overlay
+if (mobileMenuOverlay) {
+    mobileMenuOverlay.addEventListener('click', closeMobileMenu);
+}
+
+// Mobile Dropdown Toggle
+function setupMobileDropdowns() {
+    const dropdowns = document.querySelectorAll('.nav-menu .dropdown');
+    
+    dropdowns.forEach(dropdown => {
+        const dropdownLink = dropdown.querySelector('.nav-link');
+        
+        if (dropdownLink) {
+            // Clone the link to remove all existing event listeners
+            const newDropdownLink = dropdownLink.cloneNode(true);
+            dropdownLink.parentNode.replaceChild(newDropdownLink, dropdownLink);
+            
+            newDropdownLink.addEventListener('click', function(e) {
+                // Only toggle on mobile (when mobile menu is visible)
+                if (window.innerWidth <= 768) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    // Close other dropdowns
+                    dropdowns.forEach(otherDropdown => {
+                        if (otherDropdown !== dropdown) {
+                            otherDropdown.classList.remove('active');
+                        }
+                    });
+                    
+                    // Toggle current dropdown
+                    dropdown.classList.toggle('active');
+                }
+            });
+        }
     });
+}
+
+// Initialize mobile dropdowns
+setupMobileDropdowns();
+
+// Close mobile menu when clicking on a dropdown item (not parent)
+const dropdownLinks = document.querySelectorAll('.dropdown-menu a');
+dropdownLinks.forEach(link => {
+    link.addEventListener('click', closeMobileMenu);
 });
 
 // Cart functionality
