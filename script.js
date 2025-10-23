@@ -632,8 +632,8 @@ function setupMobileDropdowns() {
             setTimeout(() => {
                 closeMobileMenu();
             }, 100);
-        });
     });
+});
     
     // Handle regular nav links (non-dropdown, close menu)
     const regularNavLinks = document.querySelectorAll('.nav-menu > .nav-list > .nav-item:not(.dropdown) > .nav-link');
@@ -955,26 +955,14 @@ function setupMobileMarquee() {
         const promoContainers = document.querySelectorAll('.header-promo, .promo-banner');
         promoContainers.forEach(container => {
             const items = Array.from(container.querySelectorAll('.promo-item'));
-            const totalItems = items.length;
             
-            // Duplicate items 4 times for seamless loop
-            for (let i = 0; i < 4; i++) {
+            // Duplicate items many times for truly seamless loop
+            for (let i = 0; i < 10; i++) {
                 items.forEach(item => {
                     const clone = item.cloneNode(true);
                     container.appendChild(clone);
                 });
             }
-            
-            // Add staggered animation delays so items appear in sequence
-            const allItems = container.querySelectorAll('.promo-item');
-            const animationDuration = 5; // Match CSS animation duration
-            const delayPerItem = animationDuration / totalItems; // 5s / 3 items = ~1.67s between items
-            
-            allItems.forEach((item, index) => {
-                const itemPosition = index % totalItems;
-                const delay = -itemPosition * delayPerItem;
-                item.style.animationDelay = `${delay}s`;
-            });
         });
     }
 }

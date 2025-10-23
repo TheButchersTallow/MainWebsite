@@ -1725,9 +1725,9 @@ section {
         display: inline-flex !important;
         align-items: center !important;
         gap: 8px !important;
-        padding: 0 40px !important;
+        padding: 0 50px !important;
         white-space: nowrap !important;
-        animation: scroll-marquee 5s linear infinite !important;
+        animation: scroll-marquee 15s linear infinite !important;
         flex-shrink: 0 !important;
         flex: none !important;
     }
@@ -1755,7 +1755,7 @@ section {
             transform: translateX(0);
         }
         100% {
-            transform: translateX(-20%);
+            transform: translateX(-100%);
         }
     }
     
@@ -1776,7 +1776,7 @@ section {
         gap: 8px;
         padding: 0 30px;
         white-space: nowrap;
-        animation: scroll-marquee 5s linear infinite;
+        animation: scroll-marquee 15s linear infinite;
         flex-shrink: 0;
     }
     
@@ -2026,7 +2026,7 @@ section {
         gap: 8px;
         padding: 0 30px;
         white-space: nowrap;
-        animation: scroll-marquee 5s linear infinite;
+        animation: scroll-marquee 15s linear infinite;
         flex-shrink: 0;
     }
     
