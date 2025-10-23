@@ -623,29 +623,8 @@ function setupMobileDropdowns() {
         });
     });
     
-    // Handle dropdown child links (navigate and close menu)
-    const dropdownChildLinks = document.querySelectorAll('.dropdown-menu a');
-    dropdownChildLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            // Don't prevent default - allow navigation
-            // Close menu after a tiny delay to ensure navigation starts
-            setTimeout(() => {
-                closeMobileMenu();
-            }, 100);
-        });
-    });
-    
-    // Handle regular nav links (non-dropdown, close menu)
-    const regularNavLinks = document.querySelectorAll('.nav-menu > .nav-list > .nav-item:not(.dropdown) > .nav-link');
-    regularNavLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            // Don't prevent default - allow navigation
-            // Close menu after a tiny delay to ensure navigation starts
-            setTimeout(() => {
-                closeMobileMenu();
-            }, 100);
-        });
-    });
+    // Dropdown child links and regular nav links navigate naturally
+    // No event listeners needed - menu resets on page load
 }
 
 // Initialize mobile dropdowns when DOM is ready
