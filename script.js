@@ -966,8 +966,8 @@ function setupMobileMarquee() {
             wrapper.style.flexWrap = 'nowrap';
             wrapper.style.animation = 'scroll-marquee 20s linear infinite';
             
-            // Add original items to wrapper and duplicate them 3 times
-            for (let i = 0; i < 4; i++) {
+            // Add original items to wrapper and duplicate them many times for seamless loop
+            for (let i = 0; i < 8; i++) {
                 items.forEach(item => {
                     const clone = item.cloneNode(true);
                     clone.style.animation = 'none'; // Remove individual animation
