@@ -957,8 +957,8 @@ function setupMobileMarquee() {
             const items = Array.from(container.querySelectorAll('.promo-item'));
             const totalItems = items.length;
             
-            // Duplicate items 3 times for seamless loop
-            for (let i = 0; i < 3; i++) {
+            // Duplicate items 5 times for seamless loop (more copies = smoother)
+            for (let i = 0; i < 5; i++) {
                 items.forEach(item => {
                     const clone = item.cloneNode(true);
                     container.appendChild(clone);
@@ -967,7 +967,7 @@ function setupMobileMarquee() {
             
             // Add staggered animation delays
             const allItems = container.querySelectorAll('.promo-item');
-            const delayPerItem = 3.75 / totalItems; // Animation duration / number of unique items
+            const delayPerItem = 10 / totalItems; // Animation duration / number of unique items
             
             allItems.forEach((item, index) => {
                 const delay = -(index % totalItems) * delayPerItem;
