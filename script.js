@@ -964,7 +964,10 @@ function setupMobileMarquee() {
             const wrapper = document.createElement('div');
             wrapper.style.display = 'flex';
             wrapper.style.flexWrap = 'nowrap';
-            wrapper.style.animation = 'scroll-marquee 20s linear infinite';
+            wrapper.style.animation = 'scroll-marquee 30s linear infinite';
+            wrapper.style.willChange = 'transform';
+            wrapper.style.backfaceVisibility = 'hidden';
+            wrapper.style.perspective = '1000px';
             
             // Add original items to wrapper and duplicate them many times for seamless loop
             // Using 20 sets ensures there's always content visible during loop

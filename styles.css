@@ -1718,6 +1718,8 @@ section {
         margin-right: calc(-50vw + 50%) !important;
         flex-direction: row !important;
         flex-wrap: nowrap !important;
+        will-change: transform !important;
+        backface-visibility: hidden !important;
     }
     
     .header-promo .promo-item,
@@ -1750,11 +1752,11 @@ section {
     }
     
     @keyframes scroll-marquee {
-        0% {
-            transform: translateX(0);
+        from {
+            transform: translate3d(0, 0, 0);
         }
-        100% {
-            transform: translateX(-5%);
+        to {
+            transform: translate3d(-5%, 0, 0);
         }
     }
     
