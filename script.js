@@ -949,12 +949,41 @@ function validateForm(form) {
     return isValid;
 }
 
+// Duplicate promo items for seamless marquee on mobile
+function setupMobileMarquee() {
+    if (window.innerWidth <= 768) {
+        const promoContainers = document.querySelectorAll('.header-promo, .promo-banner');
+        promoContainers.forEach(container => {
+            const items = Array.from(container.querySelectorAll('.promo-item'));
+            const totalItems = items.length;
+            
+            // Duplicate items 3 times for seamless loop
+            for (let i = 0; i < 3; i++) {
+                items.forEach(item => {
+                    const clone = item.cloneNode(true);
+                    container.appendChild(clone);
+                });
+            }
+            
+            // Add staggered animation delays
+            const allItems = container.querySelectorAll('.promo-item');
+            const delayPerItem = 7.5 / totalItems; // Animation duration / number of unique items
+            
+            allItems.forEach((item, index) => {
+                const delay = -(index % totalItems) * delayPerItem;
+                item.style.animationDelay = `${delay}s`;
+            });
+        });
+    }
+}
+
 // Initialize cart, search, and reviews when DOM is loaded
 let cart, productSearch, reviewSystem;
 document.addEventListener('DOMContentLoaded', () => {
     cart = new ShoppingCart();
     productSearch = new ProductSearch();
     reviewSystem = new ReviewSystem();
+    setupMobileMarquee();
 });
 
 // Add to cart functionality for product cards

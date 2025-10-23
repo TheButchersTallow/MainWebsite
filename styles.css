@@ -1700,7 +1700,7 @@ section {
     
     /* Force header-top to not add extra background on mobile */
     .header-top {
-        background: #3b2814 !important;
+        background: linear-gradient(90deg, rgba(245, 230, 211, 0.98), rgba(222, 184, 135, 0.98)) !important;
         padding: 0 !important;
         border: none !important;
     }
@@ -1710,10 +1710,12 @@ section {
     .promo-banner {
         overflow: hidden !important;
         position: relative;
-        background-color: #3b2814 !important;
+        background: linear-gradient(90deg, rgba(245, 230, 211, 0.98), rgba(222, 184, 135, 0.98)) !important;
         padding: 10px 0 !important;
         display: flex !important;
-        width: 100% !important;
+        width: 100vw !important;
+        margin-left: calc(-50vw + 50%) !important;
+        margin-right: calc(-50vw + 50%) !important;
         flex-direction: row !important;
         flex-wrap: nowrap !important;
     }
@@ -1753,29 +1755,15 @@ section {
             transform: translateX(0);
         }
         100% {
-            transform: translateX(-100%);
+            transform: translateX(-25%);
         }
-    }
-    
-    /* Duplicate items for seamless loop */
-    .header-promo .promo-item:nth-child(1),
-    .promo-banner .promo-item:nth-child(1) {
-        animation-delay: 0s;
-    }
-    .header-promo .promo-item:nth-child(2),
-    .promo-banner .promo-item:nth-child(2) {
-        animation-delay: -10s;
-    }
-    .header-promo .promo-item:nth-child(3),
-    .promo-banner .promo-item:nth-child(3) {
-        animation-delay: -20s;
     }
     
     /* Keep header the same on ALL pages including product pages */
     .product-hero .header-promo {
         overflow: hidden;
         position: relative;
-        background-color: #3b2814;
+        background: linear-gradient(90deg, rgba(245, 230, 211, 0.98), rgba(222, 184, 135, 0.98));
         padding: 10px 0;
         display: flex;
         width: 100%;
