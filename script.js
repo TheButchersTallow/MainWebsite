@@ -590,15 +590,15 @@ mobileMenuBtn.addEventListener('click', () => {
     });
 }
 
-// Close mobile menu when clicking on overlay (but not on menu itself)
-if (mobileMenuOverlay) {
-    mobileMenuOverlay.addEventListener('click', function(e) {
-        // Only close if clicking directly on overlay, not if click came from menu
-        if (e.target === mobileMenuOverlay) {
+// Close mobile menu when clicking outside the menu
+document.addEventListener('click', function(e) {
+    if (navMenu && navMenu.classList.contains('active')) {
+        // Check if click is outside the menu and not on the menu button
+        if (!navMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
             closeMobileMenu();
         }
-    });
-}
+    }
+});
 
 // Mobile Dropdown Toggle
 function setupMobileDropdowns() {
