@@ -967,7 +967,7 @@ function setupMobileMarquee() {
             
             // Add staggered animation delays
             const allItems = container.querySelectorAll('.promo-item');
-            const delayPerItem = 7.5 / totalItems; // Animation duration / number of unique items
+            const delayPerItem = 3.75 / totalItems; // Animation duration / number of unique items
             
             allItems.forEach((item, index) => {
                 const delay = -(index % totalItems) * delayPerItem;

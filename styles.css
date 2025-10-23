@@ -1727,7 +1727,7 @@ section {
         gap: 8px !important;
         padding: 0 30px !important;
         white-space: nowrap !important;
-        animation: scroll-marquee 7.5s linear infinite !important;
+        animation: scroll-marquee 3.75s linear infinite !important;
         flex-shrink: 0 !important;
         flex: none !important;
     }
@@ -1776,7 +1776,7 @@ section {
         gap: 8px;
         padding: 0 30px;
         white-space: nowrap;
-        animation: scroll-marquee 7.5s linear infinite;
+        animation: scroll-marquee 3.75s linear infinite;
         flex-shrink: 0;
     }
     
@@ -2026,7 +2026,7 @@ section {
         gap: 8px;
         padding: 0 30px;
         white-space: nowrap;
-        animation: scroll-marquee 7.5s linear infinite;
+        animation: scroll-marquee 3.75s linear infinite;
         flex-shrink: 0;
     }
     
