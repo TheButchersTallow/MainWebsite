@@ -957,20 +957,22 @@ function setupMobileMarquee() {
             const items = Array.from(container.querySelectorAll('.promo-item'));
             const totalItems = items.length;
             
-            // Duplicate items 5 times for seamless loop (more copies = smoother)
-            for (let i = 0; i < 5; i++) {
+            // Duplicate items 4 times for seamless loop
+            for (let i = 0; i < 4; i++) {
                 items.forEach(item => {
                     const clone = item.cloneNode(true);
                     container.appendChild(clone);
                 });
             }
             
-            // Add staggered animation delays
+            // Add staggered animation delays so items appear in sequence
             const allItems = container.querySelectorAll('.promo-item');
-            const delayPerItem = 10 / totalItems; // Animation duration / number of unique items
+            const animationDuration = 5; // Match CSS animation duration
+            const delayPerItem = animationDuration / totalItems; // 5s / 3 items = ~1.67s between items
             
             allItems.forEach((item, index) => {
-                const delay = -(index % totalItems) * delayPerItem;
+                const itemPosition = index % totalItems;
+                const delay = -itemPosition * delayPerItem;
                 item.style.animationDelay = `${delay}s`;
             });
         });
