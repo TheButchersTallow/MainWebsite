@@ -632,8 +632,8 @@ function setupMobileDropdowns() {
             setTimeout(() => {
                 closeMobileMenu();
             }, 100);
+        });
     });
-});
     
     // Handle regular nav links (non-dropdown, close menu)
     const regularNavLinks = document.querySelectorAll('.nav-menu > .nav-list > .nav-item:not(.dropdown) > .nav-link');
