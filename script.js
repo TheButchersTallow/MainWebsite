@@ -597,6 +597,13 @@ if (mobileMenuOverlay) {
 
 // Mobile Dropdown Toggle
 function setupMobileDropdowns() {
+    // Prevent clicks on the menu from bubbling to overlay
+    if (navMenu) {
+        navMenu.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+    }
+    
     // Handle dropdown parent links (toggle dropdown)
     const dropdownParents = document.querySelectorAll('.nav-menu .dropdown > .nav-link');
     
@@ -622,9 +629,6 @@ function setupMobileDropdowns() {
             }
         });
     });
-    
-    // Dropdown child links and regular nav links navigate naturally
-    // No event listeners needed - menu resets on page load
 }
 
 // Initialize mobile dropdowns when DOM is ready
