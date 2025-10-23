@@ -1754,7 +1754,7 @@ section {
             transform: translateX(0);
         }
         100% {
-            transform: translateX(-12.5%);
+            transform: translateX(-5%);
         }
     }
     
