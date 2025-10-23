@@ -954,15 +954,29 @@ function setupMobileMarquee() {
     if (window.innerWidth <= 768) {
         const promoContainers = document.querySelectorAll('.header-promo, .promo-banner');
         promoContainers.forEach(container => {
+            // Get all original items
             const items = Array.from(container.querySelectorAll('.promo-item'));
             
-            // Duplicate items many times for truly seamless loop
-            for (let i = 0; i < 10; i++) {
+            // Clear the container
+            container.innerHTML = '';
+            
+            // Create a wrapper div that will animate
+            const wrapper = document.createElement('div');
+            wrapper.style.display = 'flex';
+            wrapper.style.flexWrap = 'nowrap';
+            wrapper.style.animation = 'scroll-marquee 20s linear infinite';
+            
+            // Add original items to wrapper and duplicate them 3 times
+            for (let i = 0; i < 4; i++) {
                 items.forEach(item => {
                     const clone = item.cloneNode(true);
-                    container.appendChild(clone);
+                    clone.style.animation = 'none'; // Remove individual animation
+                    wrapper.appendChild(clone);
                 });
             }
+            
+            // Add wrapper to container
+            container.appendChild(wrapper);
         });
     }
 }
