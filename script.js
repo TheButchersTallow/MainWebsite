@@ -590,20 +590,18 @@ mobileMenuBtn.addEventListener('click', () => {
     });
 }
 
-// Close mobile menu when clicking on overlay
+// Close mobile menu when clicking on overlay (but not on menu itself)
 if (mobileMenuOverlay) {
-    mobileMenuOverlay.addEventListener('click', closeMobileMenu);
+    mobileMenuOverlay.addEventListener('click', function(e) {
+        // Only close if clicking directly on overlay, not if click came from menu
+        if (e.target === mobileMenuOverlay) {
+            closeMobileMenu();
+        }
+    });
 }
 
 // Mobile Dropdown Toggle
 function setupMobileDropdowns() {
-    // Prevent clicks on the menu from bubbling to overlay
-    if (navMenu) {
-        navMenu.addEventListener('click', function(e) {
-            e.stopPropagation();
-        });
-    }
-    
     // Handle dropdown parent links (toggle dropdown)
     const dropdownParents = document.querySelectorAll('.nav-menu .dropdown > .nav-link');
     
@@ -612,7 +610,6 @@ function setupMobileDropdowns() {
             // Only toggle on mobile
             if (window.innerWidth <= 768) {
                 e.preventDefault();
-                e.stopPropagation();
                 
                 const dropdown = this.parentElement;
                 const isActive = dropdown.classList.contains('active');
