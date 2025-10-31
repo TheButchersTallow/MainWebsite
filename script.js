@@ -1214,7 +1214,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else if (scentSelector) {
                     variantId = scentSelector.value;
                 }
-                console.log('📍 Detected variant from selectors:', variantId);
+                
+                // If still no variant, check if product has a default/single variant
+                if (!variantId && productId && SHOPIFY_CONFIG.products[productId]) {
+                    const productVariants = Object.keys(SHOPIFY_CONFIG.products[productId].variants);
+                    if (productVariants.length === 1) {
+                        variantId = productVariants[0];
+                        console.log('📍 Using default variant for single-variant product:', variantId);
+                    }
+                }
+                
+                if (variantId) {
+                    console.log('📍 Detected variant from selectors:', variantId);
+                }
             }
             
             // Get quantity from product page input if it exists
