@@ -1845,6 +1845,15 @@ section {
         z-index: 1001 !important;
     }
     
+    /* Smaller logo on shop-all page for mobile */
+    body.shop-page .logo-img {
+        height: 50px !important;
+        max-width: 200px !important;
+        margin: -3px 0 !important;
+        position: relative !important;
+        z-index: 1001 !important;
+    }
+    
     .navbar {
         padding: 0;
     }
@@ -2078,6 +2087,15 @@ section {
     
     /* Smaller logo on product pages for very small screens */
     body.product-page .logo-img {
+        height: 50px !important;
+        max-width: 200px !important;
+        margin: -3px 0 !important;
+        position: relative !important;
+        z-index: 1001 !important;
+    }
+    
+    /* Smaller logo on shop-all page for very small screens */
+    body.shop-page .logo-img {
         height: 50px !important;
         max-width: 200px !important;
         margin: -3px 0 !important;
