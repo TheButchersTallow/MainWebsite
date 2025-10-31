@@ -1027,22 +1027,60 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Add Shopify button listeners at document level (so they always work)
     console.log('📦 Setting up Shopify cart buttons...');
-    const addToCartBtns = document.querySelectorAll('.shopify-add-to-cart');
-    console.log(`Found ${addToCartBtns.length} add-to-cart buttons`);
+    const addToCartBtns = document.querySelectorAll('.shopify-add-to-cart, .add-to-cart-btn');
+    console.log(`Found ${addToCartBtns.length} add-to-cart buttons (home + product pages)`);
     
     addToCartBtns.forEach(btn => {
         btn.addEventListener('click', (e) => {
             e.preventDefault();
-            const productId = e.target.getAttribute('data-product-id');
-            const variantId = e.target.getAttribute('data-variant-id');
+            e.stopPropagation();
             
-            console.log('🛒 Add to Cart clicked:', { productId, variantId });
+            // Try to get product data from button attributes or from selectors on page
+            let productId = e.target.getAttribute('data-product-id');
+            let variantId = e.target.getAttribute('data-variant-id');
             
-            if (shopifyIntegration) {
+            // If not on button, try to find from page (for product detail pages)
+            if (!productId) {
+                // Get product ID from URL and map to config ID
+                const urlParts = window.location.pathname.split('/');
+                const pageName = urlParts[urlParts.length - 1].replace('.html', '');
+                
+                // Map URL names to config product IDs
+                const urlToProductMap = {
+                    'lip-balm': 'tallow-lip-balm',
+                    'all-purpose-tallow': 'pure-beef-tallow',
+                    'whipped-balm': 'whipped-tallow-balm',
+                    'beard-balm': 'beard-balm',
+                    'leather-conditioner': 'leather-conditioner'
+                };
+                
+                productId = urlToProductMap[pageName] || pageName;
+                console.log('📍 Detected product from URL:', pageName, '→', productId);
+            }
+            
+            // Get variant from selectors if not in button
+            if (!variantId) {
+                const sizeSelector = document.getElementById('size-select') || document.getElementById('whipped-balm-size');
+                const scentSelector = document.getElementById('scent-select') || document.getElementById('whipped-balm-scent');
+                
+                if (sizeSelector && scentSelector) {
+                    // Combined variant (e.g., whipped balm)
+                    variantId = `${sizeSelector.value}-${scentSelector.value}`;
+                } else if (sizeSelector) {
+                    variantId = sizeSelector.value;
+                } else if (scentSelector) {
+                    variantId = scentSelector.value;
+                }
+                console.log('📍 Detected variant from selectors:', variantId);
+            }
+            
+            console.log('🛒 Add to Cart clicked:', { productId, variantId, button: e.target.className });
+            
+            if (shopifyIntegration && productId && variantId) {
                 console.log('✅ Using Shopify integration');
                 shopifyIntegration.addToCart(productId, variantId);
             } else {
-                console.log('❌ Shopify integration not available');
+                console.log('❌ Missing data:', { shopifyIntegration: !!shopifyIntegration, productId, variantId });
             }
         });
     });
