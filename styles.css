@@ -222,6 +222,18 @@ body.product-page header .logo-img {
     z-index: 1001 !important;
 }
 
+/* Smaller logo on shop-all page */
+body.shop-page .logo-img,
+body.shop-page .nav-brand .logo-img,
+body.shop-page header .logo-img {
+    height: 100px !important;
+    max-width: 400px !important;
+    margin: -10px 0 !important;
+    width: auto !important;
+    position: relative !important;
+    z-index: 1001 !important;
+}
+
 .logo-text {
     font-family: 'Crimson Text', serif;
     font-size: 1.8rem;
