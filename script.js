@@ -16,6 +16,7 @@ class ShopifyIntegration {
         try {
             // Initialize Shopify client (when you have your store set up)
             if (window.ShopifyBuy) {
+                console.log('Initializing Shopify with domain:', this.storeDomain);
                 this.client = ShopifyBuy.buildClient({
                     domain: this.storeDomain,
                     storefrontAccessToken: this.apiKey
@@ -25,10 +26,13 @@ class ShopifyIntegration {
                 this.cart = await this.client.checkout.create();
                 this.isInitialized = true;
                 
-                console.log('Shopify client initialized successfully');
+                console.log('✅ Shopify client initialized successfully', this.cart);
+            } else {
+                console.log('❌ ShopifyBuy SDK not loaded');
             }
         } catch (error) {
-            console.log('Shopify not yet configured, using local cart functionality');
+            console.error('❌ Shopify initialization error:', error);
+            console.log('Using local cart functionality as fallback');
             this.isInitialized = false;
         }
     }
@@ -726,7 +730,7 @@ class ShoppingCart {
                 // Combine selected values (e.g., "1.35oz-unscented")
                 let combinedVariantId = '';
                 allSelectors.forEach((sel, index) => {
-                    const selectedOption = sel.options[sel.selectedновниndex];
+                    const selectedOption = sel.options[sel.selectedIndex];
                     const variantPart = selectedOption.getAttribute('data-variant-id');
                     if (variantPart) {
                         if (combinedVariantId) {
