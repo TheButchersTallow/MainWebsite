@@ -317,6 +317,30 @@
         </div>
     </footer>
 
+    <!-- Shopping Cart Modal -->
+    <div class="cart-modal" id="cart-modal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h3>Shopping Cart</h3>
+                <button class="close-cart" id="close-cart">&times;</button>
+            </div>
+            <div class="cart-items" id="cart-items">
+                <!-- Cart items will be populated here -->
+            </div>
+            <div class="cart-footer">
+                <div class="cart-total">
+                    <strong>Total: $<span id="cart-total">0.00</span></strong>
+                </div>
+                <button class="btn btn-primary shopify-checkout-btn" id="shopify-checkout">
+                    Checkout with Shopify
+                </button>
+                <button class="btn btn-secondary" id="continue-shopping">
+                    Continue Shopping
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Include main scripts -->
     <script src="../shopify-config.js"></script>
     <script src="../script.js"></script>
@@ -417,21 +441,8 @@
                 });
             }
             
-            // Add to cart functionality
-            if (addToCartBtn) {
-                addToCartBtn.addEventListener('click', function() {
-                    const quantity = quantityInput.value;
-                    const scent = document.getElementById('scent-select').value;
-                    const price = 8.00;
-                    
-                    // Use cart system if available
-                    if (window.cart) {
-                        window.cart.addToCart('tallow-lip-balm');
-                    } else {
-                        alert(`Added ${quantity} x Tallow Lip Balm (${scent}) to cart! Total: $${(price * parseInt(quantity)).toFixed(2)}`);
-                    }
-                });
-            }
+            // Add to cart functionality is now handled centrally in script.js
+            // No need for duplicate event listeners here
             
             // Tab functionality
             const tabBtns = document.querySelectorAll('.tab-btn');
