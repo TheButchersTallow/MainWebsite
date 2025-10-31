@@ -1217,11 +1217,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log('📍 Detected variant from selectors:', variantId);
             }
             
-            console.log('🛒 Add to Cart clicked:', { productId, variantId, button: e.target.className });
+            // Get quantity from product page input if it exists
+            let quantity = 1;
+            const quantityInput = document.getElementById('quantity');
+            if (quantityInput) {
+                quantity = parseInt(quantityInput.value) || 1;
+                console.log('📍 Detected quantity from input:', quantity);
+            }
+            
+            console.log('🛒 Add to Cart clicked:', { productId, variantId, quantity, button: e.target.className });
             
             if (shopifyIntegration && productId && variantId) {
                 console.log('✅ Using Shopify integration');
-                shopifyIntegration.addToCart(productId, variantId);
+                shopifyIntegration.addToCart(productId, variantId, quantity);
             } else {
                 console.log('❌ Missing data:', { shopifyIntegration: !!shopifyIntegration, productId, variantId });
             }
