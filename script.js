@@ -51,9 +51,14 @@ class ShopifyIntegration {
         // Update cart count and display
         this.updateCartCount();
         
+        console.log('🔍 Checking for window.cart:', typeof window.cart, window.cart);
+        
         // Update the cart display if it exists
         if (window.cart) {
-            cart.updateCartDisplay();
+            console.log('✅ window.cart exists, calling updateCartDisplay()');
+            window.cart.updateCartDisplay();
+        } else {
+            console.error('❌ window.cart does NOT exist!');
         }
         
         this.showSuccessMessage('Product added to cart!');
@@ -1114,6 +1119,7 @@ function setupMobileMarquee() {
 let cart, productSearch, reviewSystem;
 document.addEventListener('DOMContentLoaded', () => {
     cart = new ShoppingCart();
+    window.cart = cart;  // Make cart accessible globally
     productSearch = new ProductSearch();
     reviewSystem = new ReviewSystem();
     setupMobileMarquee();
