@@ -35,13 +35,14 @@ class ShopifyIntegration {
         console.log('Adding to cart:', productId, variantId, '→', numericVariantId);
         
         // Add to local cart array
-        const existingItem = this.localCart.find(item => item.variantId === numericVariantId);
+        const existingItem = this.localCart.find(item => item.shopifyVariantId === numericVariantId);
         if (existingItem) {
             existingItem.quantity += quantity;
         } else {
             this.localCart.push({
                 productId,
-                variantId: numericVariantId,
+                variantId,  // Original variant ID like "citrus"
+                shopifyVariantId: numericVariantId,  // Shopify numeric ID
                 quantity,
                 name: this.getProductName(productId, variantId)
             });
@@ -144,7 +145,7 @@ class ShopifyIntegration {
         try {
             // Build Shopify checkout URL
             // Format: https://STORE_DOMAIN/cart/VARIANT_ID:QUANTITY,VARIANT_ID:QUANTITY
-            const cartItems = this.localCart.map(item => `${item.variantId}:${item.quantity}`).join(',');
+            const cartItems = this.localCart.map(item => `${item.shopifyVariantId}:${item.quantity}`).join(',');
             const checkoutUrl = `https://${this.storeDomain}/cart/${cartItems}`;
             
             console.log('Redirecting to checkout:', checkoutUrl);
@@ -879,6 +880,8 @@ class ShoppingCart {
         // Get items from Shopify integration instead of local items
         const cartItems = shopifyIntegration ? shopifyIntegration.localCart : this.items;
         
+        console.log('🔄 Updating cart display with', cartItems.length, 'items:', cartItems);
+        
         // Update cart count
         const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
         if (this.cartCount) {
@@ -895,7 +898,9 @@ class ShoppingCart {
         } else {
             cartItems.forEach((item, index) => {
                 // Get product details for display
+                console.log('📦 Displaying cart item:', item);
                 const productInfo = this.getProductDetails(item.productId, item.variantId);
+                console.log('📦 Product info:', productInfo);
                 
                 const cartItem = document.createElement('div');
                 cartItem.className = 'cart-item';
