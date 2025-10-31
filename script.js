@@ -13,38 +13,10 @@ class ShopifyIntegration {
     }
     
     async init() {
-        // Wait for ShopifyBuy SDK to load
-        const maxWait = 50; // 5 seconds max
-        let attempts = 0;
-        
-        while (!window.ShopifyBuy && attempts < maxWait) {
-            await new Promise(resolve => setTimeout(resolve, 100));
-            attempts++;
-        }
-        
-        try {
-            // Initialize Shopify client (when you have your store set up)
-            if (window.ShopifyBuy) {
-                console.log('Initializing Shopify with domain:', this.storeDomain);
-                this.client = ShopifyBuy.buildClient({
-                    domain: this.storeDomain,
-                    storefrontAccessToken: this.apiKey
-                });
-                
-                // Create cart
-                this.cart = await this.client.checkout.create();
-                this.isInitialized = true;
-                
-                console.log('✅ Shopify client initialized successfully');
-                console.log('Cart ID:', this.cart.id);
-            } else {
-                console.log('❌ ShopifyBuy SDK not loaded after waiting');
-            }
-        } catch (error) {
-            console.error('❌ Shopify initialization error:', error);
-            console.log('Using local cart functionality as fallback');
-            this.isInitialized = false;
-        }
+        // Simplified approach: Use direct Shopify checkout URLs instead of SDK
+        console.log('✅ Shopify integration ready (using direct checkout URLs)');
+        this.isInitialized = true;
+        this.localCart = []; // Store cart items locally
     }
     
     async addToCart(productId, variantId, quantity = 1) {
@@ -53,34 +25,33 @@ class ShopifyIntegration {
         
         if (!shopifyVariantId) {
             console.error('Variant ID not found in config for:', productId, variantId);
-            // Fallback to local cart
-            return this.addToLocalCart(productId, variantId, quantity);
+            this.showErrorMessage('Product variant not found');
+            return;
         }
         
-        if (!this.isInitialized) {
-            // Fallback to local cart functionality
-            return this.addToLocalCart(productId, variantId, quantity);
+        // Extract just the numeric ID from the Shopify GID
+        const numericVariantId = shopifyVariantId.split('/').pop();
+        
+        console.log('Adding to cart:', productId, variantId, '→', numericVariantId);
+        
+        // Add to local cart array
+        const existingItem = this.localCart.find(item => item.variantId === numericVariantId);
+        if (existingItem) {
+            existingItem.quantity += quantity;
+        } else {
+            this.localCart.push({
+                productId,
+                variantId: numericVariantId,
+                quantity,
+                name: this.getProductName(productId, variantId)
+            });
         }
         
-        try {
-            const lineItemsToAdd = [{
-                variantId: shopifyVariantId,
-                quantity: quantity
-            }];
-            
-            this.cart = await this.client.checkout.addLineItems(this.cart.id, lineItemsToAdd);
-            
-            // Update UI
-            this.updateCartUI();
-            this.showSuccessMessage('Product added to cart!');
-            
-            return this.cart;
-        } catch (error) {
-            console.error('Error adding to cart:', error);
-            this.showErrorMessage('Error adding product to cart');
-            // Fallback to local cart
-            return this.addToLocalCart(productId, variantId, quantity);
-        }
+        // Update cart count
+        this.updateCartCount();
+        this.showSuccessMessage('Product added to cart!');
+        
+        return true;
     }
     
     getShopifyVariantId(productId, variantId) {
@@ -92,6 +63,25 @@ class ShopifyIntegration {
         
         const variantConfig = productConfig.variants[variantId];
         return variantConfig || null;
+    }
+    
+    getProductName(productId, variantId) {
+        const names = {
+            'tallow-lip-balm': 'Tallow Lip Balm',
+            'pure-beef-tallow': 'Pure Suet Beef Tallow',
+            'whipped-tallow-balm': 'Whipped Tallow Balm',
+            'beard-balm': 'Tallow Beard Balm',
+            'leather-conditioner': 'Tallow Leather Conditioner'
+        };
+        return names[productId] || 'Product';
+    }
+    
+    updateCartCount() {
+        const totalItems = this.localCart.reduce((sum, item) => sum + item.quantity, 0);
+        const cartCountEl = document.getElementById('cart-count');
+        if (cartCountEl) {
+            cartCountEl.textContent = totalItems;
+        }
     }
     
     addToLocalCart(productId, variantId, quantity = 1) {
@@ -111,15 +101,21 @@ class ShopifyIntegration {
     }
     
     async checkout() {
-        if (!this.isInitialized) {
-            // Redirect to Shopify checkout or show message
-            this.showCheckoutMessage();
+        if (this.localCart.length === 0) {
+            this.showErrorMessage('Your cart is empty');
             return;
         }
         
         try {
+            // Build Shopify checkout URL
+            // Format: https://STORE_DOMAIN/cart/VARIANT_ID:QUANTITY,VARIANT_ID:QUANTITY
+            const cartItems = this.localCart.map(item => `${item.variantId}:${item.quantity}`).join(',');
+            const checkoutUrl = `https://${this.storeDomain}/cart/${cartItems}`;
+            
+            console.log('Redirecting to checkout:', checkoutUrl);
+            
             // Redirect to Shopify checkout
-            window.location.href = this.cart.webUrl;
+            window.location.href = checkoutUrl;
         } catch (error) {
             console.error('Error during checkout:', error);
             this.showErrorMessage('Error during checkout');
