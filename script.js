@@ -82,6 +82,9 @@ class ShopifyIntegration {
             });
         }
         
+        // Save to localStorage
+        this.saveCartToStorage();
+        
         // Update cart count and display
         this.updateCartCount();
         
@@ -142,6 +145,9 @@ class ShopifyIntegration {
                 this.localCart.splice(index, 1);
             }
             
+            // Save to localStorage
+            this.saveCartToStorage();
+            
             this.updateCartCount();
             if (window.cart) {
                 cart.updateCartDisplay();
@@ -152,6 +158,10 @@ class ShopifyIntegration {
     removeFromCart(index) {
         if (this.localCart[index]) {
             this.localCart.splice(index, 1);
+            
+            // Save to localStorage
+            this.saveCartToStorage();
+            
             this.updateCartCount();
             if (window.cart) {
                 cart.updateCartDisplay();
