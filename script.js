@@ -87,6 +87,32 @@ class ShopifyIntegration {
         }
     }
     
+    updateCartQuantity(index, change) {
+        if (this.localCart[index]) {
+            this.localCart[index].quantity += change;
+            
+            // Remove if quantity is 0 or less
+            if (this.localCart[index].quantity <= 0) {
+                this.localCart.splice(index, 1);
+            }
+            
+            this.updateCartCount();
+            if (window.cart) {
+                cart.updateCartDisplay();
+            }
+        }
+    }
+    
+    removeFromCart(index) {
+        if (this.localCart[index]) {
+            this.localCart.splice(index, 1);
+            this.updateCartCount();
+            if (window.cart) {
+                cart.updateCartDisplay();
+            }
+        }
+    }
+    
     addToLocalCart(productId, variantId, quantity = 1) {
         // Fallback local cart functionality
         const productData = this.getProductData(productId);
@@ -758,6 +784,14 @@ class ShoppingCart {
             });
         }
         
+        // Continue shopping button
+        const continueShoppingBtn = document.getElementById('continue-shopping');
+        if (continueShoppingBtn) {
+            continueShoppingBtn.addEventListener('click', () => {
+                this.closeCartModal();
+            });
+        }
+        
         this.updateCartDisplay();
     }
     
@@ -780,6 +814,44 @@ class ShoppingCart {
         this.showAddedToCartMessage(product.name);
     }
     
+    getProductDetails(productId, variantId) {
+        // Map of product images
+        const productImages = {
+            'tallow-lip-balm': 'assets/lip balm 4 pack.jpg',
+            'pure-beef-tallow': 'assets/3 sizes of tallow.jpg',
+            'whipped-tallow-balm': 'assets/3 kinds of whipped tallow balm.jpg',
+            'beard-balm': 'assets/tallow beard balm front.jpg',
+            'leather-conditioner': 'assets/tallow leather conditioner front.jpg'
+        };
+        
+        // Map of prices for each variant
+        const prices = {
+            'tallow-lip-balm': { 'citrus': 8.00, 'vanilla-cinnamon': 8.00, 'peppermint': 8.00, 'unscented': 8.00 },
+            'pure-beef-tallow': { 'small': 10.00, 'medium': 15.00, 'large': 25.00 },
+            'whipped-tallow-balm': {
+                '1.35oz-unscented': 25.00, '1.35oz-citrus': 25.00, '1.35oz-frankincense-lavender': 25.00,
+                '2.5oz-unscented': 35.00, '2.5oz-citrus': 35.00, '2.5oz-frankincense-lavender': 35.00
+            },
+            'beard-balm': { 'beard-balm': 15.00 },
+            'leather-conditioner': { 'leather-conditioner': 15.00 }
+        };
+        
+        // Format variant name for display
+        const formatVariant = (productId, variantId) => {
+            if (productId === 'whipped-tallow-balm') {
+                const [size, scent] = variantId.split('-');
+                return `${size.toUpperCase()} - ${scent.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}`;
+            }
+            return variantId.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+        };
+        
+        const price = prices[productId] ? (prices[productId][variantId] || 0) : 0;
+        const image = productImages[productId] || 'assets/placeholder.jpg';
+        const variant = formatVariant(productId, variantId);
+        
+        return { price, image, variant };
+    }
+    
     getProductInfo(productName) {
         const products = {
             'lip-balm': {
@@ -798,8 +870,11 @@ class ShoppingCart {
     }
     
     updateCartDisplay() {
+        // Get items from Shopify integration instead of local items
+        const cartItems = shopifyIntegration ? shopifyIntegration.localCart : this.items;
+        
         // Update cart count
-        const totalItems = this.items.reduce((sum, item) => sum + item.quantity, 0);
+        const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
         if (this.cartCount) {
             this.cartCount.textContent = totalItems;
         }
@@ -809,10 +884,13 @@ class ShoppingCart {
         
         this.cartItems.innerHTML = '';
         
-        if (this.items.length === 0) {
+        if (cartItems.length === 0) {
             this.cartItems.innerHTML = '<p style="text-align: center; color: #666; padding: 20px;">Your cart is empty</p>';
         } else {
-            this.items.forEach(item => {
+            cartItems.forEach((item, index) => {
+                // Get product details for display
+                const productInfo = this.getProductDetails(item.productId, item.variantId);
+                
                 const cartItem = document.createElement('div');
                 cartItem.className = 'cart-item';
                 cartItem.style.cssText = `
@@ -824,16 +902,17 @@ class ShoppingCart {
                 `;
                 
                 cartItem.innerHTML = `
-                    <img src="${item.image}" alt="${item.name}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 5px;">
+                    <img src="${productInfo.image}" alt="${item.name}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 5px;">
                     <div style="flex: 1;">
                         <h4 style="margin: 0 0 5px 0; color: #3b2814;">${item.name}</h4>
-                        <p style="margin: 0; color: #666;">$${item.price.toFixed(2)} each</p>
+                        <p style="margin: 0; color: #666; font-size: 14px;">${productInfo.variant}</p>
+                        <p style="margin: 5px 0 0 0; color: #666; font-weight: 600;">$${productInfo.price.toFixed(2)}</p>
                     </div>
                     <div style="display: flex; align-items: center; gap: 10px;">
-                        <button onclick="cart.updateQuantity('${item.name}', -1)" style="background: none; border: 1px solid #ddd; width: 30px; height: 30px; border-radius: 50%; cursor: pointer;">-</button>
-                        <span style="font-weight: 600;">${item.quantity}</span>
-                        <button onclick="cart.updateQuantity('${item.name}', 1)" style="background: none; border: 1px solid #ddd; width: 30px; height: 30px; border-radius: 50%; cursor: pointer;">+</button>
-                        <button onclick="cart.removeItem('${item.name}')" style="background: none; border: none; color: #ff4444; cursor: pointer; margin-left: 10px;">×</button>
+                        <button onclick="shopifyIntegration.updateCartQuantity(${index}, -1)" style="background: none; border: 1px solid #ddd; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; font-size: 18px;">-</button>
+                        <span style="font-weight: 600; min-width: 30px; text-align: center;">${item.quantity}</span>
+                        <button onclick="shopifyIntegration.updateCartQuantity(${index}, 1)" style="background: none; border: 1px solid #ddd; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; font-size: 18px;">+</button>
+                        <button onclick="shopifyIntegration.removeFromCart(${index})" style="background: none; border: none; color: #ff4444; cursor: pointer; margin-left: 10px; font-size: 24px; font-weight: bold;">×</button>
                     </div>
                 `;
                 
@@ -841,8 +920,11 @@ class ShoppingCart {
             });
         }
         
-        // Update total
-        const total = this.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        // Calculate total from Shopify cart
+        const total = cartItems.reduce((sum, item) => {
+            const productInfo = this.getProductDetails(item.productId, item.variantId);
+            return sum + (productInfo.price * item.quantity);
+        }, 0);
         if (this.cartTotal) {
             this.cartTotal.textContent = total.toFixed(2);
         }
