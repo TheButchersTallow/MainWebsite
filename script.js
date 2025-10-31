@@ -680,15 +680,13 @@ class ShoppingCart {
         this.cartTotal = document.getElementById('cart-total');
         this.closeCart = document.getElementById('close-cart');
         
-        this.init();
+        // Only initialize if elements exist
+        if (this.cartBtn && this.closeCart && this.cartModal) {
+            this.init();
+        }
     }
     
     init() {
-        // Add null checks for cart elements
-        if (!this.cartBtn || !this.closeCart || !this.cartModal) {
-            console.error('Cart elements not found in DOM');
-            return;
-        }
         
         this.cartBtn.addEventListener('click', () => this.toggleCart());
         this.closeCart.addEventListener('click', () => this.closeCartModal());
@@ -825,9 +823,13 @@ class ShoppingCart {
     updateCartDisplay() {
         // Update cart count
         const totalItems = this.items.reduce((sum, item) => sum + item.quantity, 0);
-        this.cartCount.textContent = totalItems;
+        if (this.cartCount) {
+            this.cartCount.textContent = totalItems;
+        }
         
         // Update cart items display
+        if (!this.cartItems) return;
+        
         this.cartItems.innerHTML = '';
         
         if (this.items.length === 0) {
@@ -864,7 +866,9 @@ class ShoppingCart {
         
         // Update total
         const total = this.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-        this.cartTotal.textContent = total.toFixed(2);
+        if (this.cartTotal) {
+            this.cartTotal.textContent = total.toFixed(2);
+        }
     }
     
     updateQuantity(productName, change) {
@@ -885,11 +889,15 @@ class ShoppingCart {
     }
     
     toggleCart() {
-        this.cartModal.classList.toggle('active');
+        if (this.cartModal) {
+            this.cartModal.classList.toggle('active');
+        }
     }
     
     closeCartModal() {
-        this.cartModal.classList.remove('active');
+        if (this.cartModal) {
+            this.cartModal.classList.remove('active');
+        }
     }
     
     showAddedToCartMessage(productName) {
