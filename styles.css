@@ -210,6 +210,18 @@ body.home header .logo-img {
     z-index: 1001 !important;
 }
 
+/* Smaller logo on product pages */
+body.product-page .logo-img,
+body.product-page .nav-brand .logo-img,
+body.product-page header .logo-img {
+    height: 100px !important;
+    max-width: 400px !important;
+    margin: -10px 0 !important;
+    width: auto !important;
+    position: relative !important;
+    z-index: 1001 !important;
+}
+
 .logo-text {
     font-family: 'Crimson Text', serif;
     font-size: 1.8rem;
@@ -1812,6 +1824,15 @@ section {
         z-index: 1001 !important;
     }
     
+    /* Smaller logo on product pages for mobile */
+    body.product-page .logo-img {
+        height: 50px !important;
+        max-width: 200px !important;
+        margin: -3px 0 !important;
+        position: relative !important;
+        z-index: 1001 !important;
+    }
+    
     .navbar {
         padding: 0;
     }
@@ -2036,6 +2057,15 @@ section {
     
     /* Smaller logo on home page for very small screens */
     body.home .logo-img {
+        height: 50px !important;
+        max-width: 200px !important;
+        margin: -3px 0 !important;
+        position: relative !important;
+        z-index: 1001 !important;
+    }
+    
+    /* Smaller logo on product pages for very small screens */
+    body.product-page .logo-img {
         height: 50px !important;
         max-width: 200px !important;
         margin: -3px 0 !important;
