@@ -827,13 +827,13 @@ class ShoppingCart {
     }
     
     getProductDetails(productId, variantId) {
-        // Map of product images
+        // Map of product images (absolute paths starting with /)
         const productImages = {
-            'tallow-lip-balm': 'assets/lip balm 4 pack.jpg',
-            'pure-beef-tallow': 'assets/3 sizes of tallow.jpg',
-            'whipped-tallow-balm': 'assets/3 kinds of whipped tallow balm.jpg',
-            'beard-balm': 'assets/tallow beard balm front.jpg',
-            'leather-conditioner': 'assets/tallow leather conditioner front.jpg'
+            'tallow-lip-balm': '/assets/lip balm 4 pack.jpg',
+            'pure-beef-tallow': '/assets/3 sizes of tallow.jpg',
+            'whipped-tallow-balm': '/assets/3 kinds of whipped tallow balm.jpg',
+            'beard-balm': '/assets/tallow beard balm front.jpg',
+            'leather-conditioner': '/assets/tallow leather conditioner front.jpg'
         };
         
         // Map of prices for each variant
