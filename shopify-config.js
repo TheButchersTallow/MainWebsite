@@ -2,26 +2,50 @@
 // This file contains all the necessary configuration for Shopify integration
 
 const SHOPIFY_CONFIG = {
-    // Replace these with your actual Shopify store details
-    storeDomain: 'your-store-name.myshopify.com',
-    apiKey: 'your-storefront-access-token',
+    // Shopify store credentials
+    storeDomain: 'thebutcherstallow.myshopify.com',
+    apiKey: '344e4137c5e7959df36806b7685b1365',
     
     // Product Configuration
     products: {
         'tallow-lip-balm': {
-            shopifyProductId: 'gid://shopify/Product/YOUR_PRODUCT_ID',
+            shopifyProductId: 'gid://shopify/Product/8525085507734',
             variants: {
-                'vanilla-cinnamon': 'gid://shopify/ProductVariant/YOUR_VARIANT_ID',
-                'peppermint': 'gid://shopify/ProductVariant/YOUR_VARIANT_ID',
-                'orange-lemon': 'gid://shopify/ProductVariant/YOUR_VARIANT_ID',
-                'unscented': 'gid://shopify/ProductVariant/YOUR_VARIANT_ID'
+                'citrus': 'gid://shopify/ProductVariant/45765324996758',
+                'vanilla-cinnamon': 'gid://shopify/ProductVariant/45765325029526',
+                'peppermint': 'gid://shopify/ProductVariant/45765325062294',
+                'unscented': 'gid://shopify/ProductVariant/45765325095062'
             }
         },
         'pure-beef-tallow': {
-            shopifyProductId: 'gid://shopify/Product/YOUR_PRODUCT_ID',
+            shopifyProductId: 'gid://shopify/Product/8524951978134',
             variants: {
-                'dry-rendered': 'gid://shopify/ProductVariant/YOUR_VARIANT_ID',
-                'wet-rendered': 'gid://shopify/ProductVariant/YOUR_VARIANT_ID'
+                'small': 'gid://shopify/ProductVariant/45765127897238',
+                'medium': 'gid://shopify/ProductVariant/45765127930006',
+                'large': 'gid://shopify/ProductVariant/45765127962774'
+            }
+        },
+        'whipped-tallow-balm': {
+            shopifyProductId: 'gid://shopify/Product/8525908770966',
+            variants: {
+                '1.35oz-unscented': 'gid://shopify/ProductVariant/45768190427286',
+                '1.35oz-citrus': 'gid://shopify/ProductVariant/45768190394518',
+                '1.35oz-frankincense-lavender': 'gid://shopify/ProductVariant/45768190361750',
+                '2.5oz-unscented': 'gid://shopify/ProductVariant/45768190525590',
+                '2.5oz-citrus': 'gid://shopify/ProductVariant/45768190492822',
+                '2.5oz-frankincense-lavender': 'gid://shopify/ProductVariant/45768190460054'
+            }
+        },
+        'beard-balm': {
+            shopifyProductId: 'gid://shopify/Product/8525909524630',
+            variants: {
+                'beard-balm': 'gid://shopify/ProductVariant/45768196456598'
+            }
+        },
+        'leather-conditioner': {
+            shopifyProductId: 'gid://shopify/Product/8525909459094',
+            variants: {
+                'leather-conditioner': 'gid://shopify/ProductVariant/45768196063382'
             }
         }
     },

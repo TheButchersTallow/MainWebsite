@@ -2,8 +2,10 @@
 class ShopifyIntegration {
     constructor() {
         this.client = null;
-        this.storeDomain = 'your-store-name.myshopify.com'; // Replace with your actual store domain
-        this.apiKey = 'your-api-key'; // Replace with your actual API key
+        // Use configuration from shopify-config.js
+        this.storeDomain = SHOPIFY_CONFIG.storeDomain;
+        this.apiKey = SHOPIFY_CONFIG.apiKey;
+        this.config = SHOPIFY_CONFIG;
         this.cart = null;
         this.isInitialized = false;
         
@@ -32,6 +34,15 @@ class ShopifyIntegration {
     }
     
     async addToCart(productId, variantId, quantity = 1) {
+        // Get the actual Shopify variant ID from config
+        const shopifyVariantId = this.getShopifyVariantId(productId, variantId);
+        
+        if (!shopifyVariantId) {
+            console.error('Variant ID not found in config for:', productId, variantId);
+            // Fallback to local cart
+            return this.addToLocalCart(productId, variantId, quantity);
+        }
+        
         if (!this.isInitialized) {
             // Fallback to local cart functionality
             return this.addToLocalCart(productId, variantId, quantity);
@@ -39,7 +50,7 @@ class ShopifyIntegration {
         
         try {
             const lineItemsToAdd = [{
-                variantId: variantId,
+                variantId: shopifyVariantId,
                 quantity: quantity
             }];
             
@@ -53,7 +64,20 @@ class ShopifyIntegration {
         } catch (error) {
             console.error('Error adding to cart:', error);
             this.showErrorMessage('Error adding product to cart');
+            // Fallback to local cart
+            return this.addToLocalCart(productId, variantId, quantity);
         }
+    }
+    
+    getShopifyVariantId(productId, variantId) {
+        // Look up the variant ID from config
+        const productConfig = this.config.products[productId];
+        if (!productConfig) {
+            return null;
+        }
+        
+        const variantConfig = productConfig.variants[variantId];
+        return variantConfig || null;
     }
     
     addToLocalCart(productId, variantId, quantity = 1) {
@@ -686,20 +710,47 @@ class ShoppingCart {
             });
         });
         
-        // Variant selector changes
+        // Variant selector changes - handle multiple selectors (size + scent)
         const variantSelectors = document.querySelectorAll('.variant-selector');
         variantSelectors.forEach(selector => {
             selector.addEventListener('change', (e) => {
                 const productId = e.target.getAttribute('data-product');
-                const selectedOption = e.target.options[e.target.selectedIndex];
-                const variantId = selectedOption.getAttribute('data-variant-id');
-                
-                // Update the add to cart button
                 const productCard = e.target.closest('.product-card');
                 const addToCartBtn = productCard.querySelector('.shopify-add-to-cart');
                 
-                if (addToCartBtn) {
-                    addToCartBtn.setAttribute('data-variant-id', variantId);
+                if (!addToCartBtn) return;
+                
+                // Get all variant selectors for this product
+                const allSelectors = productCard.querySelectorAll('.variant-selector[data-product="' + productId + '"]');
+                
+                // Combine selected values (e.g., "1.35oz-unscented")
+                let combinedVariantId = '';
+                allSelectors.forEach((sel, index) => {
+                    const selectedOption = sel.options[sel.selectedновниndex];
+                    const variantPart = selectedOption.getAttribute('data-variant-id');
+                    if (variantPart) {
+                        if (combinedVariantId) {
+                            combinedVariantId += '-' + variantPart;
+                        } else {
+                            combinedVariantId = variantPart;
+                        }
+                    }
+                });
+                
+                // Update the add to cart button
+                if (combinedVariantId) {
+                    addToCartBtn.setAttribute('data-variant-id', combinedVariantId);
+                    
+                    // Update price if available
+                    const selectedOption = e.target.options[e.target.selectedIndex];
+                    const price = selectedOption.getAttribute('data-price');
+                    if (price) {
+                        const priceElement = productCard.querySelector('.product-price');
+                        if (priceElement) {
+                            priceElement.textContent = '$' + price;
+                            priceElement.setAttribute('data-price', price);
+                        }
+                    }
                 }
             });
         });
