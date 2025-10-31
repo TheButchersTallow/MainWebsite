@@ -81,6 +81,9 @@ class ShopifyIntegration {
         const cartCountEl = document.getElementById('cart-count');
         if (cartCountEl) {
             cartCountEl.textContent = totalItems;
+            console.log(`🔢 Cart count updated: ${totalItems}`);
+        } else {
+            console.error('❌ cart-count element not found');
         }
     }
     
@@ -698,38 +701,6 @@ class ShoppingCart {
             }
         });
         
-        // Add to cart buttons
-        const addToCartBtns = document.querySelectorAll('.shopify-add-to-cart');
-        console.log(`Found ${addToCartBtns.length} add-to-cart buttons`);
-        
-        addToCartBtns.forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const productId = e.target.getAttribute('data-product-id');
-                const variantId = e.target.getAttribute('data-variant-id');
-                
-                console.log('🛒 Add to Cart clicked:', { productId, variantId });
-                
-                // Add loading state
-                e.target.classList.add('loading');
-                e.target.disabled = true;
-                
-                // Use Shopify integration if available
-                if (shopifyIntegration) {
-                    console.log('Using Shopify integration...');
-                    shopifyIntegration.addToCart(productId, variantId).then(() => {
-                        e.target.classList.remove('loading');
-                        e.target.disabled = false;
-                    });
-                } else {
-                    console.log('❌ Shopify integration not found, using fallback');
-                    // Fallback to local cart
-                    this.addToCart(productId);
-                    e.target.classList.remove('loading');
-                    e.target.disabled = false;
-                }
-            });
-        });
-        
         // Variant selector changes - handle multiple selectors (size + scent)
         const variantSelectors = document.querySelectorAll('.variant-selector');
         variantSelectors.forEach(selector => {
@@ -1053,6 +1024,28 @@ document.addEventListener('DOMContentLoaded', () => {
     productSearch = new ProductSearch();
     reviewSystem = new ReviewSystem();
     setupMobileMarquee();
+    
+    // Add Shopify button listeners at document level (so they always work)
+    console.log('📦 Setting up Shopify cart buttons...');
+    const addToCartBtns = document.querySelectorAll('.shopify-add-to-cart');
+    console.log(`Found ${addToCartBtns.length} add-to-cart buttons`);
+    
+    addToCartBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const productId = e.target.getAttribute('data-product-id');
+            const variantId = e.target.getAttribute('data-variant-id');
+            
+            console.log('🛒 Add to Cart clicked:', { productId, variantId });
+            
+            if (shopifyIntegration) {
+                console.log('✅ Using Shopify integration');
+                shopifyIntegration.addToCart(productId, variantId);
+            } else {
+                console.log('❌ Shopify integration not available');
+            }
+        });
+    });
 });
 
 // Add to cart functionality for product cards
