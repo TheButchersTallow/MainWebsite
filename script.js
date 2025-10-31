@@ -16,7 +16,41 @@ class ShopifyIntegration {
         // Simplified approach: Use direct Shopify checkout URLs instead of SDK
         console.log('✅ Shopify integration ready (using direct checkout URLs)');
         this.isInitialized = true;
-        this.localCart = []; // Store cart items locally
+        
+        // Load cart from localStorage
+        this.loadCartFromStorage();
+        
+        // Update display if cart has items
+        if (this.localCart.length > 0) {
+            this.updateCartCount();
+            if (window.cart) {
+                window.cart.updateCartDisplay();
+            }
+        }
+    }
+    
+    loadCartFromStorage() {
+        try {
+            const savedCart = localStorage.getItem('shopifyCart');
+            if (savedCart) {
+                this.localCart = JSON.parse(savedCart);
+                console.log('🔄 Loaded cart from storage:', this.localCart.length, 'items');
+            } else {
+                this.localCart = [];
+            }
+        } catch (error) {
+            console.error('Error loading cart from storage:', error);
+            this.localCart = [];
+        }
+    }
+    
+    saveCartToStorage() {
+        try {
+            localStorage.setItem('shopifyCart', JSON.stringify(this.localCart));
+            console.log('💾 Saved cart to storage');
+        } catch (error) {
+            console.error('Error saving cart to storage:', error);
+        }
     }
     
     async addToCart(productId, variantId, quantity = 1) {
