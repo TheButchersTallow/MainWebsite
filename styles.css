@@ -196,6 +196,13 @@ p {
     margin: -35px 0;
 }
 
+/* Smaller logo on home page to prevent overlapping */
+body.home .logo-img {
+    height: 150px;
+    max-width: 600px;
+    margin: -25px 0;
+}
+
 .logo-text {
     font-family: 'Crimson Text', serif;
     font-size: 1.8rem;
@@ -1785,6 +1792,13 @@ section {
         height: 100px;
         max-width: 400px;
         margin: -10px 0;
+    }
+    
+    /* Smaller logo on home page for mobile */
+    body.home .logo-img {
+        height: 80px;
+        max-width: 300px;
+        margin: -8px 0;
     }
     
     .navbar {
