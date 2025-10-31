@@ -700,10 +700,14 @@ class ShoppingCart {
         
         // Add to cart buttons
         const addToCartBtns = document.querySelectorAll('.shopify-add-to-cart');
+        console.log(`Found ${addToCartBtns.length} add-to-cart buttons`);
+        
         addToCartBtns.forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const productId = e.target.getAttribute('data-product-id');
                 const variantId = e.target.getAttribute('data-variant-id');
+                
+                console.log('🛒 Add to Cart clicked:', { productId, variantId });
                 
                 // Add loading state
                 e.target.classList.add('loading');
@@ -711,11 +715,13 @@ class ShoppingCart {
                 
                 // Use Shopify integration if available
                 if (shopifyIntegration) {
+                    console.log('Using Shopify integration...');
                     shopifyIntegration.addToCart(productId, variantId).then(() => {
                         e.target.classList.remove('loading');
                         e.target.disabled = false;
                     });
                 } else {
+                    console.log('❌ Shopify integration not found, using fallback');
                     // Fallback to local cart
                     this.addToCart(productId);
                     e.target.classList.remove('loading');
