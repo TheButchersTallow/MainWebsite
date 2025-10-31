@@ -13,6 +13,15 @@ class ShopifyIntegration {
     }
     
     async init() {
+        // Wait for ShopifyBuy SDK to load
+        const maxWait = 50; // 5 seconds max
+        let attempts = 0;
+        
+        while (!window.ShopifyBuy && attempts < maxWait) {
+            await new Promise(resolve => setTimeout(resolve, 100));
+            attempts++;
+        }
+        
         try {
             // Initialize Shopify client (when you have your store set up)
             if (window.ShopifyBuy) {
@@ -26,9 +35,10 @@ class ShopifyIntegration {
                 this.cart = await this.client.checkout.create();
                 this.isInitialized = true;
                 
-                console.log('✅ Shopify client initialized successfully', this.cart);
+                console.log('✅ Shopify client initialized successfully');
+                console.log('Cart ID:', this.cart.id);
             } else {
-                console.log('❌ ShopifyBuy SDK not loaded');
+                console.log('❌ ShopifyBuy SDK not loaded after waiting');
             }
         } catch (error) {
             console.error('❌ Shopify initialization error:', error);
@@ -678,6 +688,12 @@ class ShoppingCart {
     }
     
     init() {
+        // Add null checks for cart elements
+        if (!this.cartBtn || !this.closeCart || !this.cartModal) {
+            console.error('Cart elements not found in DOM');
+            return;
+        }
+        
         this.cartBtn.addEventListener('click', () => this.toggleCart());
         this.closeCart.addEventListener('click', () => this.closeCartModal());
         
