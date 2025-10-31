@@ -47,8 +47,14 @@ class ShopifyIntegration {
             });
         }
         
-        // Update cart count
+        // Update cart count and display
         this.updateCartCount();
+        
+        // Update the cart display if it exists
+        if (window.cart) {
+            cart.updateCartDisplay();
+        }
+        
         this.showSuccessMessage('Product added to cart!');
         
         return true;
