@@ -194,13 +194,20 @@ p {
     max-width: 800px;
     object-fit: contain;
     margin: -35px 0;
+    position: relative;
+    z-index: 1001;
 }
 
 /* Smaller logo on home page to prevent overlapping */
-body.home .logo-img {
-    height: 150px;
-    max-width: 600px;
-    margin: -25px 0;
+body.home .logo-img,
+body.home .nav-brand .logo-img,
+body.home header .logo-img {
+    height: 100px !important;
+    max-width: 400px !important;
+    margin: -10px 0 !important;
+    width: auto !important;
+    position: relative !important;
+    z-index: 1001 !important;
 }
 
 .logo-text {
@@ -1792,13 +1799,17 @@ section {
         height: 100px;
         max-width: 400px;
         margin: -10px 0;
+        position: relative;
+        z-index: 1001;
     }
     
     /* Smaller logo on home page for mobile */
     body.home .logo-img {
-        height: 80px;
-        max-width: 300px;
-        margin: -8px 0;
+        height: 50px !important;
+        max-width: 200px !important;
+        margin: -3px 0 !important;
+        position: relative !important;
+        z-index: 1001 !important;
     }
     
     .navbar {
@@ -2019,6 +2030,17 @@ section {
         height: 80px;
         max-width: 350px;
         margin: -5px 0;
+        position: relative;
+        z-index: 1001;
+    }
+    
+    /* Smaller logo on home page for very small screens */
+    body.home .logo-img {
+        height: 50px !important;
+        max-width: 200px !important;
+        margin: -3px 0 !important;
+        position: relative !important;
+        z-index: 1001 !important;
     }
     
     .navbar {
