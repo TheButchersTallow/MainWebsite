@@ -256,11 +256,11 @@ const saveReview = async (review) => {
 ## 📞 Next Steps
 
 ### Immediate Priority
-1. ✅ **Set up Shopify store** and get access token
-2. ✅ **Test search functionality** on local server
-3. ✅ **Add backend for reviews** (choose an option above)
-4. ✅ **Create privacy policy** and terms of service
-5. ✅ **Add contact form backend** (currently non-functional)
+1. **Enable live Shopify checkout** by finalizing `shopify-config.js`, validating variant IDs, and testing real orders
+2. **Launch production contact form** (Formspree, serverless function, or backend) so messages actually deliver
+3. **Move product reviews to a persistent backend** with moderation instead of relying on local storage
+4. **Implement analytics & tracking** (Google Analytics 4 + Meta Pixel) to capture conversion data
+5. **Tighten SEO fundamentals**: add sitemap, structured product data, and fine-tune meta descriptions/titles
 
 ### Future Enhancements
 - Newsletter signup integration
