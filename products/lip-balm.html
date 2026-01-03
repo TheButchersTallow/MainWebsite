@@ -16,11 +16,11 @@
                 <div class="promo-banner">
                     <div class="promo-item">
                         <i class="fas fa-leaf"></i>
-                        <span><strong>ALL-NATURAL & HANDMADE</strong><br>Crafted with care in Texas, we ship anywhere in the United States.</span>
+                        <span><strong>ALL NATURAL & HANDMADE</strong><br>Carefully crafted in Texas, ships all over the U.S.</span>
                     </div>
                     <div class="promo-item">
                         <i class="fas fa-shipping-fast"></i>
-                        <span><strong>FAST SHIPPING</strong><br>Orders ship within 1-2 business days.</span>
+                        <span><strong>FREE SHIPPING</strong><br>On orders over $75.</span>
                     </div>
                     <div class="promo-item">
                         <i class="fas fa-star"></i>
@@ -112,6 +112,10 @@
                     
                     <div class="product-price">
                         <span class="current-price" id="product-price">$8.00</span>
+                        <span id="bundle-discount-price" style="display: none; margin-left: 10px;">
+                            <span style="text-decoration: line-through; color: #dc3545; margin-right: 8px;">$32.00</span>
+                            <span class="current-price" style="color: #654321;">$24.00</span>
+                        </span>
                     </div>
                     
                     <p class="product-description">
@@ -119,27 +123,75 @@
                     </p>
                     
                     <div class="product-options">
-                        <div class="scent-selector">
-                            <label for="scent-select">Scent:</label>
-                            <select id="scent-select" class="variant-selector">
-                                <option value="citrus" data-price="8.00">Citrus</option>
-                                <option value="vanilla-cinnamon" data-price="8.00">Vanilla Cinnamon</option>
-                                <option value="peppermint" data-price="8.00">Peppermint</option>
-                                <option value="unscented" data-price="8.00">Unscented</option>
+                        <div class="package-type-selector" style="margin-bottom: 20px;">
+                            <label for="package-type">Package Type:</label>
+                            <select id="package-type" style="width: 100%; padding: 12px 16px; border: 2px solid #654321; border-radius: 8px; background: #F5E6D3; color: #2c1810; font-size: 1rem; cursor: pointer;">
+                                <option value="single" data-price="8.00">Single Lip Balm - $8.00</option>
+                                <option value="bundle" data-price="24.00">4-Pack Bundle - $24.00</option>
                             </select>
+                        </div>
+                        
+                        <div id="single-option" class="package-option">
+                            <div class="scent-selector">
+                                <label for="scent-select">Scent:</label>
+                                <select id="scent-select" style="width: 100%; padding: 12px 16px; border: 2px solid #654321; border-radius: 8px; background: #F5E6D3; color: #2c1810; font-size: 1rem; cursor: pointer;">
+                                    <option value="citrus" data-price="8.00">Citrus</option>
+                                    <option value="vanilla" data-price="8.00">Vanilla</option>
+                                    <option value="vanilla-cinnamon" data-price="8.00">Vanilla Cinnamon</option>
+                                    <option value="peppermint" data-price="8.00">Peppermint</option>
+                                    <option value="unscented" data-price="8.00">Unscented</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div id="bundle-option" class="package-option" style="display: none;">
+                            <p style="margin-bottom: 15px; color: #3c2414; font-weight: 500;">Select 4 flavors for your bundle:</p>
+                            <div class="bundle-flavors" style="display: grid; grid-template-columns: 1fr; gap: 15px;">
+                                <div>
+                                    <label for="bundle-flavor-1">Flavor 1:</label>
+                                    <select id="bundle-flavor-1" class="bundle-flavor-select" style="width: 100%; padding: 10px; border: 2px solid #654321; border-radius: 6px; background: #F5E6D3; color: #2c1810;">
+                                        <option value="citrus">Citrus</option>
+                                        <option value="vanilla">Vanilla</option>
+                                        <option value="vanilla-cinnamon">Vanilla Cinnamon</option>
+                                        <option value="peppermint">Peppermint</option>
+                                        <option value="unscented">Unscented</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="bundle-flavor-2">Flavor 2:</label>
+                                    <select id="bundle-flavor-2" class="bundle-flavor-select" style="width: 100%; padding: 10px; border: 2px solid #654321; border-radius: 6px; background: #F5E6D3; color: #2c1810;">
+                                        <option value="citrus">Citrus</option>
+                                        <option value="vanilla">Vanilla</option>
+                                        <option value="vanilla-cinnamon">Vanilla Cinnamon</option>
+                                        <option value="peppermint">Peppermint</option>
+                                        <option value="unscented">Unscented</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="bundle-flavor-3">Flavor 3:</label>
+                                    <select id="bundle-flavor-3" class="bundle-flavor-select" style="width: 100%; padding: 10px; border: 2px solid #654321; border-radius: 6px; background: #F5E6D3; color: #2c1810;">
+                                        <option value="citrus">Citrus</option>
+                                        <option value="vanilla">Vanilla</option>
+                                        <option value="vanilla-cinnamon">Vanilla Cinnamon</option>
+                                        <option value="peppermint">Peppermint</option>
+                                        <option value="unscented">Unscented</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="bundle-flavor-4">Flavor 4:</label>
+                                    <select id="bundle-flavor-4" class="bundle-flavor-select" style="width: 100%; padding: 10px; border: 2px solid #654321; border-radius: 6px; background: #F5E6D3; color: #2c1810;">
+                                        <option value="citrus">Citrus</option>
+                                        <option value="vanilla">Vanilla</option>
+                                        <option value="vanilla-cinnamon">Vanilla Cinnamon</option>
+                                        <option value="peppermint">Peppermint</option>
+                                        <option value="unscented">Unscented</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     
                     <div class="product-actions">
-                        <div class="quantity-selector">
-                            <label for="quantity">Quantity:</label>
-                            <div class="quantity-controls">
-                                <button type="button" class="quantity-btn" id="quantity-minus">-</button>
-                                <input type="number" id="quantity" value="1" min="1" max="10">
-                                <button type="button" class="quantity-btn" id="quantity-plus">+</button>
-                            </div>
-                        </div>
-                        
                         <button class="btn btn-primary add-to-cart-btn" id="add-to-cart">
                             <i class="fas fa-shopping-cart"></i>
                             Add to Cart
@@ -415,34 +467,104 @@
     </div>
     
     <script>
-        // Product page functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            const quantityInput = document.getElementById('quantity');
-            const quantityMinus = document.getElementById('quantity-minus');
-            const quantityPlus = document.getElementById('quantity-plus');
+        // Product page functionality - run immediately to set up handler before script.js
+        (function() {
+            // Use immediate execution or wait for DOM if needed
+            const initLipBalmPage = function() {
+            const packageTypeSelect = document.getElementById('package-type');
+            const singleOption = document.getElementById('single-option');
+            const bundleOption = document.getElementById('bundle-option');
+            const productPrice = document.getElementById('product-price');
+            const bundleDiscountPrice = document.getElementById('bundle-discount-price');
             const addToCartBtn = document.getElementById('add-to-cart');
             
-            // Quantity controls
-            if (quantityMinus) {
-                quantityMinus.addEventListener('click', function() {
-                    const currentValue = parseInt(quantityInput.value);
-                    if (currentValue > 1) {
-                        quantityInput.value = currentValue - 1;
+            // Package type change handler
+            if (packageTypeSelect) {
+                packageTypeSelect.addEventListener('change', function() {
+                    const packageType = this.value;
+                    const selectedOption = this.options[this.selectedIndex];
+                    const price = selectedOption.getAttribute('data-price');
+                    
+                    if (packageType === 'single') {
+                        singleOption.style.display = 'block';
+                        bundleOption.style.display = 'none';
+                        bundleDiscountPrice.style.display = 'none';
+                        productPrice.textContent = '$' + price;
+                        productPrice.style.display = 'inline';
+                        addToCartBtn.setAttribute('data-package-type', 'single');
+                    } else if (packageType === 'bundle') {
+                        singleOption.style.display = 'none';
+                        bundleOption.style.display = 'block';
+                        bundleDiscountPrice.style.display = 'inline';
+                        productPrice.style.display = 'none';
+                        addToCartBtn.setAttribute('data-package-type', 'bundle');
                     }
                 });
             }
             
-            if (quantityPlus) {
-                quantityPlus.addEventListener('click', function() {
-                    const currentValue = parseInt(quantityInput.value);
-                    if (currentValue < 10) {
-                        quantityInput.value = currentValue + 1;
+            // Custom add to cart handler for this page (script.js excludes this button from global handler)
+            if (addToCartBtn) {
+                // Set initial data attribute
+                addToCartBtn.setAttribute('data-package-type', packageTypeSelect?.value || 'single');
+                
+                // Use capture phase (true) to run BEFORE other handlers
+                addToCartBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    e.stopImmediatePropagation(); // Stop ALL other handlers from running
+                    
+                    const packageType = this.getAttribute('data-package-type') || document.getElementById('package-type')?.value || 'single';
+                    console.log('🎯 Lip Balm custom handler - Package type:', packageType);
+                    
+                    let variantId;
+                    let productId = 'tallow-lip-balm';
+                    let quantity = 1;
+                    let price = 8.00;
+                    let title = 'Tallow Lip Balm';
+                    
+                    if (packageType === 'single') {
+                        const scentSelect = document.getElementById('scent-select');
+                        variantId = scentSelect ? scentSelect.value : 'citrus';
+                        price = 8.00;
+                        title = 'Tallow Lip Balm - Single (' + variantId.charAt(0).toUpperCase() + variantId.slice(1) + ')';
+                    } else if (packageType === 'bundle') {
+                        const flavor1 = document.getElementById('bundle-flavor-1').value;
+                        const flavor2 = document.getElementById('bundle-flavor-2').value;
+                        const flavor3 = document.getElementById('bundle-flavor-3').value;
+                        const flavor4 = document.getElementById('bundle-flavor-4').value;
+                        
+                        // Format flavor names for display
+                        const formatFlavor = (f) => f.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+                        const flavorsList = [flavor1, flavor2, flavor3, flavor4].map(formatFlavor).join(', ');
+                        
+                        variantId = 'bundle';
+                        productId = 'tallow-lip-balm-bundle';
+                        price = 24.00;
+                        title = 'Tallow Lip Balm 4-Pack Bundle (' + flavorsList + ')';
+                        quantity = 1; // Bundle is 1 unit (contains 4 lip balms)
                     }
-                });
+                    
+                    // Use Shopify integration if available
+                    console.log('🛒 Adding to cart:', { packageType, productId, variantId, quantity, price, title });
+                    
+                    // Wait for shopifyIntegration to be available (script.js loads it asynchronously)
+                    const tryAddToCart = () => {
+                        if (window.shopifyIntegration) {
+                            window.shopifyIntegration.addToCart(productId, variantId, quantity, title);
+                            // Update cart display
+                            if (window.cart) {
+                                window.cart.updateCartDisplay();
+                            }
+                            console.log('✅ Successfully added to cart');
+                        } else {
+                            // Retry after a short delay
+                            setTimeout(tryAddToCart, 50);
+                        }
+                    };
+                    
+                    tryAddToCart();
+                }, true); // Capture phase - runs BEFORE bubble phase handlers
             }
-            
-            // Add to cart functionality is now handled centrally in script.js
-            // No need for duplicate event listeners here
             
             // Tab functionality
             const tabBtns = document.querySelectorAll('.tab-btn');
@@ -476,7 +598,15 @@
                 searchBtn.innerHTML = '<i class="fas fa-search"></i>';
                 navActions.insertBefore(searchBtn, navActions.firstChild);
             }
-        });
+        };
+        
+        // Run immediately if DOM is ready, otherwise wait for DOMContentLoaded
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initLipBalmPage);
+        } else {
+            initLipBalmPage();
+        }
+        })();
     </script>
 </body>
 </html>
