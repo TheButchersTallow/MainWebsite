@@ -93,7 +93,13 @@
             <div class="product-hero-content">
                 <div class="product-images">
                     <div class="main-image">
+                        <button class="image-carousel-arrow left" id="image-arrow-left" aria-label="Previous image">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
                         <img src="../assets/all lip balm flavors black background.jpg" alt="Tallow Lip Balm" id="main-product-image">
+                        <button class="image-carousel-arrow right" id="image-arrow-right" aria-label="Next image">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
                     </div>
                 </div>
                 
@@ -568,6 +574,71 @@
                     updateProductImage(selectedFlavor);
                 });
             }
+            
+            // Image carousel functionality
+            const imageArrowLeft = document.getElementById('image-arrow-left');
+            const imageArrowRight = document.getElementById('image-arrow-right');
+            const singleFlavorSequence = ['citrus', 'vanilla', 'vanilla-cinnamon', 'peppermint', 'unscented'];
+            let currentImageIndex = 0;
+            
+            // Function to get current image index from current flavor
+            function getCurrentImageIndex() {
+                if (packageTypeSelect && packageTypeSelect.value === 'bundle') {
+                    return -1; // Bundle mode - no carousel
+                }
+                const currentFlavor = scentSelect ? scentSelect.value : 'citrus';
+                const index = singleFlavorSequence.indexOf(currentFlavor);
+                return index >= 0 ? index : 0;
+            }
+            
+            // Function to update dropdowns based on image index
+            function updateDropdownsFromImage(index) {
+                if (packageTypeSelect && packageTypeSelect.value === 'bundle') return;
+                if (index >= 0 && index < singleFlavorSequence.length && scentSelect) {
+                    const flavor = singleFlavorSequence[index];
+                    scentSelect.value = flavor;
+                    updateProductImage(flavor);
+                }
+            }
+            
+            // Left arrow click handler
+            if (imageArrowLeft) {
+                imageArrowLeft.addEventListener('click', function() {
+                    if (packageTypeSelect && packageTypeSelect.value === 'bundle') return;
+                    currentImageIndex = getCurrentImageIndex();
+                    currentImageIndex = (currentImageIndex - 1 + singleFlavorSequence.length) % singleFlavorSequence.length;
+                    updateDropdownsFromImage(currentImageIndex);
+                });
+            }
+            
+            // Right arrow click handler
+            if (imageArrowRight) {
+                imageArrowRight.addEventListener('click', function() {
+                    if (packageTypeSelect && packageTypeSelect.value === 'bundle') return;
+                    currentImageIndex = getCurrentImageIndex();
+                    currentImageIndex = (currentImageIndex + 1) % singleFlavorSequence.length;
+                    updateDropdownsFromImage(currentImageIndex);
+                });
+            }
+            
+            // Hide/show arrows based on package type
+            function updateArrowVisibility() {
+                if (imageArrowLeft && imageArrowRight) {
+                    if (packageTypeSelect && packageTypeSelect.value === 'bundle') {
+                        imageArrowLeft.style.display = 'none';
+                        imageArrowRight.style.display = 'none';
+                    } else {
+                        imageArrowLeft.style.display = 'flex';
+                        imageArrowRight.style.display = 'flex';
+                    }
+                }
+            }
+            
+            // Update arrow visibility when package type changes
+            if (packageTypeSelect) {
+                packageTypeSelect.addEventListener('change', updateArrowVisibility);
+            }
+            updateArrowVisibility(); // Initial visibility
             
             // Custom add to cart handler for this page (script.js excludes this button from global handler)
             if (addToCartBtn) {

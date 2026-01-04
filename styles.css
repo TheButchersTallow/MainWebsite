@@ -1449,11 +1449,53 @@ section {
     top: 100px;
 }
 
+.main-image {
+    position: relative;
+}
+
 .main-image img {
     width: 100%;
     height: auto;
     border-radius: 12px;
     box-shadow: 0 8px 32px rgba(101, 67, 33, 0.2);
+}
+
+.image-carousel-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid #654321;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: #654321;
+    z-index: 10;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.image-carousel-arrow:hover {
+    background: #654321;
+    color: #F5E6D3;
+    transform: translateY(-50%) scale(1.1);
+}
+
+.image-carousel-arrow.left {
+    left: 15px;
+}
+
+.image-carousel-arrow.right {
+    right: 15px;
+}
+
+.image-carousel-arrow:active {
+    transform: translateY(-50%) scale(0.95);
 }
 
 .product-info h1 {
