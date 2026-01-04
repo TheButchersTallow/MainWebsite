@@ -343,41 +343,76 @@ class ProductSearch {
     }
     
     init() {
-        if (!this.searchBtn || !this.searchModal) return;
+        if (!this.searchBtn || !this.searchModal) {
+            console.warn('Search elements not found - search functionality disabled');
+            return;
+        }
         
-        this.searchBtn.addEventListener('click', () => this.openSearch());
-        this.closeSearch.addEventListener('click', () => this.closeSearchModal());
+        if (!this.searchInput) {
+            console.error('Search input not found');
+            return;
+        }
         
-        // Close on ESC key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && this.searchModal.classList.contains('active')) {
-                this.closeSearchModal();
-            }
-        });
+        if (!this.closeSearch) {
+            console.error('Close search button not found');
+            return;
+        }
         
-        // Close on background click
-        this.searchModal.addEventListener('click', (e) => {
-            if (e.target === this.searchModal) {
-                this.closeSearchModal();
-            }
-        });
+        if (!this.searchResults) {
+            console.error('Search results container not found');
+            return;
+        }
         
-        // Search on input
-        this.searchInput.addEventListener('input', (e) => {
-            this.performSearch(e.target.value);
-        });
+        try {
+            this.searchBtn.addEventListener('click', () => this.openSearch());
+            this.closeSearch.addEventListener('click', () => this.closeSearchModal());
+            
+            // Close on ESC key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && this.searchModal && this.searchModal.classList.contains('active')) {
+                    this.closeSearchModal();
+                }
+            });
+            
+            // Close on background click
+            this.searchModal.addEventListener('click', (e) => {
+                if (e.target === this.searchModal) {
+                    this.closeSearchModal();
+                }
+            });
+            
+            // Search on input
+            this.searchInput.addEventListener('input', (e) => {
+                this.performSearch(e.target.value);
+            });
+            
+            console.log('✅ Search functionality initialized successfully');
+        } catch (error) {
+            console.error('Error initializing search functionality:', error);
+        }
     }
     
     loadProducts() {
-        const productsData = document.getElementById('shopify-products-data');
-        if (productsData) {
-            const data = JSON.parse(productsData.textContent);
-            return data.products;
+        try {
+            const productsData = document.getElementById('shopify-products-data');
+            if (productsData) {
+                const data = JSON.parse(productsData.textContent);
+                console.log('✅ Loaded products for search:', data.products ? data.products.length : 0);
+                return data.products || [];
+            }
+            console.warn('⚠️ shopify-products-data element not found - search will be empty');
+            return [];
+        } catch (error) {
+            console.error('Error loading products for search:', error);
+            return [];
         }
-        return [];
     }
     
     openSearch() {
+        if (!this.searchModal || !this.searchInput || !this.searchResults) {
+            console.error('Search elements not available');
+            return;
+        }
         this.searchModal.classList.add('active');
         this.searchInput.value = '';
         this.searchInput.focus();
@@ -385,6 +420,10 @@ class ProductSearch {
     }
     
     closeSearchModal() {
+        if (!this.searchModal || !this.searchInput) {
+            console.error('Search elements not available');
+            return;
+        }
         this.searchModal.classList.remove('active');
         this.searchInput.value = '';
     }
