@@ -1488,27 +1488,15 @@ section {
 }
 
 .image-carousel-arrow.left {
-    left: 50%;
-    transform: translate(-50%, -50%);
-    margin-left: -200px;
+    left: 15px;
 }
 
 .image-carousel-arrow.right {
-    right: 50%;
-    transform: translate(50%, -50%);
-    margin-right: -200px;
+    right: 15px;
 }
 
 .image-carousel-arrow:active {
     transform: translateY(-50%) scale(0.95);
-}
-
-.image-carousel-arrow.left:active {
-    transform: translate(-50%, -50%) scale(0.95);
-}
-
-.image-carousel-arrow.right:active {
-    transform: translate(50%, -50%) scale(0.95);
 }
 
 .product-info h1 {

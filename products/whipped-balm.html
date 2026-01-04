@@ -509,6 +509,7 @@
             // Image carousel functionality
             const imageArrowLeft = document.getElementById('image-arrow-left');
             const imageArrowRight = document.getElementById('image-arrow-right');
+            const imageCarouselDots = document.getElementById('image-carousel-dots');
             const whippedBalmSequence = [
                 { size: '1.35oz', scent: 'unscented' },
                 { size: '1.35oz', scent: 'citrus' },
@@ -526,6 +527,26 @@
                 return index >= 0 ? index : 0;
             }
             
+            // Function to update dots
+            function updateDots() {
+                if (!imageCarouselDots) return;
+                const currentIndex = getCurrentImageIndex();
+                imageCarouselDots.innerHTML = '';
+                
+                whippedBalmSequence.forEach((item, index) => {
+                    const dot = document.createElement('button');
+                    dot.className = 'image-carousel-dot';
+                    if (index === currentIndex) {
+                        dot.classList.add('active');
+                    }
+                    dot.setAttribute('aria-label', `Go to ${item.size} ${item.scent} image`);
+                    dot.addEventListener('click', () => {
+                        updateDropdownsFromImage(index);
+                    });
+                    imageCarouselDots.appendChild(dot);
+                });
+            }
+            
             // Function to update dropdowns based on image index
             function updateDropdownsFromImage(index) {
                 if (index >= 0 && index < whippedBalmSequence.length && sizeSelect && scentSelect) {
@@ -541,6 +562,7 @@
                     }
                     
                     updateWhippedBalmImage();
+                    updateDots();
                 }
             }
             
@@ -561,6 +583,16 @@
                     updateDropdownsFromImage(currentIndex);
                 });
             }
+            
+            // Update dots when size or scent changes
+            if (sizeSelect) {
+                sizeSelect.addEventListener('change', updateDots);
+            }
+            if (scentSelect) {
+                scentSelect.addEventListener('change', updateDots);
+            }
+            
+            updateDots(); // Initial dots
             
             // Quantity controls
             if (quantityMinus) {

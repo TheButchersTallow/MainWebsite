@@ -506,6 +506,79 @@
             // Set initial image based on default selection
             updateTallowImage();
             
+            // Image carousel functionality
+            const imageArrowLeft = document.getElementById('image-arrow-left');
+            const imageArrowRight = document.getElementById('image-arrow-right');
+            const imageCarouselDots = document.getElementById('image-carousel-dots');
+            const tallowSizeSequence = ['small', 'medium', 'large'];
+            
+            // Function to get current image index from current size
+            function getCurrentImageIndex() {
+                const currentSize = sizeSelect ? sizeSelect.value : 'small';
+                const index = tallowSizeSequence.indexOf(currentSize);
+                return index >= 0 ? index : 0;
+            }
+            
+            // Function to update dots
+            function updateDots() {
+                if (!imageCarouselDots) return;
+                const currentIndex = getCurrentImageIndex();
+                imageCarouselDots.innerHTML = '';
+                
+                tallowSizeSequence.forEach((size, index) => {
+                    const dot = document.createElement('button');
+                    dot.className = 'image-carousel-dot';
+                    if (index === currentIndex) {
+                        dot.classList.add('active');
+                    }
+                    dot.setAttribute('aria-label', `Go to ${size} size image`);
+                    dot.addEventListener('click', () => {
+                        updateDropdownFromImage(index);
+                    });
+                    imageCarouselDots.appendChild(dot);
+                });
+            }
+            
+            // Function to update dropdown based on image index
+            function updateDropdownFromImage(index) {
+                if (index >= 0 && index < tallowSizeSequence.length && sizeSelect) {
+                    const size = tallowSizeSequence[index];
+                    sizeSelect.value = size;
+                    const selectedOption = sizeSelect.options[sizeSelect.selectedIndex];
+                    const price = selectedOption.getAttribute('data-price');
+                    if (priceElement) {
+                        priceElement.textContent = `$${price}`;
+                    }
+                    updateTallowImage();
+                    updateDots();
+                }
+            }
+            
+            // Left arrow click handler
+            if (imageArrowLeft) {
+                imageArrowLeft.addEventListener('click', function() {
+                    let currentIndex = getCurrentImageIndex();
+                    currentIndex = (currentIndex - 1 + tallowSizeSequence.length) % tallowSizeSequence.length;
+                    updateDropdownFromImage(currentIndex);
+                });
+            }
+            
+            // Right arrow click handler
+            if (imageArrowRight) {
+                imageArrowRight.addEventListener('click', function() {
+                    let currentIndex = getCurrentImageIndex();
+                    currentIndex = (currentIndex + 1) % tallowSizeSequence.length;
+                    updateDropdownFromImage(currentIndex);
+                });
+            }
+            
+            // Update dots when size changes
+            if (sizeSelect) {
+                sizeSelect.addEventListener('change', updateDots);
+            }
+            
+            updateDots(); // Initial dots
+            
             // Quantity controls
             if (quantityMinus) {
                 quantityMinus.addEventListener('click', function() {
