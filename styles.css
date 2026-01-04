@@ -502,8 +502,8 @@ body.shop-page header .logo-img {
 
 .hero-image {
     text-align: center;
-    margin-top: 160px;
-    align-self: end;
+    margin-top: 0;
+    align-self: center;
 }
 
 .hero-image img {
