@@ -1518,6 +1518,9 @@ section {
     transition: all 0.3s ease;
     padding: 0;
     flex-shrink: 0;
+    box-sizing: border-box;
+    min-width: 12px;
+    min-height: 12px;
 }
 
 .image-carousel-dot:hover {
@@ -1526,8 +1529,9 @@ section {
 }
 
 .image-carousel-dot.active {
-    background: #654321;
-    border-color: #654321;
+    background-color: #654321 !important;
+    border-color: #654321 !important;
+    border-width: 2px !important;
     transform: scale(1.3);
 }
 
