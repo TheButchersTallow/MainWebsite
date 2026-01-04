@@ -289,7 +289,7 @@
             <div class="products-grid">
                 <div class="product-card">
                     <div class="product-image">
-                        <img src="../assets/3 sizes of tallow.jpg" alt="100% All Purpose Suet Beef Tallow - 3 Sizes">
+                        <img src="../assets/Large Tallow Black Background.jpeg" alt="100% All Purpose Suet Beef Tallow">
                     </div>
                     <div class="product-info">
                         <h3>100% All Purpose Suet Beef Tallow</h3>
@@ -300,7 +300,7 @@
                 
                 <div class="product-card">
                     <div class="product-image">
-                        <img src="../assets/3 kinds of whipped tallow balm.jpg" alt="Whipped Tallow Balm - 3 Scents">
+                        <img src="../assets/Whipped Balm Unscented  2.5 oz .jpeg" alt="Whipped Tallow Balm">
                     </div>
                     <div class="product-info">
                         <h3>Whipped Tallow Balm</h3>
@@ -311,7 +311,7 @@
                 
                 <div class="product-card">
                     <div class="product-image">
-                        <img src="../assets/tallow beard balm front.jpg" alt="Tallow Beard Balm">
+                        <img src="../assets/Beard Balm black background.jpeg" alt="Tallow Beard Balm">
                     </div>
                     <div class="product-info">
                         <h3>Tallow Beard Balm</h3>
@@ -477,6 +477,28 @@
             const productPrice = document.getElementById('product-price');
             const bundleDiscountPrice = document.getElementById('bundle-discount-price');
             const addToCartBtn = document.getElementById('add-to-cart');
+            
+            // Function to switch to bundle
+            function switchToBundle() {
+                if (packageTypeSelect) {
+                    packageTypeSelect.value = 'bundle';
+                    const selectedOption = packageTypeSelect.options[packageTypeSelect.selectedIndex];
+                    const price = selectedOption.getAttribute('data-price');
+                    
+                    singleOption.style.display = 'none';
+                    bundleOption.style.display = 'block';
+                    bundleDiscountPrice.style.display = 'inline';
+                    productPrice.style.display = 'none';
+                    addToCartBtn.setAttribute('data-package-type', 'bundle');
+                    updateProductImage('all');
+                }
+            }
+            
+            // Check URL parameter for bundle selection
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('bundle') === '4pack') {
+                switchToBundle();
+            }
             
             // Package type change handler
             if (packageTypeSelect) {

@@ -822,6 +822,45 @@ class ShoppingCart {
         
         // Variant selector changes - handle multiple selectors (size + scent)
         // Only attach to variant selectors inside product cards (not product detail pages)
+        // Image mapping for home page product cards
+        const homePageImageMaps = {
+            'tallow-lip-balm': {
+                'citrus': 'assets/citrus lip balm blank background.jpeg',
+                'vanilla': 'assets/vanilla lip balm blank background.jpeg',
+                'vanilla-cinnamon': 'assets/vanilla cinnamon lip balm blank background.jpeg',
+                'peppermint': 'assets/peppermint lip balm blank background.jpeg',
+                'unscented': 'assets/unscented lip balm blank background.jpeg',
+                'default': 'assets/all lip balm flavors black background.jpg'
+            },
+            'pure-beef-tallow': {
+                'small': 'assets/Small tallow black background.jpeg',
+                'medium': 'assets/Medium tallow.jpeg',
+                'large': 'assets/Large Tallow Black Background.jpeg'
+            },
+            'whipped-tallow-balm': {
+                '1.35oz-unscented': 'assets/whipped balm unscented 1.35 oz.jpeg',
+                '1.35oz-citrus': 'assets/Whipped balm, cirtus 1.35 oz.jpeg',
+                '1.35oz-frankincense-lavender': 'assets/Whipped Balm frankincense and lavender 1.35 oz.jpeg',
+                '2.5oz-unscented': 'assets/Whipped Balm Unscented  2.5 oz .jpeg',
+                '2.5oz-citrus': 'assets/Whipped Balm Citrus 2.5 oz .jpeg',
+                '2.5oz-frankincense-lavender': 'assets/Whipped Balm Frankincense and lavender 2.5 oz.jpeg'
+            }
+        };
+        
+        // Function to update product card image
+        function updateProductCardImage(productCard, productId, variantId) {
+            const productImage = productCard.querySelector('.product-image img');
+            if (!productImage) return;
+            
+            const imageMap = homePageImageMaps[productId];
+            if (!imageMap) return;
+            
+            const imagePath = imageMap[variantId] || imageMap['default'];
+            if (imagePath) {
+                productImage.src = imagePath;
+            }
+        }
+        
         const variantSelectors = document.querySelectorAll('.product-card .variant-selector');
         variantSelectors.forEach(selector => {
             selector.addEventListener('change', (e) => {
@@ -866,6 +905,20 @@ class ShoppingCart {
                             priceElement.textContent = '$' + price;
                             priceElement.setAttribute('data-price', price);
                         }
+                    }
+                    
+                    // Update product card image based on selection
+                    if (productId === 'tallow-lip-balm') {
+                        // For lip balm, use the flavor directly
+                        const flavor = e.target.value;
+                        updateProductCardImage(productCard, productId, flavor);
+                    } else if (productId === 'pure-beef-tallow') {
+                        // For tallow, use the size directly
+                        const size = e.target.value;
+                        updateProductCardImage(productCard, productId, size);
+                    } else if (productId === 'whipped-tallow-balm') {
+                        // For whipped balm, use the combined variant ID
+                        updateProductCardImage(productCard, productId, combinedVariantId);
                     }
                 }
             });
@@ -916,12 +969,12 @@ class ShoppingCart {
     getProductDetails(productId, variantId) {
         // Map of product images (absolute paths starting with /)
         const productImages = {
-            'tallow-lip-balm': '/assets/lip balm 4 pack.jpg',
-            'tallow-lip-balm-bundle': '/assets/lip balm 4 pack.jpg',
-            'pure-beef-tallow': '/assets/3 sizes of tallow.jpg',
-            'whipped-tallow-balm': '/assets/3 kinds of whipped tallow balm.jpg',
-            'beard-balm': '/assets/tallow beard balm front.jpg',
-            'leather-conditioner': '/assets/tallow leather conditioner front.jpg'
+            'tallow-lip-balm': '/assets/all lip balm flavors black background.jpg',
+            'tallow-lip-balm-bundle': '/assets/all lip balm flavors black background.jpg',
+            'pure-beef-tallow': '/assets/Large Tallow Black Background.jpeg',
+            'whipped-tallow-balm': '/assets/Whipped Balm Unscented  2.5 oz .jpeg',
+            'beard-balm': '/assets/Beard Balm black background.jpeg',
+            'leather-conditioner': '/assets/leather conditioner black backgrond.jpeg'
         };
         
         // Map of prices for each variant

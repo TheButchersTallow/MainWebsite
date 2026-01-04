@@ -93,7 +93,7 @@
             <div class="product-hero-content">
                 <div class="product-images">
                     <div class="main-image">
-                        <img src="../assets/3 kinds of whipped tallow balm.jpg" alt="Whipped Tallow Balm - 3 Scents" id="main-product-image">
+                        <img src="../assets/Whipped Balm Unscented  2.5 oz .jpeg" alt="Whipped Tallow Balm" id="main-product-image">
                     </div>
                 </div>
                 
@@ -122,7 +122,7 @@
                     <div class="product-options">
                         <div class="size-selector">
                             <label for="size-select">Size:</label>
-                            <select id="size-select" class="variant-selector">
+                            <select id="size-select" style="width: 100%; padding: 12px 16px; border: 2px solid #654321; border-radius: 8px; background: #F5E6D3; color: #2c1810; font-size: 1rem; cursor: pointer;">
                                 <option value="1.35oz" data-price="25.00">1.35 oz Glass Jar - $25.00</option>
                                 <option value="2.5oz" data-price="35.00">2.5 oz Glass Jar - $35.00</option>
                             </select>
@@ -130,7 +130,7 @@
                         
                         <div class="scent-selector">
                             <label for="scent-select">Scent:</label>
-                            <select id="scent-select" class="variant-selector">
+                            <select id="scent-select" style="width: 100%; padding: 12px 16px; border: 2px solid #654321; border-radius: 8px; background: #F5E6D3; color: #2c1810; font-size: 1rem; cursor: pointer;">
                                 <option value="unscented" data-price="0.00">Unscented</option>
                                 <option value="citrus" data-price="0.00">Citrus</option>
                                 <option value="frankincense-lavender" data-price="0.00">Frankincense and Lavender</option>
@@ -259,7 +259,7 @@
             <div class="products-grid">
                 <div class="product-card">
                     <div class="product-image">
-                        <img src="../assets/3 sizes of tallow.jpg" alt="100% All Purpose Suet Beef Tallow - 3 Sizes">
+                        <img src="../assets/Large Tallow Black Background.jpeg" alt="100% All Purpose Suet Beef Tallow">
                     </div>
                     <div class="product-info">
                         <h3>100% All Purpose Suet Beef Tallow</h3>
@@ -281,7 +281,7 @@
                 
                 <div class="product-card">
                     <div class="product-image">
-                        <img src="../assets/tallow beard balm front.jpg" alt="Tallow Beard Balm">
+                        <img src="../assets/Beard Balm black background.jpeg" alt="Tallow Beard Balm">
                     </div>
                     <div class="product-info">
                         <h3>Tallow Beard Balm</h3>
@@ -447,7 +447,37 @@
             const quantityPlus = document.getElementById('quantity-plus');
             const addToCartBtn = document.getElementById('add-to-cart');
             
-            // Update price when size changes
+            // Whipped balm image mapping for all 6 combinations
+            const whippedBalmImages = {
+                '1.35oz-unscented': '../assets/whipped balm unscented 1.35 oz.jpeg',
+                '1.35oz-citrus': '../assets/Whipped balm, cirtus 1.35 oz.jpeg',
+                '1.35oz-frankincense-lavender': '../assets/Whipped Balm frankincense and lavender 1.35 oz.jpeg',
+                '2.5oz-unscented': '../assets/Whipped Balm Unscented  2.5 oz .jpeg',
+                '2.5oz-citrus': '../assets/Whipped Balm Citrus 2.5 oz .jpeg',
+                '2.5oz-frankincense-lavender': '../assets/Whipped Balm Frankincense and lavender 2.5 oz.jpeg'
+            };
+            
+            // Function to update whipped balm image based on size and scent
+            function updateWhippedBalmImage() {
+                const mainImage = document.getElementById('main-product-image');
+                if (mainImage && sizeSelect && scentSelect) {
+                    const size = sizeSelect.value;
+                    const scent = scentSelect.value;
+                    const variantKey = `${size}-${scent}`;
+                    const imagePath = whippedBalmImages[variantKey];
+                    
+                    if (imagePath) {
+                        mainImage.src = imagePath;
+                        // Update alt text
+                        const sizeText = size === '1.35oz' ? '1.35 oz' : '2.5 oz';
+                        const scentText = scent === 'frankincense-lavender' ? 'Frankincense and Lavender' : 
+                                         scent.charAt(0).toUpperCase() + scent.slice(1);
+                        mainImage.alt = `Whipped Tallow Balm - ${sizeText} - ${scentText}`;
+                    }
+                }
+            }
+            
+            // Update price and image when size changes
             if (sizeSelect) {
                 sizeSelect.addEventListener('change', function() {
                     const selectedOption = this.options[this.selectedIndex];
@@ -455,8 +485,19 @@
                     if (priceElement) {
                         priceElement.textContent = `$${price}`;
                     }
+                    updateWhippedBalmImage();
                 });
             }
+            
+            // Update image when scent changes
+            if (scentSelect) {
+                scentSelect.addEventListener('change', function() {
+                    updateWhippedBalmImage();
+                });
+            }
+            
+            // Set initial image based on default selections
+            updateWhippedBalmImage();
             
             // Quantity controls
             if (quantityMinus) {
