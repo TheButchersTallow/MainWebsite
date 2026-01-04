@@ -100,6 +100,7 @@
                         <button class="image-carousel-arrow right" id="image-arrow-right" aria-label="Next image">
                             <i class="fas fa-chevron-right"></i>
                         </button>
+                        <div class="image-carousel-dots" id="image-carousel-dots"></div>
                     </div>
                 </div>
                 
@@ -578,6 +579,7 @@
             // Image carousel functionality
             const imageArrowLeft = document.getElementById('image-arrow-left');
             const imageArrowRight = document.getElementById('image-arrow-right');
+            const imageCarouselDots = document.getElementById('image-carousel-dots');
             const singleFlavorSequence = ['citrus', 'vanilla', 'vanilla-cinnamon', 'peppermint', 'unscented'];
             let currentImageIndex = 0;
             
@@ -591,6 +593,32 @@
                 return index >= 0 ? index : 0;
             }
             
+            // Function to update dots
+            function updateDots() {
+                if (!imageCarouselDots) return;
+                
+                if (packageTypeSelect && packageTypeSelect.value === 'bundle') {
+                    imageCarouselDots.innerHTML = '';
+                    return;
+                }
+                
+                const currentIndex = getCurrentImageIndex();
+                imageCarouselDots.innerHTML = '';
+                
+                singleFlavorSequence.forEach((flavor, index) => {
+                    const dot = document.createElement('button');
+                    dot.className = 'image-carousel-dot';
+                    if (index === currentIndex) {
+                        dot.classList.add('active');
+                    }
+                    dot.setAttribute('aria-label', `Go to ${flavor} image`);
+                    dot.addEventListener('click', () => {
+                        updateDropdownsFromImage(index);
+                    });
+                    imageCarouselDots.appendChild(dot);
+                });
+            }
+            
             // Function to update dropdowns based on image index
             function updateDropdownsFromImage(index) {
                 if (packageTypeSelect && packageTypeSelect.value === 'bundle') return;
@@ -598,6 +626,7 @@
                     const flavor = singleFlavorSequence[index];
                     scentSelect.value = flavor;
                     updateProductImage(flavor);
+                    updateDots();
                 }
             }
             
@@ -621,24 +650,36 @@
                 });
             }
             
-            // Hide/show arrows based on package type
+            // Hide/show arrows and dots based on package type
             function updateArrowVisibility() {
                 if (imageArrowLeft && imageArrowRight) {
                     if (packageTypeSelect && packageTypeSelect.value === 'bundle') {
                         imageArrowLeft.style.display = 'none';
                         imageArrowRight.style.display = 'none';
+                        if (imageCarouselDots) imageCarouselDots.style.display = 'none';
                     } else {
                         imageArrowLeft.style.display = 'flex';
                         imageArrowRight.style.display = 'flex';
+                        if (imageCarouselDots) imageCarouselDots.style.display = 'flex';
                     }
                 }
             }
             
+            // Update dots when scent changes
+            if (scentSelect) {
+                scentSelect.addEventListener('change', updateDots);
+            }
+            
             // Update arrow visibility when package type changes
             if (packageTypeSelect) {
-                packageTypeSelect.addEventListener('change', updateArrowVisibility);
+                packageTypeSelect.addEventListener('change', function() {
+                    updateArrowVisibility();
+                    updateDots();
+                });
             }
+            
             updateArrowVisibility(); // Initial visibility
+            updateDots(); // Initial dots
             
             // Custom add to cart handler for this page (script.js excludes this button from global handler)
             if (addToCartBtn) {
