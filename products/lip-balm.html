@@ -93,7 +93,7 @@
             <div class="product-hero-content">
                 <div class="product-images">
                     <div class="main-image">
-                        <img src="../assets/lip balm 4 pack.jpg" alt="Tallow Lip Balm 4-Pack" id="main-product-image">
+                        <img src="../assets/all lip balm flavors black background.jpg" alt="Tallow Lip Balm" id="main-product-image">
                     </div>
                 </div>
                 
@@ -492,13 +492,58 @@
                         productPrice.textContent = '$' + price;
                         productPrice.style.display = 'inline';
                         addToCartBtn.setAttribute('data-package-type', 'single');
+                        // Reset image to default when switching to single
+                        updateProductImage('all');
                     } else if (packageType === 'bundle') {
                         singleOption.style.display = 'none';
                         bundleOption.style.display = 'block';
                         bundleDiscountPrice.style.display = 'inline';
                         productPrice.style.display = 'none';
                         addToCartBtn.setAttribute('data-package-type', 'bundle');
+                        // Reset image to default when switching to bundle
+                        updateProductImage('all');
                     }
+                });
+            }
+            
+            // Flavor image mapping
+            const flavorImages = {
+                'citrus': '../assets/citrus lip balm blank background.jpeg',
+                'vanilla': '../assets/vanilla lip balm blank background.jpeg',
+                'vanilla-cinnamon': '../assets/vanilla cinnamon lip balm blank background.jpeg',
+                'peppermint': '../assets/peppermint lip balm blank background.jpeg',
+                'unscented': '../assets/unscented lip balm blank background.jpeg',
+                'all': '../assets/all lip balm flavors black background.jpg'
+            };
+            
+            // Function to update product image based on flavor
+            function updateProductImage(flavor) {
+                const mainImage = document.getElementById('main-product-image');
+                if (mainImage && flavorImages[flavor]) {
+                    mainImage.src = flavorImages[flavor];
+                    // Update alt text based on flavor
+                    if (flavor === 'all') {
+                        mainImage.alt = 'Tallow Lip Balm - All Flavors';
+                    } else {
+                        const flavorName = flavor.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+                        mainImage.alt = 'Tallow Lip Balm - ' + flavorName;
+                    }
+                }
+            }
+            
+            // Scent selector change handler to update image
+            const scentSelect = document.getElementById('scent-select');
+            if (scentSelect) {
+                // Set initial image based on selected flavor
+                const initialFlavor = scentSelect.value;
+                if (packageTypeSelect && packageTypeSelect.value === 'single') {
+                    updateProductImage(initialFlavor);
+                }
+                
+                // Update image when flavor changes
+                scentSelect.addEventListener('change', function() {
+                    const selectedFlavor = this.value;
+                    updateProductImage(selectedFlavor);
                 });
             }
             
