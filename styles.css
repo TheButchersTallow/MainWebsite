@@ -487,23 +487,22 @@ body.shop-page header .logo-img {
 }
 
 .hero-content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 100px;
+    display: flex;
+    flex-direction: column;
     align-items: center;
     max-width: 1200px;
     margin: 0 auto;
+    gap: 60px;
 }
 
 .hero-text {
-    text-align: left;
-    margin-top: -40px;
+    text-align: center;
+    width: 100%;
 }
 
 .hero-image {
     text-align: center;
-    margin-top: 0;
-    align-self: center;
+    width: 100%;
 }
 
 .hero-image img {
