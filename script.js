@@ -53,80 +53,65 @@ class ShopifyIntegration {
         }
     }
     
-    async addToCart(productId, variantId, quantity = 1, customName = null) {
-        // Get the actual Shopify variant ID from config
-        const shopifyVariantId = this.getShopifyVariantId(productId, variantId);
-        
-        // Extract numeric ID or use variant ID as fallback for placeholders/local testing
-        let numericVariantId;
-        if (shopifyVariantId) {
-            numericVariantId = shopifyVariantId.includes('/') ? shopifyVariantId.split('/').pop() : shopifyVariantId;
-            // If it's a placeholder, use the variant ID instead
-            if (numericVariantId.startsWith('PLACEHOLDER')) {
-                numericVariantId = `${productId}-${variantId}`;
+    async addToCart(productId, variantId, quantity = 1) {
+        return new Promise((resolve, reject) => {
+            try {
+                // Get the actual Shopify variant ID from config
+                const shopifyVariantId = this.getShopifyVariantId(productId, variantId);
+                
+                if (!shopifyVariantId) {
+                    console.error('Variant ID not found in config for:', productId, variantId);
+                    this.showErrorMessage('Product variant not found');
+                    reject(new Error('Variant not found'));
+                    return;
+                }
+                
+                // Extract just the numeric ID from the Shopify GID
+                const numericVariantId = shopifyVariantId.split('/').pop();
+                
+                console.log('Adding to cart:', productId, variantId, '→', numericVariantId);
+                
+                // Add to local cart array
+                const existingItem = this.localCart.find(item => item.shopifyVariantId === numericVariantId);
+                if (existingItem) {
+                    existingItem.quantity += quantity;
+                } else {
+                    this.localCart.push({
+                        productId,
+                        variantId,  // Original variant ID like "citrus"
+                        shopifyVariantId: numericVariantId,  // Shopify numeric ID
+                        quantity,
+                        name: this.getProductName(productId, variantId)
+                    });
+                }
+                
+                // Save to localStorage
+                this.saveCartToStorage();
+                
+                // Update cart count and display
+                this.updateCartCount();
+                
+                console.log('🔍 Checking for window.cart:', typeof window.cart, window.cart);
+                
+                // Update the cart display if it exists
+                if (window.cart) {
+                    console.log('✅ window.cart exists, calling updateCartDisplay()');
+                    window.cart.updateCartDisplay();
+                } else {
+                    console.error('❌ window.cart does NOT exist!');
+                }
+                
+                // Show success message with slight delay for better UX
+                setTimeout(() => {
+                    this.showSuccessMessage('Product added to cart!');
+                    resolve(true);
+                }, 100);
+            } catch (error) {
+                console.error('Error adding to cart:', error);
+                this.showErrorMessage('Failed to add product to cart');
+                reject(error);
             }
-        } else {
-            // For local testing, use a generated ID
-            console.warn('Variant ID not found in config for:', productId, variantId, '- using local ID');
-            numericVariantId = `${productId}-${variantId}`;
-        }
-        
-        console.log('Adding to cart:', productId, variantId, '→', numericVariantId);
-        
-        // Add to local cart array
-        // For bundles, never combine - always add as separate items so each bundle's flavors are displayed
-        if (productId === 'tallow-lip-balm-bundle') {
-            // For bundles, always add as new item (even if same flavors) so they display separately
-            // Add quantity number of items, each with quantity 1
-            for (let i = 0; i < quantity; i++) {
-                this.localCart.push({
-                    productId,
-                    variantId,  // Original variant ID like "bundle"
-                    shopifyVariantId: numericVariantId,  // Shopify numeric ID or local ID
-                    quantity: 1,  // Each bundle is quantity 1
-                    name: customName || this.getProductName(productId, variantId),
-                    flavors: customName && productId === 'tallow-lip-balm-bundle' ? customName : null  // Store flavors for bundle
-                });
-            }
-        } else {
-            // For regular products, combine if they're the same variant
-            const existingItem = this.localCart.find(item => {
-                return item.shopifyVariantId === numericVariantId;
-            });
-            
-            if (existingItem) {
-                existingItem.quantity += quantity;
-            } else {
-                this.localCart.push({
-                    productId,
-                    variantId,  // Original variant ID like "citrus"
-                    shopifyVariantId: numericVariantId,  // Shopify numeric ID or local ID
-                    quantity,
-                    name: customName || this.getProductName(productId, variantId),
-                    flavors: null
-                });
-            }
-        }
-        
-        // Save to localStorage
-        this.saveCartToStorage();
-        
-        // Update cart count and display
-        this.updateCartCount();
-        
-        console.log('🔍 Checking for window.cart:', typeof window.cart, window.cart);
-        
-        // Update the cart display if it exists
-        if (window.cart) {
-            console.log('✅ window.cart exists, calling updateCartDisplay()');
-            window.cart.updateCartDisplay();
-        } else {
-            console.error('❌ window.cart does NOT exist!');
-        }
-        
-        this.showSuccessMessage('Product added to cart!');
-        
-        return true;
+        });
     }
     
     getShopifyVariantId(productId, variantId) {
@@ -140,19 +125,9 @@ class ShopifyIntegration {
         return variantConfig || null;
     }
     
-    // Helper to get custom name for cart items (e.g., bundle with flavors)
-    getCartItemName(item) {
-        // If the item already has a custom name stored, use it
-        if (item.customName) {
-            return item.customName;
-        }
-        return this.getProductName(item.productId, item.variantId);
-    }
-    
     getProductName(productId, variantId) {
         const names = {
             'tallow-lip-balm': 'Tallow Lip Balm',
-            'tallow-lip-balm-bundle': 'Tallow Lip Balm 4-Pack Bundle',
             'pure-beef-tallow': 'Pure Suet Beef Tallow',
             'whipped-tallow-balm': 'Whipped Tallow Balm',
             'beard-balm': 'Tallow Beard Balm',
@@ -288,6 +263,13 @@ class ShopifyIntegration {
             info: '#17a2b8'
         };
         
+        const icons = {
+            success: '<i class="fas fa-check-circle"></i>',
+            error: '<i class="fas fa-exclamation-circle"></i>',
+            info: '<i class="fas fa-info-circle"></i>'
+        };
+        
+        notification.className = 'notification-toast';
         notification.style.cssText = `
             position: fixed;
             top: 20px;
@@ -295,27 +277,39 @@ class ShopifyIntegration {
             background-color: ${colors[type]};
             color: white;
             padding: 15px 20px;
-            border-radius: 5px;
+            border-radius: 8px;
             z-index: 3000;
-            transform: translateX(100%);
-            transition: transform 0.3s ease;
-            max-width: 300px;
+            transform: translateX(120%);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            max-width: 350px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 500;
         `;
-        notification.textContent = message;
+        notification.innerHTML = `${icons[type]} <span>${message}</span>`;
         
         document.body.appendChild(notification);
         
-        // Animate in
-        setTimeout(() => {
-            notification.style.transform = 'translateX(0)';
-        }, 100);
+        // Animate in with bounce effect
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                notification.style.transform = 'translateX(0)';
+            });
+        });
         
-        // Remove after 4 seconds
+        // Remove after 4 seconds with smooth exit
         setTimeout(() => {
-            notification.style.transform = 'translateX(100%)';
+            notification.style.transform = 'translateX(120%)';
             setTimeout(() => {
                 if (document.body.contains(notification)) {
-                    document.body.removeChild(notification);
+                    notification.style.opacity = '0';
+                    setTimeout(() => {
+                        if (document.body.contains(notification)) {
+                            document.body.removeChild(notification);
+                        }
+                    }, 300);
                 }
             }, 300);
         }, 4000);
@@ -326,7 +320,6 @@ class ShopifyIntegration {
 let shopifyIntegration;
 document.addEventListener('DOMContentLoaded', () => {
     shopifyIntegration = new ShopifyIntegration();
-    window.shopifyIntegration = shopifyIntegration; // Make globally available
 });
 
 // Search Functionality
@@ -343,76 +336,41 @@ class ProductSearch {
     }
     
     init() {
-        if (!this.searchBtn || !this.searchModal) {
-            console.warn('Search elements not found - search functionality disabled');
-            return;
-        }
+        if (!this.searchBtn || !this.searchModal) return;
         
-        if (!this.searchInput) {
-            console.error('Search input not found');
-            return;
-        }
+        this.searchBtn.addEventListener('click', () => this.openSearch());
+        this.closeSearch.addEventListener('click', () => this.closeSearchModal());
         
-        if (!this.closeSearch) {
-            console.error('Close search button not found');
-            return;
-        }
+        // Close on ESC key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && this.searchModal.classList.contains('active')) {
+                this.closeSearchModal();
+            }
+        });
         
-        if (!this.searchResults) {
-            console.error('Search results container not found');
-            return;
-        }
+        // Close on background click
+        this.searchModal.addEventListener('click', (e) => {
+            if (e.target === this.searchModal) {
+                this.closeSearchModal();
+            }
+        });
         
-        try {
-            this.searchBtn.addEventListener('click', () => this.openSearch());
-            this.closeSearch.addEventListener('click', () => this.closeSearchModal());
-            
-            // Close on ESC key
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' && this.searchModal && this.searchModal.classList.contains('active')) {
-                    this.closeSearchModal();
-                }
-            });
-            
-            // Close on background click
-            this.searchModal.addEventListener('click', (e) => {
-                if (e.target === this.searchModal) {
-                    this.closeSearchModal();
-                }
-            });
-            
-            // Search on input
-            this.searchInput.addEventListener('input', (e) => {
-                this.performSearch(e.target.value);
-            });
-            
-            console.log('✅ Search functionality initialized successfully');
-        } catch (error) {
-            console.error('Error initializing search functionality:', error);
-        }
+        // Search on input
+        this.searchInput.addEventListener('input', (e) => {
+            this.performSearch(e.target.value);
+        });
     }
     
     loadProducts() {
-        try {
-            const productsData = document.getElementById('shopify-products-data');
-            if (productsData) {
-                const data = JSON.parse(productsData.textContent);
-                console.log('✅ Loaded products for search:', data.products ? data.products.length : 0);
-                return data.products || [];
-            }
-            console.warn('⚠️ shopify-products-data element not found - search will be empty');
-            return [];
-        } catch (error) {
-            console.error('Error loading products for search:', error);
-            return [];
+        const productsData = document.getElementById('shopify-products-data');
+        if (productsData) {
+            const data = JSON.parse(productsData.textContent);
+            return data.products;
         }
+        return [];
     }
     
     openSearch() {
-        if (!this.searchModal || !this.searchInput || !this.searchResults) {
-            console.error('Search elements not available');
-            return;
-        }
         this.searchModal.classList.add('active');
         this.searchInput.value = '';
         this.searchInput.focus();
@@ -420,10 +378,6 @@ class ProductSearch {
     }
     
     closeSearchModal() {
-        if (!this.searchModal || !this.searchInput) {
-            console.error('Search elements not available');
-            return;
-        }
         this.searchModal.classList.remove('active');
         this.searchInput.value = '';
     }
@@ -860,56 +814,11 @@ class ShoppingCart {
         });
         
         // Variant selector changes - handle multiple selectors (size + scent)
-        // Only attach to variant selectors inside product cards (not product detail pages)
-        // Image mapping for home page product cards
-        const homePageImageMaps = {
-            'tallow-lip-balm': {
-                'citrus': 'assets/citrus lip balm blank background.jpeg',
-                'vanilla': 'assets/vanilla lip balm blank background.jpeg',
-                'vanilla-cinnamon': 'assets/vanilla cinnamon lip balm blank background.jpeg',
-                'peppermint': 'assets/peppermint lip balm blank background.jpeg',
-                'unscented': 'assets/unscented lip balm blank background.jpeg',
-                'default': 'assets/all lip balm flavors black background.jpg'
-            },
-            'pure-beef-tallow': {
-                'small': 'assets/Small tallow black background.jpeg',
-                'medium': 'assets/Medium tallow.jpeg',
-                'large': 'assets/Large Tallow Black Background.jpeg'
-            },
-            'whipped-tallow-balm': {
-                '1.35oz-unscented': 'assets/whipped balm unscented 1.35 oz.jpeg',
-                '1.35oz-citrus': 'assets/Whipped balm, cirtus 1.35 oz.jpeg',
-                '1.35oz-frankincense-lavender': 'assets/Whipped Balm frankincense and lavender 1.35 oz.jpeg',
-                '2.5oz-unscented': 'assets/Whipped Balm Unscented  2.5 oz .jpeg',
-                '2.5oz-citrus': 'assets/Whipped Balm Citrus 2.5 oz .jpeg',
-                '2.5oz-frankincense-lavender': 'assets/Whipped Balm Frankincense and lavender 2.5 oz.jpeg'
-            }
-        };
-        
-        // Function to update product card image
-        function updateProductCardImage(productCard, productId, variantId) {
-            const productImage = productCard.querySelector('.product-image img');
-            if (!productImage) return;
-            
-            const imageMap = homePageImageMaps[productId];
-            if (!imageMap) return;
-            
-            const imagePath = imageMap[variantId] || imageMap['default'];
-            if (imagePath) {
-                productImage.src = imagePath;
-            }
-        }
-        
-        const variantSelectors = document.querySelectorAll('.product-card .variant-selector');
+        const variantSelectors = document.querySelectorAll('.variant-selector');
         variantSelectors.forEach(selector => {
             selector.addEventListener('change', (e) => {
                 const productId = e.target.getAttribute('data-product');
                 const productCard = e.target.closest('.product-card');
-                // Safety check - only process if inside a product card (excludes product detail pages)
-                if (!productCard) {
-                    console.log('Skipping variant selector change - not inside product card');
-                    return;
-                }
                 const addToCartBtn = productCard.querySelector('.shopify-add-to-cart');
                 
                 if (!addToCartBtn) return;
@@ -944,20 +853,6 @@ class ShoppingCart {
                             priceElement.textContent = '$' + price;
                             priceElement.setAttribute('data-price', price);
                         }
-                    }
-                    
-                    // Update product card image based on selection
-                    if (productId === 'tallow-lip-balm') {
-                        // For lip balm, use the flavor directly
-                        const flavor = e.target.value;
-                        updateProductCardImage(productCard, productId, flavor);
-                    } else if (productId === 'pure-beef-tallow') {
-                        // For tallow, use the size directly
-                        const size = e.target.value;
-                        updateProductCardImage(productCard, productId, size);
-                    } else if (productId === 'whipped-tallow-balm') {
-                        // For whipped balm, use the combined variant ID
-                        updateProductCardImage(productCard, productId, combinedVariantId);
                     }
                 }
             });
@@ -1008,26 +903,16 @@ class ShoppingCart {
     getProductDetails(productId, variantId) {
         // Map of product images (absolute paths starting with /)
         const productImages = {
-            'tallow-lip-balm': '/assets/all lip balm flavors black background.jpg',
-            'tallow-lip-balm-bundle': '/assets/all lip balm flavors black background.jpg',
-            'pure-beef-tallow': '/assets/Large Tallow Black Background.jpeg',
-            'whipped-tallow-balm': '/assets/Whipped Balm Unscented  2.5 oz .jpeg',
-            'beard-balm': '/assets/Beard Balm black background.jpeg',
-            'leather-conditioner': '/assets/leather conditioner black backgrond.jpeg'
+            'tallow-lip-balm': '/TBTassets/lip balm 4 pack.jpg',
+            'pure-beef-tallow': '/TBTassets/3 sizes of tallow.jpg',
+            'whipped-tallow-balm': '/TBTassets/3 kinds of whipped tallow balm.jpg',
+            'beard-balm': '/TBTassets/tallow beard balm front.jpg',
+            'leather-conditioner': '/TBTassets/tallow leather conditioner front.jpg'
         };
         
         // Map of prices for each variant
         const prices = {
-            'tallow-lip-balm': { 
-                'citrus': 8.00, 
-                'vanilla': 8.00,
-                'vanilla-cinnamon': 8.00, 
-                'peppermint': 8.00, 
-                'unscented': 8.00 
-            },
-            'tallow-lip-balm-bundle': {
-                'bundle': 24.00
-            },
+            'tallow-lip-balm': { 'citrus': 8.00, 'vanilla-cinnamon': 8.00, 'peppermint': 8.00, 'unscented': 8.00 },
             'pure-beef-tallow': { 'small': 10.00, 'medium': 15.00, 'large': 25.00 },
             'whipped-tallow-balm': {
                 '1.35oz-unscented': 25.00, '1.35oz-citrus': 25.00, '1.35oz-frankincense-lavender': 25.00,
@@ -1039,20 +924,15 @@ class ShoppingCart {
         
         // Format variant name for display
         const formatVariant = (productId, variantId) => {
-            if (productId === 'tallow-lip-balm-bundle') {
-                return '4-Pack Bundle (Custom Flavors)';
-            }
             if (productId === 'whipped-tallow-balm') {
-                const parts = variantId.split('-');
-                const size = parts[0];
-                const scent = parts.slice(1).join('-');
+                const [size, scent] = variantId.split('-');
                 return `${size.toUpperCase()} - ${scent.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}`;
             }
             return variantId.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
         };
         
         const price = prices[productId] ? (prices[productId][variantId] || 0) : 0;
-        const image = productImages[productId] || 'assets/placeholder.jpg';
+        const image = productImages[productId] || 'TBTassets/placeholder.jpg';
         const variant = formatVariant(productId, variantId);
         
         return { price, image, variant };
@@ -1101,11 +981,6 @@ class ShoppingCart {
                 const productInfo = this.getProductDetails(item.productId, item.variantId);
                 console.log('📦 Product info:', productInfo);
                 
-                // Check if this is a bundle to show discounted price
-                const isBundle = item.productId === 'tallow-lip-balm-bundle';
-                const originalPrice = isBundle ? 32.00 : productInfo.price;
-                const displayPrice = productInfo.price;
-                
                 const cartItem = document.createElement('div');
                 cartItem.className = 'cart-item';
                 cartItem.style.cssText = `
@@ -1116,29 +991,12 @@ class ShoppingCart {
                     border-bottom: 1px solid #e5e5e5;
                 `;
                 
-                const priceHtml = isBundle 
-                    ? `<span style="text-decoration: line-through; color: #dc3545; margin-right: 8px;">$${originalPrice.toFixed(2)}</span><span style="color: #654321; font-weight: 600;">$${displayPrice.toFixed(2)}</span>`
-                    : `$${displayPrice.toFixed(2)}`;
-                
-                // For bundle, extract flavors from the stored name, otherwise use productInfo.variant
-                let variantDisplay = productInfo.variant;
-                let productName = item.name;
-                
-                if (isBundle && item.name && item.name.includes('(') && item.name.includes(')')) {
-                    // Extract flavors from name like "Tallow Lip Balm 4-Pack Bundle (Citrus, Vanilla, Peppermint, Unscented)"
-                    const flavorsMatch = item.name.match(/\(([^)]+)\)/);
-                    if (flavorsMatch) {
-                        variantDisplay = flavorsMatch[1]; // Get the flavors inside parentheses
-                        productName = 'Tallow Lip Balm 4-Pack Bundle';
-                    }
-                }
-                
                 cartItem.innerHTML = `
                     <img src="${productInfo.image}" alt="${item.name}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 5px;">
                     <div style="flex: 1;">
-                        <h4 style="margin: 0 0 5px 0; color: #3b2814;">${productName}</h4>
-                        <p style="margin: 0; color: #666; font-size: 14px;">${variantDisplay}</p>
-                        <p style="margin: 5px 0 0 0; color: #666; font-weight: 600;">${priceHtml}</p>
+                        <h4 style="margin: 0 0 5px 0; color: #3b2814;">${item.name}</h4>
+                        <p style="margin: 0; color: #666; font-size: 14px;">${productInfo.variant}</p>
+                        <p style="margin: 5px 0 0 0; color: #666; font-weight: 600;">$${productInfo.price.toFixed(2)}</p>
                     </div>
                     <div style="display: flex; align-items: center; gap: 10px;">
                         <button onclick="shopifyIntegration.updateCartQuantity(${index}, -1)" style="background: none; border: 1px solid #ddd; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; font-size: 18px;">-</button>
@@ -1192,35 +1050,50 @@ class ShoppingCart {
     }
     
     showAddedToCartMessage(productName) {
-        // Create a temporary notification
+        // Create an enhanced notification with icon
         const notification = document.createElement('div');
+        notification.className = 'cart-notification';
         notification.style.cssText = `
             position: fixed;
             top: 20px;
             right: 20px;
-            background-color: #3b2814;
+            background: linear-gradient(135deg, #3b2814, #654321);
             color: white;
-            padding: 15px 20px;
-            border-radius: 5px;
+            padding: 16px 24px;
+            border-radius: 8px;
             z-index: 3000;
-            transform: translateX(100%);
-            transition: transform 0.3s ease;
+            transform: translateX(120%) scale(0.9);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 24px rgba(59, 40, 20, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 500;
+            max-width: 350px;
         `;
-        notification.textContent = `${productName} added to cart!`;
+        notification.innerHTML = `
+            <i class="fas fa-check-circle" style="font-size: 1.2rem;"></i>
+            <span>${productName} added to cart!</span>
+        `;
         
         document.body.appendChild(notification);
         
-        // Animate in
-        setTimeout(() => {
-            notification.style.transform = 'translateX(0)';
-        }, 100);
+        // Animate in with bounce
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                notification.style.transform = 'translateX(0) scale(1)';
+            });
+        });
         
-        // Remove after 3 seconds
+        // Remove after 3 seconds with smooth exit
         setTimeout(() => {
-            notification.style.transform = 'translateX(100%)';
+            notification.style.transform = 'translateX(120%) scale(0.9)';
+            notification.style.opacity = '0';
             setTimeout(() => {
-                document.body.removeChild(notification);
-            }, 300);
+                if (document.body.contains(notification)) {
+                    document.body.removeChild(notification);
+                }
+            }, 400);
         }, 3000);
     }
 }
@@ -1239,42 +1112,86 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Header scroll effect
-window.addEventListener('scroll', () => {
-    const header = document.querySelector('.header');
-    if (window.scrollY > 100) {
-        header.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
-        header.style.backdropFilter = 'blur(10px)';
-    } else {
-        header.style.backgroundColor = '#fff';
-        header.style.backdropFilter = 'none';
-    }
-});
+// Enhanced header scroll effect with performance optimization
+let lastScrollTop = 0;
+let ticking = false;
 
-// Intersection Observer for animations
+function updateHeader() {
+    const header = document.querySelector('.header');
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    
+    if (scrollTop > 50) {
+        header.classList.add('scrolled');
+    } else {
+        header.classList.remove('scrolled');
+    }
+    
+    // Hide/show header on scroll (optional enhancement)
+    if (scrollTop > lastScrollTop && scrollTop > 200) {
+        header.style.transform = 'translateY(-100%)';
+    } else {
+        header.style.transform = 'translateY(0)';
+    }
+    
+    lastScrollTop = scrollTop;
+    ticking = false;
+}
+
+window.addEventListener('scroll', () => {
+    if (!ticking) {
+        window.requestAnimationFrame(updateHeader);
+        ticking = true;
+    }
+}, { passive: true });
+
+// Enhanced Intersection Observer for animations
 const observerOptions = {
     threshold: 0.1,
     rootMargin: '0px 0px -50px 0px'
 };
 
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
+const animationObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry, index) => {
         if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
+            // Stagger animations for better visual effect
+            setTimeout(() => {
+                entry.target.classList.add('visible');
+            }, index * 100);
+            animationObserver.unobserve(entry.target);
         }
     });
 }, observerOptions);
 
 // Observe elements for animation
 document.addEventListener('DOMContentLoaded', () => {
-    const animatedElements = document.querySelectorAll('.product-card, .feature-item, .product-detail-card');
+    // Add animation classes to elements
+    const productCards = document.querySelectorAll('.product-card');
+    productCards.forEach((card, index) => {
+        card.classList.add('fade-in-up');
+        animationObserver.observe(card);
+    });
     
-    animatedElements.forEach(el => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(30px)';
-        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-        observer.observe(el);
+    const featureItems = document.querySelectorAll('.feature-item');
+    featureItems.forEach((item, index) => {
+        item.classList.add('scale-in');
+        animationObserver.observe(item);
+    });
+    
+    const heroElements = document.querySelectorAll('.hero-text, .hero-image');
+    heroElements.forEach((el, index) => {
+        if (index % 2 === 0) {
+            el.classList.add('fade-in-left');
+        } else {
+            el.classList.add('fade-in-right');
+        }
+        animationObserver.observe(el);
+    });
+    
+    // Animate section headers
+    const sectionHeaders = document.querySelectorAll('.section-header');
+    sectionHeaders.forEach(header => {
+        header.classList.add('fade-in-up');
+        animationObserver.observe(header);
     });
 });
 
@@ -1331,6 +1248,24 @@ function setupMobileMarquee() {
     }
 }
 
+// Page load animation
+window.addEventListener('load', () => {
+    document.body.classList.add('page-transition');
+    
+    // Add smooth entrance for main content
+    const mainContent = document.querySelector('main, .hero, section');
+    if (mainContent) {
+        mainContent.style.opacity = '0';
+        mainContent.style.transform = 'translateY(20px)';
+        mainContent.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        
+        requestAnimationFrame(() => {
+            mainContent.style.opacity = '1';
+            mainContent.style.transform = 'translateY(0)';
+        });
+    }
+});
+
 // Initialize cart, search, and reviews when DOM is loaded
 let cart, productSearch, reviewSystem;
 document.addEventListener('DOMContentLoaded', () => {
@@ -1342,29 +1277,11 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Add Shopify button listeners at document level (so they always work)
     console.log('📦 Setting up Shopify cart buttons...');
-    
-    // Check if we're on the lip-balm page - if so, exclude its button from global handler
-    const urlParts = window.location.pathname.split('/');
-    const pageName = urlParts[urlParts.length - 1].replace('.html', '');
-    const isLipBalmPage = pageName === 'lip-balm';
-    
     const addToCartBtns = document.querySelectorAll('.shopify-add-to-cart, .add-to-cart-btn');
     console.log(`Found ${addToCartBtns.length} add-to-cart buttons (home + product pages)`);
     
     addToCartBtns.forEach(btn => {
-        // Skip the button on lip-balm page - it has its own custom handler
-        if (isLipBalmPage && (btn.id === 'add-to-cart' || btn.classList.contains('add-to-cart-btn'))) {
-            console.log('📍 Skipping lip-balm page button - using custom handler', btn.id);
-            return;
-        }
-        
         btn.addEventListener('click', (e) => {
-            // Double-check: if this is the lip-balm page button, skip it
-            if (isLipBalmPage && (e.target.id === 'add-to-cart' || e.target.closest('#add-to-cart'))) {
-                console.log('📍 Global handler: Skipping lip-balm page button');
-                return;
-            }
-            
             e.preventDefault();
             e.stopPropagation();
             
@@ -1374,6 +1291,10 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // If not on button, try to find from page (for product detail pages)
             if (!productId) {
+                // Get product ID from URL and map to config ID
+                const urlParts = window.location.pathname.split('/');
+                const pageName = urlParts[urlParts.length - 1].replace('.html', '');
+                
                 // Map URL names to config product IDs
                 const urlToProductMap = {
                     'lip-balm': 'tallow-lip-balm',
@@ -1427,7 +1348,26 @@ document.addEventListener('DOMContentLoaded', () => {
             
             if (shopifyIntegration && productId && variantId) {
                 console.log('✅ Using Shopify integration');
-                shopifyIntegration.addToCart(productId, variantId, quantity);
+                
+                // Add loading state to button
+                const originalText = btn.innerHTML;
+                btn.disabled = true;
+                btn.classList.add('loading');
+                btn.innerHTML = '<span class="loading-spinner"></span> Adding...';
+                
+                // Add to cart
+                shopifyIntegration.addToCart(productId, variantId, quantity).then(() => {
+                    // Reset button after a short delay
+                    setTimeout(() => {
+                        btn.disabled = false;
+                        btn.classList.remove('loading');
+                        btn.innerHTML = originalText;
+                    }, 1000);
+                }).catch(() => {
+                    btn.disabled = false;
+                    btn.classList.remove('loading');
+                    btn.innerHTML = originalText;
+                });
             } else {
                 console.log('❌ Missing data:', { shopifyIntegration: !!shopifyIntegration, productId, variantId });
             }
@@ -1469,17 +1409,54 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-// Lazy loading for images
+// Enhanced lazy loading for images with fade-in effect
 const lazyImages = document.querySelectorAll('img[data-src]');
 const imageObserver = new IntersectionObserver((entries, observer) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
             const img = entry.target;
-            img.src = img.dataset.src;
-            img.classList.remove('lazy');
+            img.style.opacity = '0';
+            img.style.transition = 'opacity 0.5s ease';
+            
+            // Load image
+            const tempImg = new Image();
+            tempImg.onload = () => {
+                img.src = img.dataset.src;
+                img.classList.remove('lazy');
+                requestAnimationFrame(() => {
+                    img.style.opacity = '1';
+                });
+            };
+            tempImg.src = img.dataset.src;
+            
             imageObserver.unobserve(img);
         }
     });
+}, {
+    rootMargin: '50px'
 });
 
 lazyImages.forEach(img => imageObserver.observe(img));
+
+// Performance: Preload critical images
+const preloadImages = () => {
+    const criticalImages = [
+        'TBTassets/Logo Oval - no background - new.png',
+        'TBTassets/cropped all products.jpg'
+    ];
+    
+    criticalImages.forEach(src => {
+        const link = document.createElement('link');
+        link.rel = 'preload';
+        link.as = 'image';
+        link.href = src;
+        document.head.appendChild(link);
+    });
+};
+
+// Preload on DOM ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', preloadImages);
+} else {
+    preloadImages();
+}

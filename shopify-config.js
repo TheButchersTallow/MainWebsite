@@ -12,16 +12,9 @@ const SHOPIFY_CONFIG = {
             shopifyProductId: 'gid://shopify/Product/8525085507734',
             variants: {
                 'citrus': 'gid://shopify/ProductVariant/45765324996758',
-                'vanilla': 'gid://shopify/ProductVariant/PLACEHOLDER_VANILLA',
                 'vanilla-cinnamon': 'gid://shopify/ProductVariant/45765325029526',
                 'peppermint': 'gid://shopify/ProductVariant/45765325062294',
                 'unscented': 'gid://shopify/ProductVariant/45765325095062'
-            }
-        },
-        'tallow-lip-balm-bundle': {
-            shopifyProductId: 'gid://shopify/Product/8584407580822',
-            variants: {
-                'bundle': 'gid://shopify/ProductVariant/46063359066262'
             }
         },
         'pure-beef-tallow': {

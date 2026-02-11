@@ -14,11 +14,132 @@ html {
     overflow-y: scroll;
 }
 
+/* Smooth page transitions */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInFromLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInFromRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Loading spinner */
+.loading-spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Pulse animation for attention */
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.8;
+        transform: scale(1.05);
+    }
+}
+
+.pulse {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+/* Enhanced animations for scroll-triggered elements */
+.fade-in-up {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fade-in-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.fade-in-left {
+    opacity: 0;
+    transform: translateX(-40px);
+    transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fade-in-left.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.fade-in-right {
+    opacity: 0;
+    transform: translateX(40px);
+    transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fade-in-right.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.scale-in {
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.scale-in.visible {
+    opacity: 1;
+    transform: scale(1);
+}
+
 body {
     font-family: 'Source Sans Pro', sans-serif;
     line-height: 1.6;
     color: #2c1810;
-    background-image: url('assets/wooden cutting board background with knife marks .jpg');
+    background-image: url('TBTassets/wooden cutting board background with knife marks .jpg');
     background-attachment: fixed;
     background-size: 120%;
     background-position: center center;
@@ -26,6 +147,17 @@ body {
     background-color: #C4A484;
     margin: 0;
     padding: 0;
+    opacity: 0;
+    animation: fadeInBody 0.6s ease-in forwards;
+}
+
+@keyframes fadeInBody {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 .container {
@@ -73,28 +205,55 @@ p {
     font-weight: 600;
     font-size: 1rem;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     text-align: center;
+    position: relative;
+    overflow: hidden;
+    transform: translateZ(0);
+    will-change: transform;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.btn:hover::before {
+    width: 300px;
+    height: 300px;
 }
 
 .btn-primary {
     background: linear-gradient(135deg, #654321, #8B5A3C);
     color: #F5E6D3;
     border: 2px solid #4A3429;
-    box-shadow: 0 4px 8px rgba(101, 67, 33, 0.3);
+    box-shadow: 0 4px 12px rgba(101, 67, 33, 0.3);
 }
 
 .btn-primary:hover {
     background: linear-gradient(135deg, #8B5A3C, #654321);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(101, 67, 33, 0.4);
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 8px 20px rgba(101, 67, 33, 0.5);
+}
+
+.btn-primary:active {
+    transform: translateY(-1px) scale(0.98);
+    box-shadow: 0 4px 10px rgba(101, 67, 33, 0.4);
 }
 
 .btn-secondary {
     background-color: transparent;
     color: #654321;
     border: 2px solid #654321;
-    box-shadow: 0 2px 4px rgba(101, 67, 33, 0.2);
+    box-shadow: 0 2px 6px rgba(101, 67, 33, 0.2);
     text-decoration: none;
     display: inline-block;
     text-align: center;
@@ -103,7 +262,12 @@ p {
 .btn-secondary:hover {
     background: linear-gradient(135deg, #654321, #8B5A3C);
     color: #F5E6D3;
-    transform: translateY(-1px);
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 6px 16px rgba(101, 67, 33, 0.3);
+}
+
+.btn-secondary:active {
+    transform: translateY(0) scale(0.98);
 }
 
 .product-actions {
@@ -127,6 +291,13 @@ p {
     top: 0;
     z-index: 1000;
     border-bottom: 3px solid #654321;
+    transition: all 0.3s ease;
+    will-change: transform, box-shadow;
+}
+
+.header.scrolled {
+    box-shadow: 0 6px 30px rgba(101, 67, 33, 0.4);
+    background: linear-gradient(135deg, rgba(101, 67, 33, 0.98), rgba(139, 90, 43, 0.98));
 }
 
 .header-top {
@@ -259,7 +430,7 @@ body.shop-page header .logo-img {
     text-decoration: none;
     color: #F5E6D3;
     font-weight: 500;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     align-items: center;
     gap: 5px;
@@ -268,12 +439,30 @@ body.shop-page header .logo-img {
     border-radius: 4px;
     font-size: 1.5rem;
     white-space: nowrap;
+    position: relative;
+    overflow: hidden;
+}
+
+.nav-link::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #FFF8DC;
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover::before {
+    width: 100%;
 }
 
 .nav-link:hover {
     color: #FFF8DC;
     background-color: rgba(139, 69, 19, 0.3);
-    transform: translateY(-1px);
+    transform: translateY(-2px);
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
 }
 
 .nav-link.active {
@@ -419,6 +608,33 @@ body.shop-page header .logo-img {
     margin: 0 auto;
 }
 
+.shop-all-hero-image {
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(101, 67, 33, 0.3);
+    max-width: 100%;
+    margin: 0 auto;
+    position: relative;
+    display: block;
+}
+
+.shop-all-hero-image::before {
+    content: '';
+    display: block;
+    padding-bottom: 35%; /* Visible area after crop: 100% - 45% - 20% = 35% */
+}
+
+.shop-all-hero-image img {
+    position: absolute;
+    top: -129%;
+    left: 0;
+    width: 100%;
+    height: 285.71%; /* 100% / 0.35 = 285.71% to fill 35% visible area */
+    object-fit: cover;
+    object-position: center;
+    clip-path: inset(45% 0 20% 0);
+}
+
 .hero {
     background: 
         linear-gradient(rgba(101, 67, 33, 0.2), rgba(139, 90, 43, 0.2)),
@@ -504,14 +720,30 @@ body.shop-page header .logo-img {
 .hero-image {
     text-align: center;
     width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(101, 67, 33, 0.3);
+    position: relative;
+    display: block;
+}
+
+.hero-image::before {
+    content: '';
+    display: block;
+    padding-bottom: 50%; /* Visible area after crop: 100% - 30% - 20% = 50% */
 }
 
 .hero-image img {
+    position: absolute;
+    top: -60%;
+    left: 0;
     width: 100%;
-    max-width: 900px;
-    height: auto;
-    border-radius: 12px;
-    box-shadow: 0 8px 32px rgba(101, 67, 33, 0.3);
+    height: 200%;
+    object-fit: cover;
+    object-position: center;
+    clip-path: inset(30% 0 20% 0);
 }
 
 .hero-buttons {
@@ -554,7 +786,7 @@ section {
 
 /* Best Sellers */
 .best-sellers {
-    background-image: url('assets/wooden cutting board background with knife marks .jpg');
+    background-image: url('TBTassets/wooden cutting board background with knife marks .jpg');
     background-attachment: fixed;
     background-size: 120%;
     background-position: center center;
@@ -591,15 +823,37 @@ section {
     overflow: hidden;
     box-shadow: 0 5px 20px rgba(101, 67, 33, 0.3);
     border: 2px solid rgba(101, 67, 33, 0.2);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     flex-direction: column;
     height: 100%;
+    position: relative;
+    transform: translateZ(0);
+    will-change: transform;
+}
+
+.product-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(101, 67, 33, 0.05), rgba(139, 90, 43, 0.05));
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.product-card:hover::before {
+    opacity: 1;
 }
 
 .product-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 30px rgba(101, 67, 33, 0.2);
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 15px 40px rgba(101, 67, 33, 0.3);
+    border-color: rgba(101, 67, 33, 0.4);
 }
 
 .product-image {
@@ -612,7 +866,9 @@ section {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.3s ease;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: scale(1);
+    will-change: transform;
 }
 
 .product-image a {
@@ -620,6 +876,25 @@ section {
     width: 100%;
     height: 100%;
     text-decoration: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.product-image a::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(101, 67, 33, 0.1), transparent);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+}
+
+.product-image a:hover::after {
+    opacity: 1;
 }
 
 .product-image a:hover {
@@ -627,7 +902,7 @@ section {
 }
 
 .product-card:hover .product-image img {
-    transform: scale(1.05);
+    transform: scale(1.1);
 }
 
 .product-badge {
@@ -736,6 +1011,33 @@ section {
     border-radius: 10px;
     box-shadow: 0 5px 20px rgba(101, 67, 33, 0.3);
     border: 2px solid rgba(101, 67, 33, 0.2);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    transform: translateZ(0);
+}
+
+.feature-item::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(101, 67, 33, 0.1) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+}
+
+.feature-item:hover {
+    transform: translateY(-5px) scale(1.03);
+    box-shadow: 0 10px 30px rgba(101, 67, 33, 0.4);
+    border-color: rgba(101, 67, 33, 0.4);
+}
+
+.feature-item:hover::before {
+    opacity: 1;
 }
 
 .feature-icon {
@@ -749,6 +1051,33 @@ section {
     margin: 0 auto 20px;
     font-size: 2rem;
     color: #3b2814;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.feature-icon::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(101, 67, 33, 0.2), rgba(139, 90, 43, 0.2));
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.feature-item:hover .feature-icon {
+    transform: scale(1.15) rotate(5deg);
+    background: linear-gradient(135deg, #f8f6f0, #e8dcc8);
+    box-shadow: 0 5px 15px rgba(101, 67, 33, 0.3);
+}
+
+.feature-item:hover .feature-icon::before {
+    width: 120px;
+    height: 120px;
 }
 
 .feature-item h3 {
@@ -2202,7 +2531,37 @@ section {
         padding-left: 40px;
     }
     
-    /* Mobile Dropdown Styles */
+    /* Enhanced touch interactions for mobile */
+@media (hover: none) and (pointer: coarse) {
+    .btn:active,
+    .product-card:active,
+    .nav-link:active {
+        transform: scale(0.95);
+        transition: transform 0.1s ease;
+    }
+    
+    .btn-primary:active {
+        transform: translateY(-1px) scale(0.95);
+    }
+}
+
+/* Smooth page transitions */
+.page-transition {
+    animation: pageFadeIn 0.4s ease-in;
+}
+
+@keyframes pageFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Mobile Dropdown Styles */
     .dropdown {
         position: relative;
     }
