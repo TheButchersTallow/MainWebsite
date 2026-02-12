@@ -139,7 +139,7 @@ body {
     font-family: 'Source Sans Pro', sans-serif;
     line-height: 1.6;
     color: #2c1810;
-    background-image: url('TBTassets/wooden cutting board background with knife marks .jpg');
+    background-image: url('TBTassets/grokcutting board.jpg?v=20250102');
     background-attachment: fixed;
     background-size: 120%;
     background-position: center center;
@@ -786,7 +786,7 @@ section {
 
 /* Best Sellers */
 .best-sellers {
-    background-image: url('TBTassets/wooden cutting board background with knife marks .jpg');
+    background-image: url('TBTassets/grokcutting board.jpg?v=20250102');
     background-attachment: fixed;
     background-size: 120%;
     background-position: center center;
