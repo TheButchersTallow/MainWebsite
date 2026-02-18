@@ -2308,6 +2308,21 @@ section {
         padding: 0 15px;
     }
     
+    /* Fix background-attachment for mobile browsers - prevents tan background glitch */
+    body {
+        background-attachment: scroll !important;
+        background-size: cover !important;
+        background-position: center center !important;
+        opacity: 1 !important;
+        animation: none !important;
+    }
+    
+    .best-sellers {
+        background-attachment: scroll !important;
+        background-size: cover !important;
+        background-position: center center !important;
+    }
+    
     /* Force header-top to not add extra background on mobile */
     .header-top {
         background: linear-gradient(90deg, rgba(245, 230, 211, 0.98), rgba(222, 184, 135, 0.98)) !important;
